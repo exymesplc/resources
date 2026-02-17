@@ -1,4 +1,6 @@
-
+---
+layout: default
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +59,6 @@
             margin-bottom: 50px;
         }
 
-        /* Updated H1: Geist Medium 32pt */
         h1 {
             font-size: 32pt; 
             font-weight: 500;
@@ -100,7 +101,6 @@
             overflow: hidden;
         }
 
-        /* Corner Dots */
         .card::before, .card::after, .card-dot-bl, .card-dot-br {
             content: '';
             position: absolute;
@@ -140,6 +140,14 @@
             text-align: center;
         }
 
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
         .btn {
             display: inline-block;
             background: #fff;
@@ -150,9 +158,26 @@
             font-weight: 600;
             font-size: 14px;
             transition: all 0.2s;
+            border: 1px solid #fff;
         }
 
-        .btn:hover { background: #ccc; }
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn:hover { background: #ccc; border-color: #ccc; color: #000; }
+        .btn-secondary:hover { background: var(--glass); border-color: #fff; color: #fff; }
+
+        .dev-tag {
+            font-size: 12px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            display: block;
+        }
 
         @media (max-width: 768px) {
             h1 { font-size: 24pt; }
@@ -176,43 +201,43 @@
     </header>
 
     <div class="grid">
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/qsg" class="card">
+        <a href="/QSG/" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Quick Start Guides</h3>
             <p>Access to QSGs for Exymes products.</p>
         </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/handbook" class="card">
+        <a href="/Handbooks/" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Handbooks</h3>
             <p>Reference documentation for enzymatic extraction protocols.</p>
         </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/apnote" class="card">
+        <a href="/Application-Notes/" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Application Notes</h3>
             <p>Specific applications of the Exymes products.</p>
         </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/SDS" class="card">
+        <a href="/SDS/" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Safety Data Sheets</h3>
             <p>SDS for Exymes products.</p>
         </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/brochures" class="card">
+        <a href="/Brochures/" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Brochures</h3>
             <p>Marketing brochures for products.</p>
         </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/images/products" class="card">
+        <a href="/Product-Media/" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Product Media</h3>
             <p>Photography of products.</p>
         </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/images/logo" class="card">
+        <a href="/Brand-Assets/" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Brand Assets</h3>
             <p>Official Exymes logos.</p>
@@ -220,7 +245,11 @@
     </div>
 
     <div class="footer">
-        <a href="https://github.com/exymesplc/resources" class="btn">View Master Repository</a>
+        <span class="dev-tag">For Developers Only</span>
+        <div class="btn-group">
+            <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="btn">Download All (.zip)</a>
+            <a href="https://github.com/exymesplc/resources" class="btn btn-secondary">View Master Repository</a>
+        </div>
     </div>
 </div>
 
