@@ -47,19 +47,19 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 100px 20px 60px 20px;
+            padding: 120px 20px 80px 20px;
             box-sizing: border-box;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
-        /* Updated H1: Geist Medium 48pt */
+        /* Updated H1: Geist Medium 32pt */
         h1 {
-            font-size: 48pt; 
-            font-weight: 500; /* Medium weight */
+            font-size: 32pt; 
+            font-weight: 500;
             letter-spacing: -0.03em;
             line-height: 1.1;
             margin: 0;
@@ -71,16 +71,16 @@
         header p {
             font-size: 18px;
             color: var(--text-gray);
-            margin-top: 16px;
+            margin-top: 12px;
             font-weight: 300;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
         }
 
         .card {
@@ -88,7 +88,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            padding: 40px;
+            padding: 32px;
             border-radius: 12px;
             text-decoration: none;
             color: #fff;
@@ -121,21 +121,21 @@
         }
 
         .card h3 {
-            font-size: 20px;
-            margin: 0 0 10px 0;
+            font-size: 19px;
+            margin: 0 0 8px 0;
             font-weight: 600;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
         }
 
         .card p {
             font-size: 14px;
             color: var(--text-gray);
             margin: 0;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .footer {
-            margin-top: 80px;
+            margin-top: 60px;
             text-align: center;
         }
 
@@ -154,9 +154,9 @@
         .btn:hover { background: #ccc; }
 
         @media (max-width: 768px) {
-            h1 { font-size: 36pt; } /* Scaled for mobile */
+            h1 { font-size: 24pt; }
             .nav-header { top: 20px; left: 20px; }
-            .wrapper { padding-top: 140px; }
+            .wrapper { padding-top: 100px; }
         }
     </style>
 </head>
@@ -175,24 +175,53 @@
     </header>
 
     <div class="grid">
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/QSG" class="card">
+        <a href="https://github.com/exymesplc/resources/tree/main/docs/qsg" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Quick Start Guides</h3>
-            <p>Direct access to forensicGEM and prepGEM setup manuals.</p>
+            <p>Access to QSGs for Exymes products.</p>
         </a>
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/Manuals" class="card">
+
+        <a href="https://github.com/exymesplc/resources/tree/main/docs/handbook" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Technical Manuals</h3>
-            <p>Full reference documentation for enzymatic extraction protocols.</p>
+            <h3>Handbooks</h3>
+            <p>Reference documentation for enzymatic extraction protocols.</p>
         </a>
+
+        <a href="https://github.com/exymesplc/resources/tree/main/docs/apnote" class="card">
+            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
+            <h3>Application Notes</h3>
+            <p>Specific applications of the Exymes products.</p>
+        </a>
+
+        <a href="https://github.com/exymesplc/resources/tree/main/docs/SDS" class="card">
+            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
+            <h3>Safety Data Sheets</h3>
+            <p>SDS for Exymes products.</p>
+        </a>
+
+        <a href="https://github.com/exymesplc/resources/tree/main/docs/brochures" class="card">
+            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
+            <h3>Brochures</h3>
+            <p>Marketing brochures for products.</p>
+        </a>
+
         <a href="https://github.com/exymesplc/resources/tree/main/docs/images/products" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Product Media</h3>
-            <p>High-resolution studio photography and lifestyle imagery.</p>
+            <p>Photography of products.</p>
         </a>
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/images/Logos" class="card">
+
+        <a href="https://github.com/exymesplc/resources/tree/main/docs/images/logo" class="card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Brand Assets</h3>
-            <p>Official Exymes vector logos and brand identity guidelines.</p>
+            <p>Official Exymes logos.</p>
         </a>
     </div>
+
+    <div class="footer">
+        <a href="https://github.com/exymesplc/resources" class="btn">View Master Repository</a>
+    </div>
+</div>
+
+</body>
+</html>
