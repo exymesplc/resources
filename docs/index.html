@@ -140,14 +140,6 @@ layout: default
             text-align: center;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
         .btn {
             display: inline-block;
             background: #fff;
@@ -161,22 +153,33 @@ layout: default
             border: 1px solid #fff;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: #fff;
-            border: 1px solid var(--glass-border);
+        .btn:hover { background: #ccc; border-color: #ccc; }
+
+        .dev-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
         }
 
-        .btn:hover { background: #ccc; border-color: #ccc; color: #000; }
-        .btn-secondary:hover { background: var(--glass); border-color: #fff; color: #fff; }
-
         .dev-tag {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-gray);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             margin-bottom: 12px;
             display: block;
+        }
+
+        .link-secondary {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .link-secondary:hover {
+            opacity: 1;
         }
 
         @media (max-width: 768px) {
@@ -245,10 +248,11 @@ layout: default
     </div>
 
     <div class="footer">
-        <span class="dev-tag">For Developers Only</span>
-        <div class="btn-group">
-            <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="btn">Download All (.zip)</a>
-            <a href="https://github.com/exymesplc/resources" class="btn btn-secondary">View Master Repository</a>
+        <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="btn">Download All (.zip)</a>
+
+        <div class="dev-section">
+            <span class="dev-tag">For Developers Only</span>
+            <a href="https://github.com/exymesplc/resources" class="link-secondary">View Master Repository →</a>
         </div>
     </div>
 </div>
