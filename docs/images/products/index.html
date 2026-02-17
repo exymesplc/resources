@@ -11,7 +11,7 @@ title: Product Images
 
 <div class="list-controls">
     <div class="control-left">
-        <input type="text" id="fileSearch" placeholder="Search brochures..." onkeyup="filterFiles()">
+        <input type="text" id="fileSearch" placeholder="Search images..." onkeyup="filterFiles()">
     </div>
     <div class="control-right">
         <button onclick="sortFiles('name')" class="btn-sort">Sort A-Z</button>
@@ -42,7 +42,9 @@ title: Product Images
         <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
           <div class="file-main-info">
             <span class="file-name">
-              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+              {% comment %} Clean up PDF, PNG, underscores, and dashes {% endcomment %}
+              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | remove: ".png" | remove: ".PNG" | replace: "_", " " | replace: "-", " " %}
+              
               {% if clean_name contains "GEM" %}
                 {% assign parts = clean_name | split: "GEM" %}
                 {% assign left_words = parts[0] | split: " " %}
@@ -61,7 +63,7 @@ title: Product Images
                 <span style="color: var(--text-gray); font-size: 11px; margin-right: 5px;">Last Updated:</span>
                 {{ display_date }}
             </span>
-            <span class="file-meta">Download PDF</span>
+            <span class="file-meta">Download PNG</span>
           </div>
         </a>
       </div>
