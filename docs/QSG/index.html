@@ -4,6 +4,7 @@ title: Quick Start Guides
 ---
 
 <a href="/" class="back-link">← Back to Categories</a>
+
 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 40px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px;">
     <h1 style="margin: 0;">{{ page.title }}</h1>
 </div>
@@ -24,7 +25,7 @@ title: Quick Start Guides
   {% for file in site.static_files %}
     {% if file.path contains '/QSG/' %}
       {% unless file.path contains 'index.html' %}
-        <div class="file-row-wrapper" data-date="{{ file.path | last_modified_at: "%b %d, %Y" }}">
+        <div class="file-row-wrapper" data-date="{{ file.path | last_modified_at: '%Y%m%d%H%M' }}">
           <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
           
           <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
@@ -45,7 +46,7 @@ title: Quick Start Guides
             </div>
 
             <div class="file-details">
-              <span class="file-date">{{ file.modified_time | date: "%b %d, %Y" }}</span>
+              <span class="file-date">{{ file.path | last_modified_at: "%b %d, %Y" }}</span>
               <span class="file-meta">Download PDF</span>
             </div>
           </a>
@@ -107,6 +108,7 @@ function sortFiles(type) {
         if (type === 'name') {
             return a.querySelector('.file-name').textContent.trim().localeCompare(b.querySelector('.file-name').textContent.trim());
         } else {
+            // Sorts by the timestamp provided by the plugin
             return b.getAttribute('data-date') - a.getAttribute('data-date');
         }
     });
