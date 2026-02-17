@@ -31,8 +31,8 @@ jobs:
 
       - name: Build with Jekyll
         run: |
-          bundle exec jekyll build --source docs --destination ../_site
-        working-directory: docs # <--- THIS RUNS THE BUILD INSIDE THE DOCS FOLDER
+          bundle exec jekyll build --destination ../_site
+        working-directory: docs
         env:
           JEKYLL_ENV: production
 
