@@ -22,26 +22,49 @@ title: Quick Start Guides
 </div>
 
 <div class="file-list" id="fileList">
-  {% for file in site.static_files %}
-    {% if file.path contains '/QSG/' %}
-      {% unless file.path contains 'index.html' %}
-        <div class="file-row-wrapper" data-date="{{ file.modified_time | date: '%Y%m%d%H%M' }}">
-          <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
-          
-          <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
-            <div class="file-main-info">
-              <span class="file-name">
-                {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
-                {% if clean_name contains "GEM" %}
-                  {% assign parts = clean_name | split: "GEM" %}
-                  {% assign left_words = parts[0] | split: " " %}
-                  {% assign brand_prefix = left_words | last %}
-                  {% assign prefix_count = left_words | size | minus: 1 %}
-                  {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
-                  <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
-                {% else %}
-                  {{ clean_name }}
-                {% endif %}
+{% for file in site.static_files %}
+  {% if file.path contains '/QSG/' %}
+    {% unless file.path contains 'index.html' %}
+      
+      {% assign custom_entry = site.data.dates | where: "name", file.name | first %}
+      
+      {% if custom_entry %}
+        {% assign display_date = custom_entry.date %}
+        {% assign sort_date = custom_entry.date | date: "%Y%m%d" %}
+      {% else %}
+        {% assign display_date = file.modified_time | date: "%b %d, %Y" %}
+        {% assign sort_date = file.modified_time | date: "%Y%m%d" %}
+      {% endif %}
+
+      <div class="file-row-wrapper" data-date="{{ sort_date }}">
+        <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
+        
+        <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
+          <div class="file-main-info">
+            <span class="file-name">
+              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+              {% if clean_name contains "GEM" %}
+                {% assign parts = clean_name | split: "GEM" %}
+                {% assign left_words = parts[0] | split: " " %}
+                {% assign brand_prefix = left_words | last %}
+                {% assign prefix_count = left_words | size | minus: 1 %}
+                {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
+                <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
+              {% else %}
+                {{ clean_name }}
+              {% endif %}
+            </span>
+          </div>
+
+          <div class="file-details">
+            <span class="file-date">{{ display_date }}</span>
+            <span class="file-meta">Download PDF</span>
+          </div>
+        </a>
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endfor %}
               </span>
             </div>
 
