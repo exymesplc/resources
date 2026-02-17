@@ -12,7 +12,7 @@ title: Quick Start Guides
       {% unless file.path contains 'index.html' %}
         <a href="{{ file.path }}" class="file-row">
           <span class="file-name">
-            {{ file.name | remove: ".pdf" | replace: "_", " " | replace: "-", " " | capitalize }}
+            {{ file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " }}
           </span>
           <span class="file-meta">Download PDF</span>
         </a>
