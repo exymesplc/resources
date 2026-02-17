@@ -24,10 +24,9 @@
 
         .wrapper {
             min-height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; padding: 120px 20px; box-sizing: border-box;
+            align-items: center; justify-content: flex-start; padding: 140px 20px; box-sizing: border-box;
         }
 
-        /* This is the container where your file lists will appear */
         .content-area { width: 100%; max-width: 900px; }
 
         h1 {
@@ -37,20 +36,36 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Styling for the automated file lists */
-        .file-list { list-style: none; padding: 0; }
-        .file-item {
+        /* Styling for the automated list of files */
+        .file-list { padding: 0; margin-top: 20px; }
+        .file-row {
+            display: flex; justify-content: space-between; align-items: center;
             background: var(--glass);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            margin-bottom: 8px; border-radius: 8px;
-            transition: 0.2s;
+            padding: 20px 25px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.2s ease;
         }
-        .file-item:hover { background: rgba(255,255,255,0.08); }
-        .file-link {
-            display: flex; justify-content: space-between;
-            padding: 20px; color: #fff; text-decoration: none; font-size: 16px;
+        .file-row:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
         }
-        .download-btn { color: var(--text-gray); font-size: 14px; }
+        .file-name { font-weight: 500; font-size: 16px; }
+        .file-meta { color: var(--text-gray); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover { color: #fff; }
     </style>
 </head>
 <body>
@@ -63,7 +78,8 @@
 
 <div class="wrapper">
     <div class="content-area">
-        {{ content }} </div>
+        {{ content }}
+    </div>
 </div>
 
 </body>
