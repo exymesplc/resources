@@ -8,71 +8,66 @@ title: Quick Start Guides
 
 <div class="bulk-actions">
     <button onclick="toggleAll()" class="btn-secondary">Select All</button>
-    <button onclick="downloadSelected()" class="btn-primary" id="dl-btn">Download Selected</button>
-    <span id="status-msg" style="margin-left: 10px; font-size: 13px; color: var(--text-gray);"></span>
+    <button onclick="downloadSelected()" class="btn-primary">Download Selected</button>
 </div>
 
 <div class="file-list">
   {% for file in site.static_files %}
     {% if file.path contains '/QSG/' %}
       {% unless file.path contains 'index.html' %}
-        <label class="file-row-wrapper">
-          <input type="checkbox" class="file-checkbox" value="{{ file.path }}" onchange="updateRowStyle(this)">
-          <div class="file-row">
+        <div class="file-row-wrapper">
+          <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
+          <a href="{{ file.path }}" class="file-row">
             <span class="file-name">
-                {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
-                {% if clean_name contains "GEM" %}
-                  {% assign parts = clean_name | split: "GEM" %}
-                  {% assign left_words = parts[0] | split: " " %}
-                  {% assign brand_prefix = left_words | last %}
-                  {% assign prefix_count = left_words | size | minus: 1 %}
-                  {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
-                  <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
-                {% else %}
-                  {{ clean_name }}
-                {% endif %}
+              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+              {% if clean_name contains "GEM" %}
+                {% assign parts = clean_name | split: "GEM" %}
+                {% assign left_words = parts[0] | split: " " %}
+                {% assign brand_prefix = left_words | last %}
+                {% assign prefix_count = left_words | size | minus: 1 %}
+                {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
+                <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
+              {% else %}
+                {{ clean_name }}
+              {% endif %}
             </span>
-            <span class="file-meta">PDF</span>
-          </div>
-        </label>
+            <span class="file-meta">Download PDF</span>
+          </a>
+        </div>
       {% endunless %}
     {% endif %}
   {% endfor %}
 </div>
 
 <style>
-    /* UX Improvements */
-    .file-row-wrapper { 
-        display: flex; align-items: center; gap: 15px; margin-bottom: 8px; cursor: pointer; 
-    }
-    .file-row-wrapper:has(.file-checkbox:checked) .file-row {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.4);
-    }
-    .bulk-actions { margin-bottom: 25px; display: flex; align-items: center; }
+    .bulk-actions { margin-bottom: 25px; display: flex; gap: 12px; }
     
-    /* Keep your existing button styles here... */
+    .btn-primary, .btn-secondary {
+        padding: 10px 20px; border-radius: 8px; font-size: 14px;
+        cursor: pointer; font-weight: 500; transition: 0.2s;
+    }
+    .btn-primary { background: #fff; color: #000; border: none; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); }
+    .btn-primary:hover { background: #ccc; }
+    .btn-secondary:hover { background: var(--glass); }
+
+    .file-row-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 8px; }
+    .file-checkbox { width: 18px; height: 18px; accent-color: #fff; cursor: pointer; }
+    .file-row { flex-grow: 1; margin-bottom: 0 !important; }
+    
+    .file-name i { font-style: italic; font-weight: 400; padding-right: 1px; }
 </style>
 
 <script>
-function updateRowStyle(checkbox) {
-    // Visual feedback handled by CSS :has selector above
+function toggleAll() {
+    const checkboxes = document.querySelectorAll('.file-checkbox');
+    const anyUnchecked = Array.from(checkboxes).some(cb => !cb.checked);
+    checkboxes.forEach(cb => cb.checked = anyUnchecked);
 }
 
 function downloadSelected() {
     const selected = document.querySelectorAll('.file-checkbox:checked');
-    const btn = document.getElementById('dl-btn');
-    const status = document.getElementById('status-msg');
-
-    if (selected.length === 0) {
-        alert('Please select files first.');
-        return;
-    }
-
-    // Update UI to show activity
-    btn.disabled = true;
-    btn.innerText = "Downloading...";
-    status.innerText = "Note: Please 'Allow' multiple downloads if prompted by your browser.";
+    if (selected.length === 0) return alert('Select files first');
 
     selected.forEach((cb, index) => {
         setTimeout(() => {
@@ -82,16 +77,7 @@ function downloadSelected() {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
-            // Reset UI after last file
-            if (index === selected.length - 1) {
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.innerText = "Download Selected";
-                    status.innerText = "Done!";
-                }, 1000);
-            }
-        }, index * 1000); // Increased to 1s to be gentler on the browser
+        }, index * 800);
     });
 }
 </script>
