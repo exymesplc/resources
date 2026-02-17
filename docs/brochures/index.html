@@ -20,7 +20,7 @@ title: Brochures
 
 <div class="file-list" id="fileList">
   {% for file in site.static_files %}
-    {% if file.path contains '/QSG/' %}
+    {% if file.path contains '/brochures/' %}
       {% unless file.path contains 'index.html' %}
         <div class="file-row-wrapper" data-date="{{ file.modified_time | date: '%Y%m%d%H%M' }}">
           <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
