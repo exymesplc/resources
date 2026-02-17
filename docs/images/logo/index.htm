@@ -1,1 +1,132 @@
+---
+layout: default
+title: Logos
+---
 
+<a href="/" class="back-link">← Back to Categories</a>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 40px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px;">
+    <h1 style="margin: 0;">{{ page.title }}</h1>
+</div>
+
+<div class="list-controls">
+    <div class="control-left">
+        <input type="text" id="fileSearch" placeholder="Search brochures..." onkeyup="filterFiles()">
+    </div>
+    <div class="control-right">
+        <button onclick="sortFiles('name')" class="btn-sort">Sort A-Z</button>
+        <button onclick="sortFiles('date')" class="btn-sort">Sort by Date</button>
+        <button onclick="toggleAll()" class="btn-secondary" style="margin-left: 10px;">Select All</button>
+        <button onclick="downloadSelected()" class="btn-primary">Download Selected</button>
+    </div>
+</div>
+
+<div class="file-list" id="fileList">
+{% for file in site.static_files %}
+  {% if file.path contains '/images/logo/' %}
+    {% unless file.path contains 'index.html' %}
+      
+      {% assign custom_entry = site.data.dates | where: "name", file.name | first %}
+      
+      {% if custom_entry %}
+        {% assign display_date = custom_entry.date %}
+        {% assign sort_date = custom_entry.date | date: "%Y%m%d" %}
+      {% else %}
+        {% assign display_date = file.modified_time | date: "%b %d, %Y" %}
+        {% assign sort_date = file.modified_time | date: "%Y%m%d" %}
+      {% endif %}
+
+      <div class="file-row-wrapper" data-date="{{ sort_date }}">
+        <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
+        
+        <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
+          <div class="file-main-info">
+            <span class="file-name">
+              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+              {% if clean_name contains "GEM" %}
+                {% assign parts = clean_name | split: "GEM" %}
+                {% assign left_words = parts[0] | split: " " %}
+                {% assign brand_prefix = left_words | last %}
+                {% assign prefix_count = left_words | size | minus: 1 %}
+                {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
+                <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
+              {% else %}
+                {{ clean_name }}
+              {% endif %}
+            </span>
+          </div>
+
+          <div class="file-details">
+            <span class="file-date">
+                <span style="color: var(--text-gray); font-size: 11px; margin-right: 5px;">Last Updated:</span>
+                {{ display_date }}
+            </span>
+            <span class="file-meta">Download PDF</span>
+          </div>
+        </a>
+      </div>
+    {% endunless %}
+  {% endif %}
+{% endfor %}
+</div>
+
+<style>
+    h1 { font-weight: 500; letter-spacing: -0.02em; font-size: 28pt; background: linear-gradient(to bottom, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .back-link { text-decoration: none; color: var(--text-gray); font-size: 14px; margin-bottom: 20px; display: block; transition: 0.2s; }
+    .back-link:hover { color: #fff; transform: translateX(-4px); }
+    .list-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; }
+    #fileSearch { background: var(--glass); border: 1px solid var(--glass-border); padding: 12px 18px; border-radius: 100px; color: #fff; font-family: inherit; width: 300px; outline: none; font-size: 14px; }
+    .btn-sort { background: transparent; border: 1px solid var(--glass-border); color: var(--text-gray); padding: 10px 16px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: 0.2s; }
+    .btn-primary { background: #fff; color: #000; border: none; padding: 10px 24px; border-radius: 100px; font-weight: 600; font-size: 13px; cursor: pointer; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); padding: 10px 24px; border-radius: 100px; font-size: 13px; cursor: pointer; }
+    .file-row-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+    .file-checkbox { width: 18px; height: 18px; accent-color: #fff; cursor: pointer; opacity: 0.5; }
+    .file-row { flex-grow: 1; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #fff; background: var(--glass); border: 1px solid var(--glass-border); padding: 18px 24px; border-radius: 12px; transition: 0.2s; }
+    .file-row:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
+    .file-details { display: flex; align-items: center; gap: 40px; }
+    .file-date { font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; }
+    .file-meta { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.08em; }
+    @media (max-width: 850px) { .file-date { display: none; } .list-controls { flex-direction: column; align-items: stretch; } }
+</style>
+
+<script>
+function filterFiles() {
+    const query = document.getElementById('fileSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('.file-row-wrapper');
+    rows.forEach(row => {
+        const name = row.querySelector('.file-name').textContent.toLowerCase();
+        row.style.display = name.includes(query) ? 'flex' : 'none';
+    });
+}
+function sortFiles(type) {
+    const list = document.getElementById('fileList');
+    const rows = Array.from(document.querySelectorAll('.file-row-wrapper'));
+    rows.sort((a, b) => {
+        if (type === 'name') {
+            return a.querySelector('.file-name').textContent.trim().localeCompare(b.querySelector('.file-name').textContent.trim());
+        } else {
+            return b.getAttribute('data-date') - a.getAttribute('data-date');
+        }
+    });
+    rows.forEach(row => list.appendChild(row));
+}
+function toggleAll() {
+    const cbs = document.querySelectorAll('.file-checkbox');
+    const anyUnchecked = Array.from(cbs).some(cb => !cb.checked);
+    cbs.forEach(cb => cb.checked = anyUnchecked);
+}
+function downloadSelected() {
+    const selected = document.querySelectorAll('.file-checkbox:checked');
+    if (selected.length === 0) return alert('Select files first');
+    selected.forEach((cb, index) => {
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = cb.value;
+            link.download = cb.value.split('/').pop();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }, index * 800);
+    });
+}
+</script>
