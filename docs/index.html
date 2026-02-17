@@ -16,8 +16,7 @@
             margin: 0;
             padding: 0;
             background-color: #000;
-            /* The background image you provided */
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://framerusercontent.com/images/HXYdiQVMtbxBm98VMPSJBvdApY.jpeg');
+            background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url('https://framerusercontent.com/images/HXYdiQVMtbxBm98VMPSJBvdApY.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -32,100 +31,111 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             box-sizing: border-box;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 30px;
         }
 
         h1 {
-            font-size: clamp(40px, 8vw, 72px);
+            font-size: clamp(32px, 5vw, 48px); /* Reduced size from 72px */
             font-weight: 700;
-            letter-spacing: -0.05em;
+            letter-spacing: -0.04em;
             margin: 0;
-            background: linear-gradient(to bottom, #fff, #999);
+            background: linear-gradient(to bottom, #fff, #bbb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         header p {
-            font-size: 20px;
-            color: #aaa;
-            margin-top: 10px;
+            font-size: 18px;
+            color: #888;
+            margin-top: 12px;
             font-weight: 300;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
             width: 100%;
             max-width: 1100px;
         }
 
         .card {
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: 16px;
+            padding: 32px;
+            border-radius: 12px;
             text-decoration: none;
             color: #fff;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease-in-out;
             display: flex;
             flex-direction: column;
         }
 
         .card:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-4px);
         }
 
         .card h3 {
-            font-size: 24px;
-            margin: 0 0 12px 0;
+            font-size: 20px;
+            margin: 0 0 10px 0;
             font-weight: 600;
         }
 
         .card p {
-            font-size: 15px;
+            font-size: 14px;
             color: #999;
             margin: 0;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .footer {
-            margin-top: 80px;
+            margin-top: 60px;
             text-align: center;
-            max-width: 600px;
+            max-width: 500px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #666;
         }
 
         .btn {
             display: inline-block;
             background: #fff;
             color: #000;
-            padding: 14px 28px;
+            padding: 12px 24px;
             border-radius: 100px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             margin-top: 20px;
-            transition: transform 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .btn:hover {
-            transform: scale(1.05);
+            background: #eee;
+            transform: scale(1.03);
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
-            h1 { font-size: 48px; }
-            .grid { grid-template-columns: 1fr; }
+            .wrapper { padding: 40px 20px; }
+            h1 { font-size: 36px; }
         }
     </style>
 </head>
@@ -133,14 +143,15 @@
 
 <div class="wrapper">
     <header>
-        <h1>Resources</h1>
-        <p>Asset Library & Documentation for Partners</p>
+        <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo.png" alt="Exymes Logo" class="logo">
+        <h1>Exymes Resources</h1>
+        <p>Asset Library & Technical Documentation</p>
     </header>
 
     <div class="grid">
         <a href="https://github.com/exymesplc/resources/tree/main/QSG" class="card">
             <h3>Quick Start Guides</h3>
-            <p>Direct access to QSG001 through QSG008 and forensicGEM manuals.</p>
+            <p>Direct access to forensicGEM and prepGEM setup manuals.</p>
         </a>
         <a href="https://github.com/exymesplc/resources/tree/main/Manuals" class="card">
             <h3>Technical Manuals</h3>
@@ -148,7 +159,7 @@
         </a>
         <a href="https://github.com/exymesplc/resources/tree/main/Images" class="card">
             <h3>Product Media</h3>
-            <p>High-resolution studio photography and product application shots.</p>
+            <p>High-resolution studio photography and lifestyle imagery.</p>
         </a>
         <a href="https://github.com/exymesplc/resources/tree/main/Logos" class="card">
             <h3>Brand Assets</h3>
@@ -157,7 +168,7 @@
     </div>
 
     <div class="footer">
-        <p>Distributors requiring bulk access can download the complete repository as a compressed archive.</p>
+        <p>For distributors requiring bulk access, you can download the complete master library as a ZIP archive.</p>
         <a href="https://github.com/exymesplc/resources" class="btn">View on GitHub</a>
     </div>
 </div>
