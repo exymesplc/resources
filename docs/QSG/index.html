@@ -11,7 +11,7 @@ title: Quick Start Guides
 
 <div class="list-controls">
     <div class="control-left">
-        <input type="text" id="fileSearch" placeholder="Search guides..." onkeyup="filterFiles()">
+        <input type="text" id="fileSearch" placeholder="Search brochures..." onkeyup="filterFiles()">
     </div>
     <div class="control-right">
         <button onclick="sortFiles('name')" class="btn-sort">Sort A-Z</button>
@@ -56,13 +56,13 @@ title: Quick Start Guides
             </span>
           </div>
 
-<div class="file-details">
-  <span class="file-date">
-    <span style="color: var(--text-gray); font-size: 11px; margin-right: 5px;">Last Updated:</span>
-    {{ display_date }}
-  </span>
-  <span class="file-meta">Download PDF</span>
-</div>
+          <div class="file-details">
+            <span class="file-date">
+                <span style="color: var(--text-gray); font-size: 11px; margin-right: 5px;">Last Updated:</span>
+                {{ display_date }}
+            </span>
+            <span class="file-meta">Download PDF</span>
+          </div>
         </a>
       </div>
     {% endunless %}
