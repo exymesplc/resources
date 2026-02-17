@@ -1,0 +1,8 @@
+# Ensure documentation and media are treated as binary to prevent corruption
+*.pdf binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.ai  binary
+*.eps binary
+*.zip binary
