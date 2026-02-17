@@ -3,8 +3,10 @@
 Welcome to the official asset repository for Exymes distributors. 
 
 ### 📁 Directory Structure
+* **/QSG**: Product Quick Start Guides
 * **/Brochures**: High-resolution PDFs for print and digital.
-* **/Manuals**: Full technical manuals and Quick Start Guides.
+* **/Handbooks**: Full technical manuals and Quick Start Guides.
+* **/SDS**: Safety Data Sheets
 * **/Images/Products**: High-res product photography (JPEG/PNG).
 * **/Images/Logos**: Official Exymes branding in png format
 * **/ApNote**: Case studies and technical application data.
