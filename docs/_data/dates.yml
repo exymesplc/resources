@@ -11,6 +11,30 @@
   date: "Feb 2, 2026"
 
 # Handbooks
+- name: "C0082-RNAGEM-Handbook.pdf"
+  date: "Feb 9, 2026"
+  - name: "C0083-prepGEM-Handbook.pdf"
+  date: "Feb 8, 2026"
+  - name: "C0084-forensicGEM-Handbook.pdf"
+  date: "Feb 8, 2026"
+
+# Application Notes
+- name: "EXAPN001-Cigarette-Butts-using-forensicGEM.pdf"
+  date: "Feb 10, 2026"
+  - name: "EXAPN011-Method-Optimisation.pdf"
+  date: "Feb 10, 2026"
+  - name: "EXAPN013-forensicGEM-Sperm-Lysis.pdf"
+  date: "Feb 2, 2026"
+  - name: "EXAPN017-Phytogem-Hydrocycler.pdf"
+  date: "Feb 8, 2026"
+  - name: "EXAPN018-prepGEM-v-PK.pdf"
+  date: "Feb 2, 2026"
+  - name: "EXAPN020-phytogem-extraction.pdf"
+  date: "Feb 10, 2026"
+  - name: "EXAPN022-Extracting-High-Quality-DNA-from-Bone.pdf"
+  date: "Jan 25, 2026"
+  - name: "EXAPN023-DNA-Extraction-&-HuID-from-Bone.pdf"
+  date: "Jan 25, 2026"
 
 # SDS
 - name: "SDS001-prepGEM-Bacteria.pdf"
@@ -23,7 +47,38 @@
   date: "Feb 1, 2026"
   
 # Brochures
+- name: "BR001-Exymes-Flyer.pdf"
+  date: "Feb 8, 2026"
+  - name: "BR002-Exymes-Who-are-we.pdf"
+  date: "Feb 11, 2026"
+  - name: "BR003-Exymes-PrepGEM-Universal.pdf"
+  date: "Feb 11, 2026"
+  - name: "BR004-Exymes-prepGEM-Bacteria.pdf"
+  date: "Feb 11, 2026"
+  - name: "BR005-Exymes-ForensicGEM-Universal.pdf"
+  date: "Feb 11, 2026"
+  - name: "BR006-Exymes-ForensicGEM-Sperm.pdf"
+  date: "Feb 11, 2026"
+  - name: "BR007-Exymes-RNAGEM.pdf"
+  date: "Feb 8, 2026"
 
 # Logos
+  - name: "Exymes_Logo.png"
+  date: "Feb 17, 2026"
+  - name: "Exymes_Logo_dark bkgd.png"
+  date: "Feb 17, 2026"
 
 # Product Images
+  - name: "forensicGEM_Sperm.png"
+  date: "Feb 17, 2026"
+  - name: "forensicGEM_Universal.png"
+  date: "Feb 17, 2026"
+  - name: "phytogem.png"
+  date: "Feb 17, 2026"
+  - name: "prepGEM_Bacteria.png"
+  date: "Feb 17, 2026"
+  - name: "prepGEM_Universal.png"
+  date: "Feb 17, 2026"
+    - name: "rnagem.png"
+  date: "Feb 17, 2026"
+  
