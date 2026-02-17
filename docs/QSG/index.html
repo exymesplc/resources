@@ -8,110 +8,90 @@ title: Quick Start Guides
 
 <div class="bulk-actions">
     <button onclick="toggleAll()" class="btn-secondary">Select All</button>
-    <button onclick="downloadSelected()" class="btn-primary">Download Selected</button>
+    <button onclick="downloadSelected()" class="btn-primary" id="dl-btn">Download Selected</button>
+    <span id="status-msg" style="margin-left: 10px; font-size: 13px; color: var(--text-gray);"></span>
 </div>
 
 <div class="file-list">
   {% for file in site.static_files %}
     {% if file.path contains '/QSG/' %}
       {% unless file.path contains 'index.html' %}
-        <div class="file-row-wrapper">
-          <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
-          
-          <a href="{{ file.path }}" class="file-row">
-            
+        <label class="file-row-wrapper">
+          <input type="checkbox" class="file-checkbox" value="{{ file.path }}" onchange="updateRowStyle(this)">
+          <div class="file-row">
             <span class="file-name">
-              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
-  
-              {% if clean_name contains "GEM" %}
-                {% comment %} 1. Split by GEM to get the left side {% endcomment %}
-                {% assign parts = clean_name | split: "GEM" %}
-    
-                {% comment %} 2. Split the left side into individual words {% endcomment %}
-                {% assign left_words = parts[0] | split: " " %}
-    
-                {% comment %} 3. The last word of the left side is the brand prefix (e.g., prep) {% endcomment %}
-                {% assign brand_prefix = left_words | last %}
-    
-                {% comment %} 4. Everything before the brand prefix (e.g., QSG001) {% endcomment %}
-                {% assign prefix_count = left_words | size | minus: 1 %}
-                {% for i in (0..prefix_count) %}
-                  {% unless forloop.last %}{{ left_words[i] }} {% endunless %}
-                {% endfor %}
-
-                <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
-                  {% else %}
-                {{ clean_name }}
-                  {% endif %}
+                {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+                {% if clean_name contains "GEM" %}
+                  {% assign parts = clean_name | split: "GEM" %}
+                  {% assign left_words = parts[0] | split: " " %}
+                  {% assign brand_prefix = left_words | last %}
+                  {% assign prefix_count = left_words | size | minus: 1 %}
+                  {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
+                  <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
+                {% else %}
+                  {{ clean_name }}
+                {% endif %}
             </span>
-            <span class="file-meta">Download PDF</span>
-          </a>
-          
-        </div>
+            <span class="file-meta">PDF</span>
+          </div>
+        </label>
       {% endunless %}
     {% endif %}
   {% endfor %}
 </div>
 
 <style>
-    .bulk-actions {
-        margin-bottom: 20px;
-        display: flex;
-        gap: 12px;
+    /* UX Improvements */
+    .file-row-wrapper { 
+        display: flex; align-items: center; gap: 15px; margin-bottom: 8px; cursor: pointer; 
     }
-    .btn-primary, .btn-secondary {
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: 0.2s;
+    .file-row-wrapper:has(.file-checkbox:checked) .file-row {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.4);
     }
-    .btn-primary { background: #fff; color: #000; border: none; }
-    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); }
-    .btn-primary:hover { background: #ccc; }
-    .btn-secondary:hover { background: var(--glass); }
-
-    .file-row-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 8px;
-    }
-    .file-checkbox {
-        width: 20px;
-        height: 20px;
-        accent-color: #fff; /* Makes the checkbox white */
-        cursor: pointer;
-    }
-    /* We make the original file-row flex-grow so it takes the remaining space */
-    .file-row { flex-grow: 1; margin-bottom: 0 !important; }
+    .bulk-actions { margin-bottom: 25px; display: flex; align-items: center; }
+    
+    /* Keep your existing button styles here... */
 </style>
 
 <script>
-function toggleAll() {
-    const checkboxes = document.querySelectorAll('.file-checkbox');
-    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-    checkboxes.forEach(cb => cb.checked = !allChecked);
+function updateRowStyle(checkbox) {
+    // Visual feedback handled by CSS :has selector above
 }
 
 function downloadSelected() {
     const selected = document.querySelectorAll('.file-checkbox:checked');
+    const btn = document.getElementById('dl-btn');
+    const status = document.getElementById('status-msg');
+
     if (selected.length === 0) {
-        alert('Please select at least one file to download.');
+        alert('Please select files first.');
         return;
     }
+
+    // Update UI to show activity
+    btn.disabled = true;
+    btn.innerText = "Downloading...";
+    status.innerText = "Note: Please 'Allow' multiple downloads if prompted by your browser.";
 
     selected.forEach((cb, index) => {
         setTimeout(() => {
             const link = document.createElement('a');
             link.href = cb.value;
-            // Get filename from path
             link.download = cb.value.split('/').pop();
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        }, index * 800); // 800ms delay helps avoid browser "Multiple Download" blocks
+
+            // Reset UI after last file
+            if (index === selected.length - 1) {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = "Download Selected";
+                    status.innerText = "Done!";
+                }, 1000);
+            }
+        }, index * 1000); // Increased to 1s to be gentler on the browser
     });
 }
 </script>
