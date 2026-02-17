@@ -1,5 +1,4 @@
 title: Exymes Resources
 url: "https://resources.exymesplc.com"
 baseurl: ""
-include: [docs]
-exclude: [node_modules, Vendor]
+# Remove the 'include: [docs]' line because we are already inside it
