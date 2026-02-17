@@ -3,19 +3,18 @@ layout: default
 title: Quick Start Guides
 ---
 
-<div class="folder-header">
-  <h2>{{ page.title }}</h2>
-</div>
+<a href="/" class="back-link">← Back to Categories</a>
+<h1>{{ page.title }}</h1>
 
-<ul class="file-list">
+<div class="file-list">
   {% for file in site.static_files %}
     {% if file.path contains '/docs/QSG/' %}
-      <li>
-        <a href="{{ site.url }}{{ file.path }}" class="file-link">
-          {{ file.name }}
-          <span class="download-icon">↓</span>
+      {% unless file.path contains 'index.html' %}
+        <a href="{{ site.baseurl }}{{ file.path }}" class="file-row">
+          <span class="file-name">{{ file.name }}</span>
+          <span class="file-meta">Download PDF</span>
         </a>
-      </li>
+      {% endunless %}
     {% endif %}
   {% endfor %}
-</ul>
+</div>
