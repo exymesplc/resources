@@ -22,7 +22,7 @@ title: Quick Start Guides
   {% for file in site.static_files %}
     {% if file.path contains '/QSG/' %}
       {% unless file.path contains 'index.html' %}
-        <div class="file-row-wrapper" data-date="{{ file.modified_time | date: '%Y%m%d%H%M' }}">
+        <div class="file-row-wrapper" data-date="{{ file.path | last_modified_at: "%b %d, %Y" }}">
           <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
           
           <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
