@@ -11,7 +11,9 @@ title: Quick Start Guides
     {% if file.path contains '/QSG/' %}
       {% unless file.path contains 'index.html' %}
         <a href="{{ file.path }}" class="file-row">
-          <span class="file-name">{{ file.name }}</span>
+          <span class="file-name">
+            {{ file.name | remove: ".pdf" | replace: "_", " " | replace: "-", " " | capitalize }}
+          </span>
           <span class="file-meta">Download PDF</span>
         </a>
       {% endunless %}
