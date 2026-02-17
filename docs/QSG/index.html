@@ -1,0 +1,21 @@
+---
+layout: default
+title: Quick Start Guides
+---
+
+<div class="folder-header">
+  <h2>{{ page.title }}</h2>
+</div>
+
+<ul class="file-list">
+  {% for file in site.static_files %}
+    {% if file.path contains '/docs/qsg/' %}
+      <li>
+        <a href="{{ site.url }}{{ file.path }}" class="file-link">
+          {{ file.name }}
+          <span class="download-icon">↓</span>
+        </a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
