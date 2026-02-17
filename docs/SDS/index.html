@@ -1,1 +1,42 @@
+---
+layout: default
+title: Safety Data Sheets
+---
 
+<a href="/" class="back-link">← Back to Categories</a>
+<h1>{{ page.title }}</h1>
+
+<div class="bulk-actions">
+    <button onclick="toggleAll()" class="btn-secondary">Select All</button>
+    <button onclick="downloadSelected()" class="btn-primary">Download Selected</button>
+</div>
+
+<div class="file-list">
+  {% for file in site.static_files %}
+    {% if file.path contains '/SDS/' %}
+      {% unless file.path contains 'index.html' %}
+        <div class="file-row-wrapper">
+          <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
+          <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
+            <span class="file-name">
+              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+              {% if clean_name contains "GEM" %}
+                {% assign parts = clean_name | split: "GEM" %}
+                {% assign left_words = parts[0] | split: " " %}
+                {% assign brand_prefix = left_words | last %}
+                {% assign prefix_count = left_words | size | minus: 1 %}
+                {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
+                <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
+              {% else %}
+                {{ clean_name }}
+              {% endif %}
+            </span>
+            <span class="file-meta">Download PDF</span>
+          </a>
+        </div>
+      {% endunless %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% include file-list-styles-and-js.html %}
