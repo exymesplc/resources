@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exymes | Resources</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css">
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-gray: #a1a1a1;
+        }
+
+        body {
+            margin: 0; background-color: #000;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('https://framerusercontent.com/images/HXYdiQVMtbxBm98VMPSJBvdApY.jpeg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #fff; font-family: 'Geist Sans', sans-serif; -webkit-font-smoothing: antialiased;
+        }
+
+        .nav-header { position: absolute; top: 40px; left: 40px; z-index: 100; }
+        .logo { height: 32px; width: auto; }
+
+        .wrapper {
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; padding: 120px 20px; box-sizing: border-box;
+        }
+
+        /* This is the container where your file lists will appear */
+        .content-area { width: 100%; max-width: 900px; }
+
+        h1 {
+            font-size: 32pt; font-weight: 500; letter-spacing: -0.03em;
+            margin-bottom: 40px; text-align: center;
+            background: linear-gradient(to bottom, #fff, #ccc);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Styling for the automated file lists */
+        .file-list { list-style: none; padding: 0; }
+        .file-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 8px; border-radius: 8px;
+            transition: 0.2s;
+        }
+        .file-item:hover { background: rgba(255,255,255,0.08); }
+        .file-link {
+            display: flex; justify-content: space-between;
+            padding: 20px; color: #fff; text-decoration: none; font-size: 16px;
+        }
+        .download-btn { color: var(--text-gray); font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="nav-header">
+    <a href="https://www.exymesplc.com">
+        <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo_dark%20bkgd.png" alt="Exymes" class="logo">
+    </a>
+</div>
+
+<div class="wrapper">
+    <div class="content-area">
+        {{ content }} </div>
+</div>
+
+</body>
+</html>
