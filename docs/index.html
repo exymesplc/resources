@@ -1,227 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exymes | Resources</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css">
-    <style>
-        :root {
-            --accent: #004a99;
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --text-gray: #a1a1a1;
-        }
+---
+layout: default
+title: Resource Center
+---
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('https://framerusercontent.com/images/HXYdiQVMtbxBm98VMPSJBvdApY.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff;
-            font-family: 'Geist Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .nav-header {
-            position: absolute;
-            top: 40px;
-            left: 40px;
-            z-index: 100;
-        }
-
-        .logo {
-            height: 32px;
-            width: auto;
-            transition: opacity 0.2s;
-        }
-
-        .logo:hover { opacity: 0.8; }
-
-        .wrapper {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 120px 20px 80px 20px;
-            box-sizing: border-box;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        /* Updated H1: Geist Medium 32pt */
-        h1 {
-            font-size: 32pt; 
-            font-weight: 500;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin: 0;
-            background: linear-gradient(to bottom, #fff, #ccc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        header p {
-            font-size: 18px;
-            color: var(--text-gray);
-            margin-top: 12px;
-            font-weight: 300;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 16px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            padding: 32px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Corner Dots */
-        .card::before, .card::after, .card-dot-bl, .card-dot-br {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-        .card::before { top: 12px; left: 12px; }
-        .card::after { top: 12px; right: 12px; }
-        .card-dot-bl { position: absolute; bottom: 12px; left: 12px; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; }
-        .card-dot-br { position: absolute; bottom: 12px; right: 12px; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; }
-
-        .card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-4px);
-        }
-
-        .card h3 {
-            font-size: 19px;
-            margin: 0 0 8px 0;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .card p {
-            font-size: 14px;
-            color: var(--text-gray);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .footer {
-            margin-top: 60px;
-            text-align: center;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #fff;
-            color: #000;
-            padding: 12px 28px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .btn:hover { background: #ccc; }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 24pt; }
-            .nav-header { top: 20px; left: 20px; }
-            .wrapper { padding-top: 100px; }
-        }
-    </style>
-</head>
-<body>
-
-<div class="nav-header">
-    <a href="https://www.exymesplc.com">
-        <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo_dark%20bkgd.png" alt="Exymes" class="logo">
+<div style="text-align: center; margin-bottom: 60px; margin-top: 40px;">
+    <h1 style="font-size: 48px; font-weight: 600; letter-spacing: -1px; margin-bottom: 16px;">{{ page.title }}</h1>
+    <p style="color: #a1a1a1; font-size: 18px; max-width: 600px; margin: 0 auto 32px;">
+        Technical documentation and asset library for Exymes distributors.
+    </p>
+    
+    <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="btn-zip">
+        Download All Resources (.zip)
     </a>
 </div>
 
-<div class="wrapper">
-    <header>
-        <h1>Exymes Resources</h1>
-        <p>Technical Documentation & Media Assets</p>
-    </header>
+<div class="grid">
+    <a href="/QSG/" class="card">
+        <div class="card-title">Quick Start Guides</div>
+        <div class="card-desc">Step-by-step setup and protocol summaries.</div>
+    </a>
 
-    <div class="grid">
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/qsg" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Quick Start Guides</h3>
-            <p>Access to QSGs for Exymes products.</p>
-        </a>
+    <a href="/SDS/" class="card">
+        <div class="card-title">Safety Data Sheets</div>
+        <div class="card-desc">Regulatory and safety compliance documentation.</div>
+    </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/handbook" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Handbooks</h3>
-            <p>Reference documentation for enzymatic extraction protocols.</p>
-        </a>
+    <a href="/Application-Notes/" class="card">
+        <div class="card-title">Application Notes</div>
+        <div class="card-desc">Detailed research and performance data.</div>
+    </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/apnote" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Application Notes</h3>
-            <p>Specific applications of the Exymes products.</p>
-        </a>
+    <a href="/Technical-Manuals/" class="card">
+        <div class="card-title">Technical Manuals</div>
+        <div class="card-desc">In-depth instrumentation and software guides.</div>
+    </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/SDS" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Safety Data Sheets</h3>
-            <p>SDS for Exymes products.</p>
-        </a>
+    <a href="/Certificates/" class="card">
+        <div class="card-title">Certificates</div>
+        <div class="card-desc">COA and quality assurance documentation.</div>
+    </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/brochures" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Brochures</h3>
-            <p>Marketing brochures for products.</p>
-        </a>
+    <a href="/Marketing-Assets/" class="card">
+        <div class="card-title">Marketing Assets</div>
+        <div class="card-desc">Brand logos, product images, and brochures.</div>
+    </a>
 
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/images/products" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Product Media</h3>
-            <p>Photography of products.</p>
-        </a>
-
-        <a href="https://github.com/exymesplc/resources/tree/main/docs/images/logo" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Brand Assets</h3>
-            <p>Official Exymes logos.</p>
-        </a>
-    </div>
-
-    <div class="footer">
-        <a href="https://github.com/exymesplc/resources" class="btn">View Master Repository</a>
-    </div>
+    <a href="/Videos/" class="card">
+        <div class="card-title">Training Videos</div>
+        <div class="card-desc">Video tutorials for protocol execution.</div>
+    </a>
 </div>
 
-</body>
-</html>
+<style>
+    :root {
+        --glass: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.08);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .card {
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        padding: 40px;
+        border-radius: 24px;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-4px);
+    }
+
+    .card-title {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 12px;
+    }
+
+    .card-desc {
+        color: #a1a1a1;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .btn-zip {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: 100px; /* Pill shape for a more modern look */
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid var(--glass-border);
+        transition: 0.2s;
+    }
+
+    .btn-zip:hover {
+        background: #fff;
+        color: #000;
+    }
+</style>
