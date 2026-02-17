@@ -46,7 +46,7 @@ title: Quick Start Guides
             </div>
 
             <div class="file-details">
-              <span class="file-date">{{ file.path | last_modified_at: "%b %d, %Y" }}</span>
+              <span class="file-date">{{ file.modified_time | date: "%b %d, %Y" }}</span
               <span class="file-meta">Download PDF</span>
             </div>
           </a>
