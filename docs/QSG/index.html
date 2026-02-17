@@ -4,7 +4,6 @@ title: Quick Start Guides
 ---
 
 <a href="/" class="back-link">← Back to Categories</a>
-
 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 40px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px;">
     <h1 style="margin: 0;">{{ page.title }}</h1>
 </div>
@@ -64,7 +63,9 @@ title: Quick Start Guides
     .list-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; }
     #fileSearch { background: var(--glass); border: 1px solid var(--glass-border); padding: 12px 18px; border-radius: 100px; color: #fff; font-family: inherit; width: 300px; outline: none; font-size: 14px; }
     
-    .btn-sort { background: transparent; border: 1px solid var(--glass-border); color: var(--text-gray); padding: 10px 16px; border-radius: 100px; font-size: 12px; cursor: pointer; }
+    .btn-sort { background: transparent; border: 1px solid var(--glass-border); color: var(--text-gray); padding: 10px 16px; border-radius: 100px; font-size: 12px; cursor: pointer; transition: 0.2s; }
+    .btn-sort:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
     .btn-primary { background: #fff; color: #000; border: none; padding: 10px 24px; border-radius: 100px; font-weight: 600; font-size: 13px; cursor: pointer; }
     .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); padding: 10px 24px; border-radius: 100px; font-size: 13px; cursor: pointer; }
 
@@ -78,6 +79,7 @@ title: Quick Start Guides
     }
     .file-row:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
 
+    .file-name i { font-style: italic; font-weight: 400; }
     .file-details { display: flex; align-items: center; gap: 40px; }
     .file-date { font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; }
     .file-meta { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.08em; }
