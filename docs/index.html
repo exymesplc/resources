@@ -10,7 +10,7 @@
             --accent: #004a99;
             --glass: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.12);
-            --text-gray: #a1a1a1; /* Lightened grey to match homepage */
+            --text-gray: #a1a1a1;
         }
 
         body {
@@ -26,7 +26,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Top Left Logo */
         .nav-header {
             position: absolute;
             top: 40px;
@@ -35,7 +34,7 @@
         }
 
         .logo {
-            height: 32px; /* Professional nav-height */
+            height: 32px;
             width: auto;
             transition: opacity 0.2s;
         }
@@ -57,10 +56,12 @@
             margin-bottom: 60px;
         }
 
+        /* Updated H1: Geist Medium 48pt */
         h1 {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
-            letter-spacing: -0.04em;
+            font-size: 48pt; 
+            font-weight: 500; /* Medium weight */
+            letter-spacing: -0.03em;
+            line-height: 1.1;
             margin: 0;
             background: linear-gradient(to bottom, #fff, #ccc);
             -webkit-background-clip: text;
@@ -70,7 +71,7 @@
         header p {
             font-size: 18px;
             color: var(--text-gray);
-            margin-top: 12px;
+            margin-top: 16px;
             font-weight: 300;
         }
 
@@ -82,7 +83,6 @@
             max-width: 1100px;
         }
 
-        /* Card with Corner Accents */
         .card {
             background: var(--glass);
             backdrop-filter: blur(16px);
@@ -95,12 +95,12 @@
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
-            position: relative; /* For corner dots */
+            position: relative;
             overflow: hidden;
         }
 
-        /* Corner Dots styling */
-        .card::before, .card::after, .card-dot-tl, .card-dot-tr {
+        /* Corner Dots */
+        .card::before, .card::after, .card-dot-bl, .card-dot-br {
             content: '';
             position: absolute;
             width: 4px;
@@ -109,13 +109,9 @@
             border-radius: 50%;
             opacity: 0.4;
         }
-        /* Top Left */
         .card::before { top: 12px; left: 12px; }
-        /* Top Right */
         .card::after { top: 12px; right: 12px; }
-        /* Bottom Left (using inner spans) */
         .card-dot-bl { position: absolute; bottom: 12px; left: 12px; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; }
-        /* Bottom Right */
         .card-dot-br { position: absolute; bottom: 12px; right: 12px; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; }
 
         .card:hover {
@@ -143,8 +139,6 @@
             text-align: center;
         }
 
-        .footer p { color: #666; font-size: 14px; }
-
         .btn {
             display: inline-block;
             background: #fff;
@@ -160,8 +154,9 @@
         .btn:hover { background: #ccc; }
 
         @media (max-width: 768px) {
+            h1 { font-size: 36pt; } /* Scaled for mobile */
             .nav-header { top: 20px; left: 20px; }
-            .wrapper { padding-top: 120px; }
+            .wrapper { padding-top: 140px; }
         }
     </style>
 </head>
@@ -201,12 +196,3 @@
             <p>Official Exymes vector logos and brand identity guidelines.</p>
         </a>
     </div>
-
-    <div class="footer">
-        <p>Complete asset library available for bulk download via GitHub.</p>
-        <a href="https://github.com/exymesplc/resources" class="btn">View Master Repository</a>
-    </div>
-</div>
-
-</body>
-</html>
