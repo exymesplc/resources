@@ -65,22 +65,9 @@ title: Quick Start Guides
     {% endunless %}
   {% endif %}
 {% endfor %}
-              </span>
-            </div>
-
-            <div class="file-details">
-              <span class="file-date">{{ file.modified_time | date: "%b %d, %Y" }}</span>
-              <span class="file-meta">Download PDF</span>
-            </div>
-          </a>
-        </div>
-      {% endunless %}
-    {% endif %}
-  {% endfor %}
 </div>
 
 <style>
-    /* Formatting Styles */
     h1 { font-weight: 500; letter-spacing: -0.02em; font-size: 28pt; background: linear-gradient(to bottom, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .back-link { text-decoration: none; color: var(--text-gray); font-size: 14px; margin-bottom: 20px; display: block; transition: 0.2s; }
     .back-link:hover { color: #fff; transform: translateX(-4px); }
