@@ -25,7 +25,7 @@ title: Quick Start Guides
   {% for file in site.static_files %}
     {% if file.path contains '/QSG/' %}
       {% unless file.path contains 'index.html' %}
-        <div class="file-row-wrapper" data-date="{{ file.path | last_modified_at: '%Y%m%d%H%M' }}">
+        <div class="file-row-wrapper" data-date="{{ file.modified_time | date: '%Y%m%d%H%M' }}">
           <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
           
           <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
@@ -46,7 +46,7 @@ title: Quick Start Guides
             </div>
 
             <div class="file-details">
-              <span class="file-date">Updated {{ file.path | last_modified_at: "%b %d, %Y" }}</span>
+              <span class="file-date">{{ file.modified_time | date: "%b %d, %Y" }}</span>
               <span class="file-meta">Download PDF</span>
             </div>
           </a>
@@ -57,85 +57,34 @@ title: Quick Start Guides
 </div>
 
 <style>
-    h1 { font-weight: 500; letter-spacing: -0.02em; font-size: 28pt; }
+    h1 { font-weight: 500; letter-spacing: -0.02em; font-size: 28pt; background: linear-gradient(to bottom, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .back-link { text-decoration: none; color: var(--text-gray); font-size: 14px; margin-bottom: 20px; display: block; transition: 0.2s; }
     .back-link:hover { color: #fff; transform: translateX(-4px); }
 
-    /* Controls Styling */
-    .list-controls {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-        gap: 20px;
-    }
-    #fileSearch {
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        padding: 12px 18px;
-        border-radius: 100px;
-        color: #fff;
-        font-family: inherit;
-        width: 300px;
-        outline: none;
-        font-size: 14px;
-        transition: 0.2s;
-    }
-    #fileSearch:focus { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); }
+    .list-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; }
+    #fileSearch { background: var(--glass); border: 1px solid var(--glass-border); padding: 12px 18px; border-radius: 100px; color: #fff; font-family: inherit; width: 300px; outline: none; font-size: 14px; }
     
-    .btn-sort {
-        background: transparent;
-        border: 1px solid var(--glass-border);
-        color: var(--text-gray);
-        padding: 10px 16px;
-        border-radius: 100px;
-        font-size: 12px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    .btn-sort:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+    .btn-sort { background: transparent; border: 1px solid var(--glass-border); color: var(--text-gray); padding: 10px 16px; border-radius: 100px; font-size: 12px; cursor: pointer; }
+    .btn-primary { background: #fff; color: #000; border: none; padding: 10px 24px; border-radius: 100px; font-weight: 600; font-size: 13px; cursor: pointer; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); padding: 10px 24px; border-radius: 100px; font-size: 13px; cursor: pointer; }
 
-    /* Bulk Buttons */
-    .btn-primary { background: #fff; color: #000; border: none; padding: 10px 24px; border-radius: 100px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; }
-    .btn-primary:hover { background: #ccc; }
-    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); padding: 10px 24px; border-radius: 100px; font-size: 13px; cursor: pointer; transition: 0.2s; }
-    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
-
-    /* File List Styling */
     .file-row-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
     .file-checkbox { width: 18px; height: 18px; accent-color: #fff; cursor: pointer; opacity: 0.5; }
-    .file-checkbox:checked { opacity: 1; }
     
     .file-row { 
-        flex-grow: 1; 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        text-decoration: none; 
-        color: #fff;
-        background: var(--glass);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid var(--glass-border);
-        padding: 18px 24px;
-        border-radius: 12px;
-        transition: 0.2s;
+        flex-grow: 1; display: flex; justify-content: space-between; align-items: center; 
+        text-decoration: none; color: #fff; background: var(--glass); border: 1px solid var(--glass-border);
+        padding: 18px 24px; border-radius: 12px; transition: 0.2s;
     }
     .file-row:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
 
-    .file-name i { font-style: italic; font-weight: 400; }
     .file-details { display: flex; align-items: center; gap: 40px; }
     .file-date { font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; }
-    .file-meta { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+    .file-meta { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.08em; }
 
-    @media (max-width: 900px) {
-        .file-details { gap: 15px; }
+    @media (max-width: 850px) {
         .file-date { display: none; }
-    }
-
-    @media (max-width: 768px) {
         .list-controls { flex-direction: column; align-items: stretch; }
-        #fileSearch { width: auto; }
     }
 </style>
 
@@ -151,4 +100,35 @@ function filterFiles() {
 
 function sortFiles(type) {
     const list = document.getElementById('fileList');
-    const rows = Array.from(document.querySelectorAll('.file-row-
+    const rows = Array.from(document.querySelectorAll('.file-row-wrapper'));
+    rows.sort((a, b) => {
+        if (type === 'name') {
+            return a.querySelector('.file-name').textContent.trim().localeCompare(b.querySelector('.file-name').textContent.trim());
+        } else {
+            return b.getAttribute('data-date') - a.getAttribute('data-date');
+        }
+    });
+    rows.forEach(row => list.appendChild(row));
+}
+
+function toggleAll() {
+    const cbs = document.querySelectorAll('.file-checkbox');
+    const anyUnchecked = Array.from(cbs).some(cb => !cb.checked);
+    cbs.forEach(cb => cb.checked = anyUnchecked);
+}
+
+function downloadSelected() {
+    const selected = document.querySelectorAll('.file-checkbox:checked');
+    if (selected.length === 0) return alert('Select files first');
+    selected.forEach((cb, index) => {
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = cb.value;
+            link.download = cb.value.split('/').pop();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }, index * 800);
+    });
+}
+</script>
