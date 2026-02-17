@@ -17,10 +17,22 @@ title: Quick Start Guides
       {% unless file.path contains 'index.html' %}
         <div class="file-row-wrapper">
           <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
+          
           <a href="{{ file.path }}" class="file-row">
-            <span class="file-name">{{ file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " }}</span>
+            
+            <span class="file-name">
+              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+              
+              {% if clean_name contains "GEM" %}
+                {% assign parts = clean_name | split: "GEM" %}
+                <i>{{ parts[0] }}</i>GEM{{ parts[1] }}
+              {% else %}
+                {{ clean_name }}
+              {% endif %}
+            </span>
             <span class="file-meta">Download PDF</span>
           </a>
+          
         </div>
       {% endunless %}
     {% endif %}
