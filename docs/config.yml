@@ -1,0 +1,3 @@
+title: Exymes Resources
+remote_theme: pages-themes/minimal@v0.2.0 # A clean base theme
+include: [docs]
