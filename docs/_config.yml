@@ -1,5 +1,11 @@
-title: Exymes Resources
-url: "https://resources.exymesplc.com"
-baseurl: ""
+# Site Settings
+baseurl: "" 
+collections_dir: .
+
+# Plugins
 plugins:
   - jekyll-last-modified-at
+
+# Inclusion/Exclusion Rules
+include: [".github"]
+exclude: [Gemfile, Gemfile.lock, .github]
