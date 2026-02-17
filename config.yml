@@ -1,4 +1,5 @@
 title: Exymes Resources
 url: "https://resources.exymesplc.com"
 baseurl: ""
-# Remove the 'include: [docs]' line because we are already inside it
+plugins:
+  - jekyll-last-modified-at
