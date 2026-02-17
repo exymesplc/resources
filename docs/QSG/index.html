@@ -22,13 +22,27 @@ title: Quick Start Guides
             
             <span class="file-name">
               {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
-              
+  
               {% if clean_name contains "GEM" %}
+                {% comment %} 1. Split by GEM to get the left side {% endcomment %}
                 {% assign parts = clean_name | split: "GEM" %}
-                <i>{{ parts[0] }}</i>GEM{{ parts[1] }}
-              {% else %}
+    
+                {% comment %} 2. Split the left side into individual words {% endcomment %}
+                {% assign left_words = parts[0] | split: " " %}
+    
+                {% comment %} 3. The last word of the left side is the brand prefix (e.g., prep) {% endcomment %}
+                {% assign brand_prefix = left_words | last %}
+    
+                {% comment %} 4. Everything before the brand prefix (e.g., QSG001) {% endcomment %}
+                {% assign prefix_count = left_words | size | minus: 1 %}
+                {% for i in (0..prefix_count) %}
+                  {% unless forloop.last %}{{ left_words[i] }} {% endunless %}
+                {% endfor %}
+
+                <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
+                  {% else %}
                 {{ clean_name }}
-              {% endif %}
+                  {% endif %}
             </span>
             <span class="file-meta">Download PDF</span>
           </a>
