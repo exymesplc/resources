@@ -3,121 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exymes | Resource Hub</title>
+    <title>Exymes | Resources</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css">
     <style>
         :root {
-            --exymes-blue: #004a99; /* Exymes Brand Blue */
-            --text-main: #171717;
-            --text-muted: #666666;
-            --border-color: #eaeaea;
-            --bg-page: #ffffff;
+            --accent: #004a99;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        body { 
-            font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            line-height: 1.5; 
-            color: var(--text-main); 
-            background-color: var(--bg-page);
-            margin: 0; padding: 0; 
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            /* The background image you provided */
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://framerusercontent.com/images/HXYdiQVMtbxBm98VMPSJBvdApY.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Geist Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
-        .container { max-width: 900px; margin: 100px auto; padding: 0 24px; }
-
-        header { margin-bottom: 64px; }
-        h1 { font-size: 48px; font-weight: 700; letter-spacing: -0.05em; margin: 0 0 16px 0; color: var(--text-main); }
-        header p { font-size: 20px; color: var(--text-muted); font-weight: 400; margin: 0; }
-
-        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 24px; font-weight: 600; }
-
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 16px; 
-        }
-
-        .card { 
-            display: block;
-            background: #fff;
-            border: 1px solid var(--border-color); 
-            padding: 24px; 
-            border-radius: 8px; 
-            text-decoration: none; 
-            transition: all 0.15s ease;
-        }
-
-        .card:hover { 
-            border-color: var(--text-main);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .card h3 { margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: var(--text-main); }
-        .card p { margin: 0; font-size: 14px; color: var(--text-muted); }
-
-        .footer { 
-            margin-top: 80px; 
-            padding-top: 40px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
-        .footer p { color: var(--text-muted); margin-bottom: 24px; max-width: 600px; }
-
-        .btn { 
-            display: inline-flex;
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            background: var(--text-main); 
-            color: white; 
-            padding: 10px 18px; 
-            text-decoration: none; 
-            border-radius: 6px; 
-            font-size: 14px;
-            font-weight: 500;
-            transition: background 0.2s;
+            justify-content: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
         }
 
-        .btn:hover { background: #333; }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 32px; }
-            .container { margin: 40px auto; }
+        h1 {
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            font-size: 20px;
+            color: #aaa;
+            margin-top: 10px;
+            font-weight: 300;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin: 0 0 12px 0;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 15px;
+            color: #999;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 80px;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            margin-top: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 48px; }
+            .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="wrapper">
     <header>
-        <h1>Exymes Resources</h1>
-        <p>Documentation, Brand Assets, and Technical Guides.</p>
+        <h1>Resources</h1>
+        <p>Asset Library & Documentation for Partners</p>
     </header>
 
-    <section>
-        <h2>Asset Categories</h2>
-        <div class="grid">
-            <a href="https://github.com/exymesplc/resources/tree/main/QSG" class="card">
-                <h3>Quick Start Guides</h3>
-                <p>Fast-track setup and integration documentation.</p>
-            </a>
-            <a href="https://github.com/exymesplc/resources/tree/main/Manuals" class="card">
-                <h3>User Manuals</h3>
-                <p>Full technical specifications and reference manuals.</p>
-            </a>
-            <a href="https://github.com/exymesplc/resources/tree/main/Images" class="card">
-                <h3>Product Media</h3>
-                <p>High-resolution product and lifestyle photography.</p>
-            </a>
-            <a href="https://github.com/exymesplc/resources/tree/main/Logos" class="card">
-                <h3>Brand Assets</h3>
-                <p>Official logos, typography, and identity guidelines.</p>
-            </a>
-        </div>
-    </section>
+    <div class="grid">
+        <a href="https://github.com/exymesplc/resources/tree/main/QSG" class="card">
+            <h3>Quick Start Guides</h3>
+            <p>Direct access to QSG001 through QSG008 and forensicGEM manuals.</p>
+        </a>
+        <a href="https://github.com/exymesplc/resources/tree/main/Manuals" class="card">
+            <h3>Technical Manuals</h3>
+            <p>Full reference documentation for enzymatic extraction protocols.</p>
+        </a>
+        <a href="https://github.com/exymesplc/resources/tree/main/Images" class="card">
+            <h3>Product Media</h3>
+            <p>High-resolution studio photography and product application shots.</p>
+        </a>
+        <a href="https://github.com/exymesplc/resources/tree/main/Logos" class="card">
+            <h3>Brand Assets</h3>
+            <p>Official Exymes vector logos and brand identity guidelines.</p>
+        </a>
+    </div>
 
     <div class="footer">
-        <h3>Master Asset Archive</h3>
-        <p>Distributors requiring full bulk access can browse the master directory or download the complete asset library as a ZIP archive.</p>
+        <p>Distributors requiring bulk access can download the complete repository as a compressed archive.</p>
         <a href="https://github.com/exymesplc/resources" class="btn">View on GitHub</a>
     </div>
 </div>
