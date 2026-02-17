@@ -1,11 +1,3 @@
-# Site Settings
-baseurl: "" 
+baseurl: ""
 collections_dir: .
-
-# Plugins
-plugins:
-  - jekyll-last-modified-at
-
-# Inclusion/Exclusion Rules
-include: [".github"]
-exclude: [Gemfile, Gemfile.lock, .github]
+# No plugins listed here means Jekyll uses its built-in defaults
