@@ -5,8 +5,8 @@ Welcome to the official asset repository for Exymes distributors.
 ### 📁 Directory Structure
 * **/Brochures**: High-resolution PDFs for print and digital.
 * **/Manuals**: Full technical manuals and Quick Start Guides.
-* **/Images**: High-res product photography (JPEG/PNG).
-* **/Logos**: Official Exymes branding in vector and raster formats.
+* **/Images/Products**: High-res product photography (JPEG/PNG).
+* **/Images/Logos**: Official Exymes branding in png format
 * **/AppNotes**: Case studies and technical application data.
 
 ### 📥 How to Download
