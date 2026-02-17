@@ -1,0 +1,36 @@
+name: File Upload Notification
+
+on:
+  push:
+    paths:
+      - 'docs/QSG/**'
+      - 'docs/brochures/**'
+      - 'docs/images/products/**'
+      - 'docs/handbook/**'
+      - 'docs/images/logo/**'
+      - 'docs/SDS/**'
+      - 'docs/apnote/**'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # This connects to a free email account (Gmail works well)
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "New Document Uploaded: ${{ github.event.repository.name }}"
+          to: "recipient@example.com"
+          from: "GitHub Document Portal"
+          body: |
+            A new file has been uploaded to the Exymes GitHub repository!
+            
+            Folder: ${{ github.event.commits[0].modified }}
+            See changes here: ${{ github.event.compare }}
