@@ -6,32 +6,46 @@ title: Quick Start Guides
 <a href="/" class="back-link">← Back to Categories</a>
 <h1>{{ page.title }}</h1>
 
-<div class="bulk-actions">
-    <button onclick="toggleAll()" class="btn-secondary">Select All</button>
-    <button onclick="downloadSelected()" class="btn-primary">Download Selected</button>
+<div class="list-controls">
+    <div class="control-left">
+        <input type="text" id="fileSearch" placeholder="Filter by title..." onkeyup="filterFiles()">
+    </div>
+    <div class="control-right">
+        <button onclick="sortFiles('name')" class="btn-sort">Sort by Title</button>
+        <button onclick="sortFiles('date')" class="btn-sort">Sort by Date</button>
+        <button onclick="toggleAll()" class="btn-secondary" style="margin-left: 10px;">Select All</button>
+        <button onclick="downloadSelected()" class="btn-primary">Download Selected</button>
+    </div>
 </div>
 
-<div class="file-list">
+<div class="file-list" id="fileList">
   {% for file in site.static_files %}
     {% if file.path contains '/QSG/' %}
       {% unless file.path contains 'index.html' %}
-        <div class="file-row-wrapper">
+        <div class="file-row-wrapper" data-date="{{ file.modified_time | date: '%Y%m%d%H%M' }}">
           <input type="checkbox" class="file-checkbox" value="{{ file.path }}">
-          <a href="{{ file.path }}" class="file-row" download="{{ file,name }}">
-            <span class="file-name">
-              {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
-              {% if clean_name contains "GEM" %}
-                {% assign parts = clean_name | split: "GEM" %}
-                {% assign left_words = parts[0] | split: " " %}
-                {% assign brand_prefix = left_words | last %}
-                {% assign prefix_count = left_words | size | minus: 1 %}
-                {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
-                <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
-              {% else %}
-                {{ clean_name }}
-              {% endif %}
-            </span>
-            <span class="file-meta">Download PDF</span>
+          
+          <a href="{{ file.path }}" class="file-row" download="{{ file.name }}">
+            <div class="file-main-info">
+              <span class="file-name">
+                {% assign clean_name = file.name | remove: ".pdf" | remove: ".PDF" | replace: "_", " " | replace: "-", " " %}
+                {% if clean_name contains "GEM" %}
+                  {% assign parts = clean_name | split: "GEM" %}
+                  {% assign left_words = parts[0] | split: " " %}
+                  {% assign brand_prefix = left_words | last %}
+                  {% assign prefix_count = left_words | size | minus: 1 %}
+                  {% for i in (0..prefix_count) %}{% unless forloop.last %}{{ left_words[i] }} {% endunless %}{% endfor %}
+                  <i>{{ brand_prefix }}</i>GEM{{ parts[1] }}
+                {% else %}
+                  {{ clean_name }}
+                {% endif %}
+              </span>
+            </div>
+
+            <div class="file-details">
+              <span class="file-date">Updated {{ file.modified_time | date: "%b %d, %Y" }}</span>
+              <span class="file-meta">Download PDF</span>
+            </div>
           </a>
         </div>
       {% endunless %}
@@ -40,35 +54,114 @@ title: Quick Start Guides
 </div>
 
 <style>
-    .bulk-actions { margin-bottom: 25px; display: flex; gap: 12px; }
-    
-    .btn-primary, .btn-secondary {
-        padding: 10px 20px; border-radius: 8px; font-size: 14px;
-        cursor: pointer; font-weight: 500; transition: 0.2s;
-    }
-    .btn-primary { background: #fff; color: #000; border: none; }
-    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); }
-    .btn-primary:hover { background: #ccc; }
-    .btn-secondary:hover { background: var(--glass); }
+    h1 { font-weight: 500; margin-bottom: 40px; }
+    .back-link { text-decoration: none; color: var(--text-gray); font-size: 14px; margin-bottom: 20px; display: block; }
+    .back-link:hover { color: #fff; }
 
-    .file-row-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 8px; }
+    /* Controls Styling */
+    .list-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+    #fileSearch {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        padding: 12px 16px;
+        border-radius: 8px;
+        color: #fff;
+        font-family: inherit;
+        width: 300px;
+        outline: none;
+    }
+    .btn-sort {
+        background: transparent;
+        border: 1px solid var(--glass-border);
+        color: var(--text-gray);
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .btn-sort:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+    /* Bulk Buttons */
+    .btn-primary { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--glass-border); padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+
+    /* File List Table Styling */
+    .file-row-wrapper { 
+        display: flex; 
+        align-items: center; 
+        gap: 15px; 
+        margin-bottom: 8px; 
+    }
     .file-checkbox { width: 18px; height: 18px; accent-color: #fff; cursor: pointer; }
-    .file-row { flex-grow: 1; margin-bottom: 0 !important; }
     
-    .file-name i { font-style: italic; font-weight: 400; padding-right: 1px; }
+    .file-row { 
+        flex-grow: 1; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        text-decoration: none; 
+        color: #fff;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        padding: 20px 25px;
+        border-radius: 12px;
+        transition: 0.2s;
+    }
+    .file-row:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
+
+    .file-name i { font-style: italic; font-weight: 400; }
+    
+    .file-details { display: flex; align-items: center; gap: 40px; }
+    .file-date { font-size: 13px; font-weight: 500; color: #fff; }
+    .file-meta { font-size: 12px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    @media (max-width: 800px) {
+        .list-controls { flex-direction: column; align-items: stretch; }
+        .file-details { gap: 15px; }
+        .file-date { display: none; } /* Hide date on very small screens to save space */
+    }
 </style>
 
 <script>
+function filterFiles() {
+    const query = document.getElementById('fileSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('.file-row-wrapper');
+    rows.forEach(row => {
+        const name = row.querySelector('.file-name').textContent.toLowerCase();
+        row.style.display = name.includes(query) ? 'flex' : 'none';
+    });
+}
+
+function sortFiles(type) {
+    const list = document.getElementById('fileList');
+    const rows = Array.from(document.querySelectorAll('.file-row-wrapper'));
+    
+    rows.sort((a, b) => {
+        if (type === 'name') {
+            return a.querySelector('.file-name').textContent.trim().localeCompare(b.querySelector('.file-name').textContent.trim());
+        } else {
+            return b.getAttribute('data-date') - a.getAttribute('data-date'); // Newest first
+        }
+    });
+    rows.forEach(row => list.appendChild(row));
+}
+
 function toggleAll() {
-    const checkboxes = document.querySelectorAll('.file-checkbox');
-    const anyUnchecked = Array.from(checkboxes).some(cb => !cb.checked);
-    checkboxes.forEach(cb => cb.checked = anyUnchecked);
+    const cbs = document.querySelectorAll('.file-checkbox');
+    const anyUnchecked = Array.from(cbs).some(cb => !cb.checked);
+    cbs.forEach(cb => cb.checked = anyUnchecked);
 }
 
 function downloadSelected() {
     const selected = document.querySelectorAll('.file-checkbox:checked');
     if (selected.length === 0) return alert('Select files first');
-
     selected.forEach((cb, index) => {
         setTimeout(() => {
             const link = document.createElement('a');
