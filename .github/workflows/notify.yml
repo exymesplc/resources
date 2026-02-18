@@ -71,7 +71,7 @@ jobs:
             <html>
               <body style="font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eeeeee; border-top: 4px solid #004a99;">
                 <div style="text-align: center; margin-bottom: 25px;">
-                  <img src="https://resources.exymesplc.com/docs/images/logo/logo.png" alt="Exymes PLC" style="max-width: 180px; height: auto;">
+                  <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo.png" alt="Exymes PLC" style="max-width: 180px; height: auto;">
                 </div>
                 
                 <h2 style="color: #004a99; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Portal Updates</h2>
@@ -84,12 +84,12 @@ jobs:
                 
                 <p>To view the complete library, please visit <a href="https://resources.exymesplc.com" style="color: #004a99;">resources.exymesplc.com</a>.</p>
                 
-                <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 40px 0 20px 0;">
+                <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 400px 0 20px 0;">
                 
                 <footer style="font-size: 11px; color: #999999; text-align: center;">
                   <p>© 2026 Exymes PLC. This is an automated notification.</p>
                   <p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSz-D2FMDJpUrUJ3U0TOvqVsv4tFQ4OSK7NBFmhd3Vk1GYnA/viewform?usp=sharing" style="color: #999999; text-decoration: underline;">Unsubscribe or Manage Subscription</a>
+                    <a href="mailto:notifications@exymesplc.com?subject=Unsubscribe Request" style="color: #999999; text-decoration: underline;">Unsubscribe from these alerts</a>
                   </p>
                 </footer>
               </body>
