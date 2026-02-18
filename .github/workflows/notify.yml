@@ -11,47 +11,54 @@ on:
       - 'docs/SDS/**'
       - 'docs/images/logo/**'
 
+# Essential for OIDC (Secretless) authentication
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  send-mail:
+  send-notification:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Azure Login via OIDC
+        id: login
         uses: azure/login@v2
         with:
-          client-id: ${{ faf0a604-bf17-407e-a40a-ba5a466902a5 }}
-          tenant-id: ${{ bb1fe9a5-7f5f-4064-b84d-dea6562e435e }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          # M365 accounts often don't have an Azure Billing Subscription
           allow-no-subscriptions: true
           audience: api://AzureADTokenExchange
 
-      - name: Acquire Graph Token
+      - name: Acquire Microsoft Graph Token
         id: graph
         run: |
+          # Request a short-lived token specifically for Microsoft Graph
           TOKEN=$(az account get-access-token \
             --resource https://graph.microsoft.com \
             --query accessToken -o tsv)
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
-      - name: Send Email using Microsoft Graph
+      - name: Send Email via Microsoft Graph API
         env:
           TOKEN: ${{ steps.graph.outputs.token }}
+          # This pulls 'notifications@exymesplc.com' from your GitHub Secrets
           SENDER: ${{ secrets.MAIL_USERNAME }}
-          RECIPIENT: "notifications@exymesplc.com" # CHANGE THIS to your email
+          # Change this to whoever should receive the alerts
+          RECIPIENT: "team@exymesplc.com" 
         run: |
-          # Create the JSON payload for the Graph API
+          # 1. Create the Email JSON payload
           cat > mail.json <<EOF
           {
             "message": {
-              "subject": "Portal Update: New Files Available",
+              "subject": "Exymes Resources: New Files Available",
               "body": { 
                 "contentType": "HTML", 
-                "content": "Hello,<br><br>New documents or images have been uploaded to the portal.<br><br>View the latest updates here:<br><strong>https://your-github-username.github.io/your-repo-name/</strong><br><br>---<br>This is an automated notification." 
+                "content": "Hi,<br><br>New documents or product images have been uploaded to the portal.<br><br>View the latest updates here:<br><strong>https://resources.exymesplc.com</strong><br><br>---<br>This is an automated notification from the Exymes PLC Document Portal." 
               },
               "toRecipients": [
                 { "emailAddress": { "address": "$RECIPIENT" } }
@@ -61,7 +68,7 @@ jobs:
           }
           EOF
 
-          # Send via Microsoft Graph API
+          # 2. Call the Graph API to send the mail
           curl -i -X POST \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
