@@ -59,9 +59,10 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
-          server_port: 465
+          server_port: 465 # Port 465 is for SSL
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
+          # ... rest of your code
           
           subject: "Portal Update: New Documents Available"
           # Enabling HTML content
