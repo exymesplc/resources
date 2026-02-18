@@ -59,35 +59,45 @@ jobs:
           grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq > subscribers.txt
           echo "recipients=$EMAILS" >> $GITHUB_OUTPUT
 
-      - name: Send Email via Brevo
+       - name: Send Email via Brevo
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp-relay.brevo.com
           server_port: 587
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Exymes Portal Update: New Documents Available"
+          subject: "Exymes Resources Update: New Documents Available"
           html_body: |
             <html>
-              <body style="font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eeeeee; border-top: 4px solid #004a99;">
+              <head>
+                <style>
+                  /* Import Geist Sans */
+                  @import url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css');
+                  
+                  body, p, li, h2, a {
+                    font-family: 'Geist Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+                  }
+                </style>
+              </head>
+              <body style="font-family: 'Geist Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eeeeee; border-top: 4px solid #004a99;">
                 <div style="text-align: center; margin-bottom: 25px;">
-                  <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo.png" alt="Exymes PLC" style="max-width: 180px; height: auto;">
+                  <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo.png" alt="Exymes Ltd" style="max-width: 180px; height: auto;">
                 </div>
                 
-                <h2 style="color: #004a99; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Portal Updates</h2>
+                <h2 style="color: #004a99; border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: 600;">New Portal Updates</h2>
                 <p>Hello,</p>
-                <p>New technical resources have been uploaded to the <strong>Exymes Resources Portal</strong>. You can view the new files in the following sections:</p>
+                <p>New resources have been uploaded to the <strong>Exymes Resources Portal</strong>. You can view the new files in the following sections:</p>
                 
                 <div style="background: #f4f7f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
                   ${{ steps.data.outputs.html_list }}
                 </div>
                 
-                <p>To view the complete library, please visit <a href="https://resources.exymesplc.com" style="color: #004a99;">resources.exymesplc.com</a>.</p>
+                <p>To view the complete library, please visit <a href="https://resources.exymesplc.com" style="color: #004a99; text-decoration: none; font-weight: 600;">resources.exymesplc.com</a>.</p>
                 
-                <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 400px 0 20px 0;">
+                <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 40px 0 20px 0;">
                 
                 <footer style="font-size: 11px; color: #999999; text-align: center;">
-                  <p>© 2026 Exymes PLC. This is an automated notification.</p>
+                  <p>© 2026 Exymes Ltd. This is an automated notification that you have subscribed to.</p>
                   <p>
                     <a href="mailto:notifications@exymesplc.com?subject=Unsubscribe Request" style="color: #999999; text-decoration: underline;">Unsubscribe from these alerts</a>
                   </p>
@@ -96,7 +106,6 @@ jobs:
             </html>
           to: ${{ steps.data.outputs.recipients }}
           from: Exymes Resources <notifications@exymesplc.com>
-
       - name: Silent Sync
         run: |
           git config --global user.name "Exymes Bot"
