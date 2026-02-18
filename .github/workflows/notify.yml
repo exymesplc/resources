@@ -11,76 +11,81 @@ on:
       - 'docs/SDS/**'
       - 'docs/images/logo/**'
 
+workflow_dispatch:
+
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: messaging
   cancel-in-progress: true
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
-  send-notification:
+  notify-subscribers:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'SILENT')"
-    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
-      - name: Identify Changed Folders
-        id: folders
+      - name: Detect Changed Folders and Fetch Subscribers
+        id: prepare_data
         run: |
-          # Get unique folders under docs/, strip 'docs/', and format as HTML links
-          RAW_FOLDERS=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '^docs/' | cut -d/ -f2 | sort -u)
+          # 1. Identify which folders were modified in this push
+          CHANGED_PATHS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u)
           
-          HTML_LINKS=""
-          for folder in $RAW_FOLDERS; do
-            # This creates: - https://resources.exymesplc.com/folder
-            HTML_LINKS+="- <a href='https://resources.exymesplc.com/$folder'>https://resources.exymesplc.com/$folder</a><br>"
+          HTML_LIST="<ul>"
+          for folder in $CHANGED_PATHS; do
+            case $folder in
+              QSG) HTML_LIST="$HTML_LIST<li>Quick Start Guides</li>" ;;
+              handbook) HTML_LIST="$HTML_LIST<li>Handbooks</li>" ;;
+              apnote) HTML_LIST="$HTML_LIST<li>Application Notes</li>" ;;
+              SDS) HTML_LIST="$HTML_LIST<li>Safety Data Sheets</li>" ;;
+              brochures) HTML_LIST="$HTML_LIST<li>Brochures</li>" ;;
+              images) HTML_LIST="$HTML_LIST<li>Product Media & Assets</li>" ;;
+            esac
           done
+          HTML_LIST="$HTML_LIST</ul>"
+          echo "html_list=$HTML_LIST" >> $GITHUB_OUTPUT
+
+          # 2. Download live CSV from Google Sheets
+          curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwT-MeZk9CTqjtRv5_e0l36gRsdskoo-gtOftXffwkzFBwPrvt2ysO7fbPT1-dxk6QiLhDmZhyOFW/pub?output=csv" > raw_subs.csv
           
-          echo "list=$HTML_LINKS" >> $GITHUB_OUTPUT
+          # 3. Process Emails
+          emails=$(tail -n +2 raw_subs.csv | cut -d ',' -f 2 | tr -d '\r' | grep '@' | sort | uniq | tr '\n' ',' | sed 's/,$//')
+          tail -n +2 raw_subs.csv | cut -d ',' -f 2 | tr -d '\r' | grep '@' | sort | uniq > subscribers.txt
+          
+          echo "recipients=$emails" >> $GITHUB_OUTPUT
 
-      - name: Azure Login via OIDC
-        uses: azure/login@v2
+      - name: Send Notification Email
+        uses: dawidd6/action-send-mail@v3
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          allow-no-subscriptions: true
-          audience: api://AzureADTokenExchange
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          
+          subject: "Portal Update: New Documents Available"
+          # Enabling HTML content
+          html_body: |
+            <html>
+              <body style="font-family: sans-serif; color: #333;">
+                <p>Hello,</p>
+                <p>New documents or resources have been uploaded to the following sections of the portal:</p>
+                <div style="margin: 20px 0;">
+                  ${{ steps.prepare_data.outputs.html_list }}
+                </div>
+                <p>Please visit the <a href="https://resources.exymesplc.com">Exymes Resources Portal</a> to view or download the latest versions.</p>
+                <hr>
+                <p style="font-size: 11px; color: #777;">Sent by Exymes PLC Automated Notification System</p>
+              </body>
+            </html>
+          
+          to: ${{ steps.prepare_data.outputs.recipients }}
+          from: Exymes Resources <portal@exymesplc.com>
 
-      - name: Acquire Microsoft Graph Token
-        id: graph
+      - name: Silent Commit Subscriber List
         run: |
-          TOKEN=$(az account get-access-token --resource https://graph.microsoft.com --query accessToken -o tsv)
-          echo "token=$TOKEN" >> $GITHUB_OUTPUT
-
-      - name: Send Email using Microsoft Graph
-        env:
-          TOKEN: ${{ steps.graph.outputs.token }}
-          SENDER: ${{ secrets.MAIL_USERNAME }}
-          RECIPIENT: "simon@cynapse.co.uk" 
-          HTML_LIST: ${{ steps.folders.outputs.list }}
-        run: |
-          cat > mail.json <<EOF
-          {
-            "message": {
-              "subject": "Portal Update: New Documents Available",
-              "body": { 
-                "contentType": "HTML", 
-                "content": "Hello,<br><br>New documents or resources have been uploaded to the following sections of the portal:<br><br><strong>$HTML_LIST</strong><br><br>Please visit the links above to view or download the latest versions.<br><br>---<br>Sent by Exymes PLC Automated Notification System" 
-              },
-              "toRecipients": [
-                { "emailAddress": { "address": "$RECIPIENT" } }
-              ]
-            }
-          }
-          EOF
-          curl -i -X POST \
-            -H "Authorization: Bearer $TOKEN" \
-            -H "Content-Type: application/json" \
-            -d @mail.json \
-            "https://graph.microsoft.com/v1.0/users/$SENDER/sendMail"
+          git config --global user.name "Exymes Automation"
+          git config --global user.email "bot@exymesplc.com"
+          git add subscribers.txt
+          git commit -m "Automated sync: Updated subscribers.txt [skip ci]" || echo "No changes to commit"
+          git push
