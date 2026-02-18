@@ -78,7 +78,7 @@ jobs:
               </body>
             </html>
           to: ${{ steps.data.outputs.recipients }}
-          from: Exymes Resources <portal@exymesplc.com>
+          from: Exymes Resources <notifications@exymesplc.com>
 
       - name: Silent Sync
         run: |
