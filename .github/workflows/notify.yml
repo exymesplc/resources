@@ -49,7 +49,7 @@ jobs:
           # This pulls 'notifications@exymesplc.com' from your GitHub Secrets
           SENDER: ${{ secrets.MAIL_USERNAME }}
           # Change this to whoever should receive the alerts
-          RECIPIENT: "team@exymesplc.com" 
+          RECIPIENT: "simon@cynapse.co.uk" 
         run: |
           # 1. Create the Email JSON payload
           cat > mail.json <<EOF
