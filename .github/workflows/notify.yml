@@ -11,7 +11,7 @@ on:
       - 'docs/SDS/**'
       - 'docs/images/logo/**'
 
-workflow_dispatch:
+    workflow_dispatch:
 
 concurrency:
   group: messaging
