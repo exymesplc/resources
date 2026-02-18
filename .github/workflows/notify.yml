@@ -1,4 +1,4 @@
-name: Document Upload Notification
+name: Send Portal Update
 
 on:
   push:
@@ -12,13 +12,11 @@ on:
       - 'docs/images/logo/**'
   workflow_dispatch:
 
-concurrency:
-  group: messaging
-  cancel-in-progress: true
-
 jobs:
   notify:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Gives the bot permission to save the subscribers.txt
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,10 +26,10 @@ jobs:
       - name: Process Data
         id: data
         run: |
-          # 1. Detect Changes
+          # 1. Detect which folder inside 'docs/' changed
           BEFORE=${{ github.event.before }}
           if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            PATHS=$(git ls-tree -d --name-only HEAD docs/ | cut -d/ -f1 | sort -u)
+            PATHS=$(git ls-tree -d --name-only HEAD docs/ | cut -d/ -f2 | sort -u)
           else
             PATHS=$(git diff --name-only $BEFORE ${{ github.sha }} | grep '^docs/' | cut -d/ -f2 | sort -u)
           fi
@@ -50,21 +48,16 @@ jobs:
           LIST="$LIST</ul>"
           echo "html_list=$LIST" >> $GITHUB_OUTPUT
 
-          # 2. Get Subscribers (The most likely culprit)
-          # We download the CSV and try to find the email column automatically
+          # 2. Fetch Subscribers
           curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwT-MeZk9CTqjtRv5_e0l36gRsdskoo-gtOftXffwkzFBwPrvt2ysO7fbPT1-dxk6QiLhDmZhyOFW/pub?output=csv" > raw.csv
-          
-          # This command looks for anything with an '@' symbol in the file
           EMAILS=$(grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq | tr '\n' ',' | sed 's/,$//')
           
-          if [ -z "$EMAILS" ]; then
-            echo "ERROR: No email addresses found in the Google Sheet CSV!"
-            exit 1
-          fi
+          # Save to file for record keeping
+          grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq > subscribers.txt
           
           echo "recipients=$EMAILS" >> $GITHUB_OUTPUT
-          echo "Found these subscribers: $EMAILS"
-      - name: Send Email
+
+      - name: Send Email via Brevo
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp-relay.brevo.com
@@ -76,7 +69,7 @@ jobs:
             <html>
               <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                 <p>Hello,</p>
-                <p>New resources have been uploaded to the following sections of the portal:</p>
+                <p>New resources have been uploaded to the following sections of the <strong>Exymes Portal</strong>:</p>
                 ${{ steps.data.outputs.html_list }}
                 <p>Visit the portal here: <a href="https://resources.exymesplc.com">resources.exymesplc.com</a></p>
                 <hr>
@@ -84,12 +77,13 @@ jobs:
               </body>
             </html>
           to: ${{ steps.data.outputs.recipients }}
-          from: Exymes Resources <swickes@exymesplc.com>
+          from: Exymes Resources <notifications@exymesplc.com>
 
       - name: Silent Sync
         run: |
           git config --global user.name "Exymes Bot"
           git config --global user.email "bot@exymesplc.com"
           git add subscribers.txt
-          git commit -m "Sync subscribers [skip ci]" || exit 0
-          git push
+          # The '|| true' prevents the error 128 if there's nothing new to commit
+          git commit -m "Sync subscribers [skip ci]" || true
+          git push || true
