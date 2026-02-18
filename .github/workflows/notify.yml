@@ -19,6 +19,8 @@ permissions:
 jobs:
   send-notification:
     runs-on: ubuntu-latest
+    # This line prevents the email if the commit message contains the word "SILENT"
+    if: "!contains(github.event.head_commit.message, 'SILENT')"
 
     steps:
       - name: Checkout Repository
@@ -58,7 +60,7 @@ jobs:
               "subject": "Exymes Resources: New Files Available",
               "body": { 
                 "contentType": "HTML", 
-                "content": "Hi,<br><br>New documents or product images have been uploaded to the portal.<br><br>View the latest updates here:<br><strong>https://resources.exymesplc.com</strong><br><br>---<br>This is an automated notification from the Exymes PLC Document Portal." 
+                "content": "Hi,<br><br>New documents or product images have been uploaded to the portal.<br><br>View the latest updates here:<br><strong>View Folder:</strong> https://github.com/YOUR_ORG/YOUR_REPO/tree/main/docs/QSG/<br><strong>View Change Log:</strong> ${{ github.event.compare }}<br><br><br>This is an automated notification."
               },
               "toRecipients": [
                 { "emailAddress": { "address": "$RECIPIENT" } }
