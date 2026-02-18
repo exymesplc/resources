@@ -9,6 +9,7 @@ on:
       - 'docs/handbook/**'
       - 'docs/apnote/**'
       - 'docs/SDS/**'
+      
   workflow_dispatch:
 
 jobs:
