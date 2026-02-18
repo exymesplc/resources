@@ -1,0 +1,58 @@
+name: Send Portal Update
+
+on:
+  push:
+    branches:
+      - main
+    # Only triggers when you update resource files
+    paths:
+      - 'resources/**' 
+  workflow_dispatch: # Allows you to send a manual update anytime
+
+jobs:
+  notify-subscribers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fetch and Clean Mailing List
+        id: prepare_list
+        run: |
+          # 1. Download the live CSV from your Google Sheet link
+          curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwT-MeZk9CTqjtRv5_e0l36gRsdskoo-gtOftXffwkzFBwPrvt2ysO7fbPT1-dxk6QiLhDmZhyOFW/pub?output=csv" > raw_subs.csv
+          
+          # 2. Process the CSV:
+          # tail -n +2: Skips the "Timestamp, Email" header row
+          # cut -d ',' -f 2: Grabs only the second column (Emails)
+          # tr -d '\r': Removes Windows-style line breaks
+          # grep '@': Ensures only rows with valid emails are kept
+          # sort | uniq: Removes any duplicate sign-ups
+          emails=$(tail -n +2 raw_subs.csv | cut -d ',' -f 2 | tr -d '\r' | grep '@' | sort | uniq | tr '\n' ',' | sed 's/,$//')
+          
+          # 3. Save the string to the GitHub output
+          echo "recipients=$emails" >> $GITHUB_OUTPUT
+          echo "Found subscribers: $emails"
+
+      - name: Send Notification Email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # SMTP Settings (ensure these are in your Repo Secrets)
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          
+          subject: "Exymes PLC: New Resources Available"
+          body: |
+            Hello,
+
+            New documents and technical resources have been uploaded to the Exymes Resources Portal. 
+            You can access them here: https://resources.exymesplc.com
+
+            Regards,
+            Exymes IT Team
+          
+          # This pulls the dynamic list from the step above
+          to: ${{ steps.prepare_list.outputs.recipients }}
+          from: Exymes Resources <portal@exymesplc.com>
