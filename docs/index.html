@@ -323,11 +323,12 @@ document.getElementById('notifyForm').addEventListener('submit', function(e) {
     btn.innerText = "Sending...";
     btn.disabled = true;
 
-    // REPLACE THE URL BELOW with your Power Automate HTTP URL
-    fetch('PASTE_YOUR_POWER_AUTOMATE_URL_HERE', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
+   
+fetch('https://formspree.io/f/xojnlwjo', {
+    method: 'POST',
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+})
     })
     .then(response => {
         if(response.ok) {
