@@ -11,12 +11,10 @@ on:
       - 'docs/SDS/**'
       - 'docs/images/logo/**'
 
-# Prevents multiple emails if you push twice quickly
 concurrency:
-  group: notification-logic
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# Essential for OIDC (Secretless) authentication
 permissions:
   id-token: write
   contents: read
@@ -24,58 +22,63 @@ permissions:
 jobs:
   send-notification:
     runs-on: ubuntu-latest
-    # This line prevents the email if the commit message contains the word "SILENT"
     if: "!contains(github.event.head_commit.message, 'SILENT')"
-
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Identify Changed Folders
+        id: folders
+        run: |
+          # Get unique folders under docs/, strip 'docs/', and format as HTML links
+          RAW_FOLDERS=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '^docs/' | cut -d/ -f2 | sort -u)
+          
+          HTML_LINKS=""
+          for folder in $RAW_FOLDERS; do
+            # This creates: - https://resources.exymesplc.com/folder
+            HTML_LINKS+="- <a href='https://resources.exymesplc.com/$folder'>https://resources.exymesplc.com/$folder</a><br>"
+          done
+          
+          echo "list=$HTML_LINKS" >> $GITHUB_OUTPUT
 
       - name: Azure Login via OIDC
-        id: login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          # M365 accounts often don't have an Azure Billing Subscription
           allow-no-subscriptions: true
           audience: api://AzureADTokenExchange
 
       - name: Acquire Microsoft Graph Token
         id: graph
         run: |
-          # Request a short-lived token specifically for Microsoft Graph
-          TOKEN=$(az account get-access-token \
-            --resource https://graph.microsoft.com \
-            --query accessToken -o tsv)
+          TOKEN=$(az account get-access-token --resource https://graph.microsoft.com --query accessToken -o tsv)
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
-      - name: Send Email via Microsoft Graph API
+      - name: Send Email using Microsoft Graph
         env:
           TOKEN: ${{ steps.graph.outputs.token }}
-          # This pulls 'notifications@exymesplc.com' from your GitHub Secrets
           SENDER: ${{ secrets.MAIL_USERNAME }}
-          # Change this to whoever should receive the alerts
-          RECIPIENT: "simon@cynapse.co.uk" 
+          RECIPIENT: "team@exymesplc.com" 
+          HTML_LIST: ${{ steps.folders.outputs.list }}
         run: |
-          # 1. Create the Email JSON payload
           cat > mail.json <<EOF
           {
             "message": {
-              "subject": "Exymes Resources: New Files Available",
+              "subject": "Portal Update: New Documents Available",
               "body": { 
                 "contentType": "HTML", 
-                "content": "Hi,<br><br>New documents or product images have been uploaded to the portal.<br><br>View the latest updates here:<br><strong>View Folder:</strong> https://github.com/YOUR_ORG/YOUR_REPO/tree/main/docs/QSG/<br><strong>View Change Log:</strong> ${{ github.event.compare }}<br><br><br>This is an automated notification."
+                "content": "Hello,<br><br>New documents or resources have been uploaded to the following sections of the portal:<br><br><strong>$HTML_LIST</strong><br><br>Please visit the links above to view or download the latest versions.<br><br>---<br>Sent by Exymes PLC Automated Notification System" 
               },
               "toRecipients": [
                 { "emailAddress": { "address": "$RECIPIENT" } }
               ]
-            },
-            "saveToSentItems": false
+            }
           }
           EOF
-
-          # 2. Call the Graph API to send the mail
           curl -i -X POST \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
