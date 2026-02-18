@@ -62,7 +62,7 @@ jobs:
         env:
           TOKEN: ${{ steps.graph.outputs.token }}
           SENDER: ${{ secrets.MAIL_USERNAME }}
-          RECIPIENT: "team@exymesplc.com" 
+          RECIPIENT: "simon@cynapse.co.uk" 
           HTML_LIST: ${{ steps.folders.outputs.list }}
         run: |
           cat > mail.json <<EOF
