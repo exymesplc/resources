@@ -11,6 +11,11 @@ on:
       - 'docs/SDS/**'
       - 'docs/images/logo/**'
 
+# Prevents multiple emails if you push twice quickly
+concurrency:
+  group: notification-logic
+  cancel-in-progress: true
+
 # Essential for OIDC (Secretless) authentication
 permissions:
   id-token: write
