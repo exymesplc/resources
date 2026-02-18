@@ -9,14 +9,13 @@ on:
       - 'docs/handbook/**'
       - 'docs/apnote/**'
       - 'docs/SDS/**'
-      - 'docs/images/logo/**'
   workflow_dispatch:
 
 jobs:
   notify:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Gives the bot permission to save the subscribers.txt
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,7 +25,7 @@ jobs:
       - name: Process Data
         id: data
         run: |
-          # 1. Detect which folder inside 'docs/' changed
+          # 1. Detect folders modified inside 'docs/'
           BEFORE=${{ github.event.before }}
           if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
             PATHS=$(git ls-tree -d --name-only HEAD docs/ | cut -d/ -f2 | sort -u)
@@ -34,27 +33,30 @@ jobs:
             PATHS=$(git diff --name-only $BEFORE ${{ github.sha }} | grep '^docs/' | cut -d/ -f2 | sort -u)
           fi
           
-          LIST="<ul>"
+          # 2. Build HTML list with direct links
+          BASE_URL="https://resources.exymesplc.com"
+          LIST="<ul style='list-style: none; padding: 0;'>"
+          
           for folder in $PATHS; do
             case $folder in
-              QSG) LIST="$LIST<li>Quick Start Guides</li>" ;;
-              handbook) LIST="$LIST<li>Handbooks</li>" ;;
-              apnote) LIST="$LIST<li>Application Notes</li>" ;;
-              SDS) LIST="$LIST<li>Safety Data Sheets</li>" ;;
-              brochures) LIST="$LIST<li>Brochures</li>" ;;
-              images) LIST="$LIST<li>Product Media & Assets</li>" ;;
+              QSG) NAME="Quick Start Guides" ;;
+              handbook) NAME="Handbooks" ;;
+              apnote) NAME="Application Notes" ;;
+              SDS) NAME="Safety Data Sheets" ;;
+              brochures) NAME="Brochures" ;;
+              images) NAME="Product Media & Assets" ;;
+              *) NAME="$folder" ;;
             esac
+            # We link to the folder on the website (removing 'docs/' from the URL)
+            LIST="$LIST<li style='margin-bottom: 12px;'>📂 <a href='$BASE_URL/$folder/' style='color: #004a99; font-weight: bold; text-decoration: underline;'>$NAME</a></li>"
           done
           LIST="$LIST</ul>"
           echo "html_list=$LIST" >> $GITHUB_OUTPUT
 
-          # 2. Fetch Subscribers
+          # 3. Fetch Subscribers from Google Sheet
           curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwT-MeZk9CTqjtRv5_e0l36gRsdskoo-gtOftXffwkzFBwPrvt2ysO7fbPT1-dxk6QiLhDmZhyOFW/pub?output=csv" > raw.csv
           EMAILS=$(grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq | tr '\n' ',' | sed 's/,$//')
-          
-          # Save to file for record keeping
           grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq > subscribers.txt
-          
           echo "recipients=$EMAILS" >> $GITHUB_OUTPUT
 
       - name: Send Email via Brevo
@@ -64,16 +66,32 @@ jobs:
           server_port: 587
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Portal Update: New Documents Available"
+          subject: "Exymes Portal Update: New Documents Available"
           html_body: |
             <html>
-              <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+              <body style="font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eeeeee; border-top: 4px solid #004a99;">
+                <div style="text-align: center; margin-bottom: 25px;">
+                  <img src="https://resources.exymesplc.com/docs/images/logo/logo.png" alt="Exymes PLC" style="max-width: 180px; height: auto;">
+                </div>
+                
+                <h2 style="color: #004a99; border-bottom: 1px solid #eee; padding-bottom: 10px;">New Portal Updates</h2>
                 <p>Hello,</p>
-                <p>New resources have been uploaded to the following sections of the <strong>Exymes Portal</strong>:</p>
-                ${{ steps.data.outputs.html_list }}
-                <p>Visit the portal here: <a href="https://resources.exymesplc.com">resources.exymesplc.com</a></p>
-                <hr>
-                <footer style="font-size: 12px; color: #888;">Exymes PLC Automated Notification System</footer>
+                <p>New technical resources have been uploaded to the <strong>Exymes Resources Portal</strong>. You can view the new files in the following sections:</p>
+                
+                <div style="background: #f4f7f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                  ${{ steps.data.outputs.html_list }}
+                </div>
+                
+                <p>To view the complete library, please visit <a href="https://resources.exymesplc.com" style="color: #004a99;">resources.exymesplc.com</a>.</p>
+                
+                <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 40px 0 20px 0;">
+                
+                <footer style="font-size: 11px; color: #999999; text-align: center;">
+                  <p>© 2026 Exymes PLC. This is an automated notification.</p>
+                  <p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSz-D2FMDJpUrUJ3U0TOvqVsv4tFQ4OSK7NBFmhd3Vk1GYnA/viewform?usp=sharing" style="color: #999999; text-decoration: underline;">Unsubscribe or Manage Subscription</a>
+                  </p>
+                </footer>
               </body>
             </html>
           to: ${{ steps.data.outputs.recipients }}
@@ -84,6 +102,5 @@ jobs:
           git config --global user.name "Exymes Bot"
           git config --global user.email "bot@exymesplc.com"
           git add subscribers.txt
-          # The '|| true' prevents the error 128 if there's nothing new to commit
           git commit -m "Sync subscribers [skip ci]" || true
           git push || true
