@@ -28,16 +28,14 @@ jobs:
       - name: Process Data
         id: data
         run: |
-          # 1. Detect Changes (Looking at the folder inside 'docs/')
+          # 1. Detect Changes
           BEFORE=${{ github.event.before }}
           if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            PATHS=$(git ls-tree -d --name-only HEAD docs/ | cut -d/ -f2 | sort -u)
+            PATHS=$(git ls-tree -d --name-only HEAD docs/ | cut -d/ -f1 | sort -u)
           else
-            # This looks at the 2nd part of the path (docs/FOLDER/file)
-            PATHS=$(git diff --name-only $BEFORE ${{ github.sha }} | grep 'docs/' | cut -d/ -f2 | sort -u)
+            PATHS=$(git diff --name-only $BEFORE ${{ github.sha }} | grep '^docs/' | cut -d/ -f2 | sort -u)
           fi
           
-          # 2. Build HTML List
           LIST="<ul>"
           for folder in $PATHS; do
             case $folder in
@@ -52,12 +50,20 @@ jobs:
           LIST="$LIST</ul>"
           echo "html_list=$LIST" >> $GITHUB_OUTPUT
 
-          # 3. Get Subscribers from Google Sheets
+          # 2. Get Subscribers (The most likely culprit)
+          # We download the CSV and try to find the email column automatically
           curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwT-MeZk9CTqjtRv5_e0l36gRsdskoo-gtOftXffwkzFBwPrvt2ysO7fbPT1-dxk6QiLhDmZhyOFW/pub?output=csv" > raw.csv
-          EMAILS=$(tail -n +2 raw.csv | cut -d ',' -f 2 | tr -d '\r' | grep '@' | sort | uniq | tr '\n' ',' | sed 's/,$//')
-          tail -n +2 raw.csv | cut -d ',' -f 2 | tr -d '\r' | grep '@' | sort | uniq > subscribers.txt
+          
+          # This command looks for anything with an '@' symbol in the file
+          EMAILS=$(grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq | tr '\n' ',' | sed 's/,$//')
+          
+          if [ -z "$EMAILS" ]; then
+            echo "ERROR: No email addresses found in the Google Sheet CSV!"
+            exit 1
+          fi
+          
           echo "recipients=$EMAILS" >> $GITHUB_OUTPUT
-
+          echo "Found these subscribers: $EMAILS"
       - name: Send Email
         uses: dawidd6/action-send-mail@v3
         with:
