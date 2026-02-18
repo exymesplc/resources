@@ -59,28 +59,18 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
-          server_port: 587 # Changed to 587
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }} # Use the 16-char code here
+          server_port: 587
+          # AUTHENTICATE as your personal account
+          username: ${{ secrets.YOUR_PERSONAL_EMAIL_SECRET }} 
+          password: ${{ secrets.YOUR_APP_PASSWORD_SECRET }}
           
           subject: "Portal Update: New Documents Available"
-          # Enabling HTML content
           html_body: |
-            <html>
-              <body style="font-family: sans-serif; color: #333;">
-                <p>Hello,</p>
-                <p>New documents or resources have been uploaded to the following sections of the portal:</p>
-                <div style="margin: 20px 0;">
-                  ${{ steps.prepare_data.outputs.html_list }}
-                </div>
-                <p>Please visit the <a href="https://resources.exymesplc.com">Exymes Resources Portal</a> to view or download the latest versions.</p>
-                <hr>
-                <p style="font-size: 11px; color: #777;">Sent by Exymes PLC Automated Notification System</p>
-              </body>
-            </html>
+             # ... (your HTML content) ...
           
           to: ${{ steps.prepare_data.outputs.recipients }}
-          from: Exymes Resources <portal@exymesplc.com>
+          # SEND AS the shared mailbox
+          from: Exymes Resources <notifications@exymesplc.com>
 
       - name: Silent Commit Subscriber List
         run: |
