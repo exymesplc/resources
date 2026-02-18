@@ -1,4 +1,4 @@
-name: File Upload Notification
+name: Document Upload Notification
 
 on:
   push:
@@ -7,30 +7,63 @@ on:
       - 'docs/brochures/**'
       - 'docs/images/products/**'
       - 'docs/handbook/**'
-      - 'docs/images/logo/**'
-      - 'docs/SDS/**'
       - 'docs/apnote/**'
+      - 'docs/SDS/**'
+      - 'docs/images/logo/**'
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  notify:
+  send-mail:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Send Email Notification
-        uses: dawidd6/action-send-mail@v3
+      - name: Azure Login via OIDC
+        uses: azure/login@v2
         with:
-          # This connects to a free email account (Gmail works well)
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "New Document Uploaded: ${{ github.event.repository.name }}"
-          to: "recipient@example.com"
-          from: "GitHub Document Portal"
-          body: |
-            A new file has been uploaded to the Exymes GitHub repository!
-            
-            Folder: ${{ github.event.commits[0].modified }}
-            See changes here: ${{ github.event.compare }}
+          client-id: ${{ faf0a604-bf17-407e-a40a-ba5a466902a5 }}
+          tenant-id: ${{ bb1fe9a5-7f5f-4064-b84d-dea6562e435e }}
+          allow-no-subscriptions: true
+          audience: api://AzureADTokenExchange
+
+      - name: Acquire Graph Token
+        id: graph
+        run: |
+          TOKEN=$(az account get-access-token \
+            --resource https://graph.microsoft.com \
+            --query accessToken -o tsv)
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Send Email using Microsoft Graph
+        env:
+          TOKEN: ${{ steps.graph.outputs.token }}
+          SENDER: ${{ secrets.MAIL_USERNAME }}
+          RECIPIENT: "notifications@exymesplc.com" # CHANGE THIS to your email
+        run: |
+          # Create the JSON payload for the Graph API
+          cat > mail.json <<EOF
+          {
+            "message": {
+              "subject": "Portal Update: New Files Available",
+              "body": { 
+                "contentType": "HTML", 
+                "content": "Hello,<br><br>New documents or images have been uploaded to the portal.<br><br>View the latest updates here:<br><strong>https://your-github-username.github.io/your-repo-name/</strong><br><br>---<br>This is an automated notification." 
+              },
+              "toRecipients": [
+                { "emailAddress": { "address": "$RECIPIENT" } }
+              ]
+            },
+            "saveToSentItems": false
+          }
+          EOF
+
+          # Send via Microsoft Graph API
+          curl -i -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @mail.json \
+            "https://graph.microsoft.com/v1.0/users/$SENDER/sendMail"
