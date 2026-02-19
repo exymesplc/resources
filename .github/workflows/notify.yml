@@ -15,7 +15,7 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,11 +52,17 @@ jobs:
           LIST="$LIST</ul>"
           echo "html_list=$LIST" >> $GITHUB_OUTPUT
 
-          # 3. Fetch Subscribers from Google Sheet
-          curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhwT-MeZk9CTqjtRv5_e0l36gRsdskoo-gtOftXffwkzFBwPrvt2ysO7fbPT1-dxk6QiLhDmZhyOFW/pub?output=csv" > raw.csv
-          EMAILS=$(grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq | tr '\n' ',' | sed 's/,$//')
-          grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' raw.csv | sort | uniq > subscribers.txt
+          # 3. Fetch Subscribers Securely via Secret URL
+          curl -L "${{ secrets.SUBSCRIBER_URL }}" > temp_raw.csv
+          EMAILS=$(grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' temp_raw.csv | sort | uniq | tr '\n' ',' | sed 's/,$//')
+          
+          if [ -z "$EMAILS" ]; then
+            echo "No recipients found. Ending workflow."
+            exit 0
+          fi
+          
           echo "recipients=$EMAILS" >> $GITHUB_OUTPUT
+          rm temp_raw.csv
 
       - name: Send Email via Brevo
         uses: dawidd6/action-send-mail@v3
@@ -78,31 +84,28 @@ jobs:
               </head>
               <body style="font-family: 'Geist Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eeeeee; border-top: 4px solid #004a99;">
                 <div style="text-align: center; margin-bottom: 25px;">
-                  <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo.png" alt="Exymes Ltd" style="max-width: 180px; height: auto;">
+                  <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo.png" alt="Exymes PLC" style="max-width: 180px; height: auto;">
                 </div>
+                
                 <h2 style="color: #004a99; border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: 600;">New Portal Updates</h2>
                 <p>Hello,</p>
                 <p>New resources have been uploaded to the <strong>Exymes Resources Portal</strong>. You can view the new files in the following sections:</p>
+                
                 <div style="background: #f4f7f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
                   ${{ steps.data.outputs.html_list }}
                 </div>
+                
                 <p>To view the complete library, please visit <a href="https://resources.exymesplc.com" style="color: #004a99; text-decoration: none; font-weight: 600;">resources.exymesplc.com</a>.</p>
+                
                 <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 40px 0 20px 0;">
+                
                 <footer style="font-size: 11px; color: #999999; text-align: center;">
-                  <p>© 2026 Exymes Ltd. This is an automated notification that you have subscribed to.</p>
+                  <p>© 2026 Exymes PLC. This is an automated notification that you have subscribed to.</p>
                   <p>
-                    <a href="mailto:notifications@exymesplc.com?subject=Unsubscribe Request" style="color: #999999; text-decoration: underline;">Unsubscribe from these alerts</a>
+                    <a href="{{ unsubscribe }}" style="color: #999999; text-decoration: underline;">Unsubscribe from these alerts</a>
                   </p>
                 </footer>
               </body>
             </html>
           to: ${{ steps.data.outputs.recipients }}
           from: Exymes Resources <notifications@exymesplc.com>
-
-      - name: Silent Sync
-        run: |
-          git config --global user.name "Exymes Bot"
-          git config --global user.email "bot@exymesplc.com"
-          git add subscribers.txt
-          git commit -m "Sync subscribers [skip ci]" || true
-          git push || true
