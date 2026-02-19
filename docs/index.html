@@ -37,13 +37,14 @@ layout: default
         h1 { font-size: 32pt; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; margin: 0; background: linear-gradient(to bottom, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         header p { font-size: 18px; color: var(--text-gray); margin-top: 12px; font-weight: 300; }
 
-        /* FIXED 2-COLUMN GRID */
+        /* UNIFORM 2-COLUMN GRID */
         .grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             gap: 16px; 
             width: 100%; 
             max-width: 800px; 
+            align-items: stretch; /* Forces tiles to match height in each row */
         }
 
         .card { 
@@ -60,7 +61,8 @@ layout: default
             overflow: hidden; 
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            height: 100%; /* Ensures they fill the grid cell height */
+            box-sizing: border-box;
         }
 
         /* 4-Corner Dots */
@@ -91,6 +93,7 @@ layout: default
             text-align: center;
             position: relative;
             margin-bottom: 20px;
+            box-sizing: border-box;
         }
         .form-card h3 { font-size: 18px; margin: 0 0 8px 0; }
         .form-card p { font-size: 14px; color: var(--text-gray); margin-bottom: 20px; }
@@ -140,7 +143,7 @@ layout: default
         <a href="/brochures/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Brochures</h3><p>Marketing brochures for products.</p></a>
         <a href="/images/products/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Product Media</h3><p>Photography of products.</p></a>
         <a href="/images/logo/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Brand Assets</h3><p>Official logos and brand marks.</p></a>
-        </div>
+    </div>
 
     <div class="footer-action">
         <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="btn">Download All Documents (.zip)</a>
