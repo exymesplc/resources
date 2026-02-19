@@ -108,4 +108,4 @@ jobs:
               </body>
             </html>
           to: ${{ steps.data.outputs.recipients }}
-          from: Exymes Resources <notifications@exymesplc.com>
+          from: Exymes Portal <notifications@exymesplc.com>
