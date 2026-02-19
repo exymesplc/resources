@@ -14,7 +14,6 @@ layout: default
             --glass: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.12);
             --text-gray: #a1a1a1;
-            --footer-bg: #000;
         }
 
         body {
@@ -30,7 +29,6 @@ layout: default
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Existing Styles ... (Keep your nav-header, wrapper, h1, grid, and card styles exactly as they were) */
         .nav-header { position: absolute; top: 40px; left: 40px; z-index: 100; }
         .logo { height: 32px; width: auto; transition: opacity 0.2s; }
         .wrapper { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px 80px 20px; box-sizing: border-box; }
@@ -41,90 +39,35 @@ layout: default
         .card, .form-card { background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); padding: 32px; border-radius: 12px; text-decoration: none; color: #fff; transition: all 0.3s ease; position: relative; overflow: hidden; }
         .card:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-4px); }
         
-        /* Subscription form styling inside wrapper */
         .form-card { margin: 40px 0; width: 100%; max-width: 500px; text-align: center; }
         .input-group { display: flex; gap: 10px; }
         input[type="email"] { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 8px; color: #fff; outline: none; }
         .btn-submit { background: #fff; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-        /* REPLICATED FOOTER STYLES */
+        .dev-section { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--glass-border); text-align: center; width: 100%; max-width: 500px; }
+        .dev-tag { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; display: block; }
+        .link-secondary { color: #fff; text-decoration: none; font-size: 14px; opacity: 0.6; transition: opacity 0.2s; }
+        .link-secondary:hover { opacity: 1; }
+
+        /* SITE FOOTER STYLES */
         .site-footer {
             width: 100%;
-            background: var(--footer-bg);
+            background: #000;
             padding: 80px 40px 40px 40px;
             border-top: 1px solid var(--glass-border);
             box-sizing: border-box;
-            margin-top: auto;
         }
-
-        .footer-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-        }
-
-        .footer-column h4 {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-gray);
-            margin-bottom: 24px;
-        }
-
-        .footer-column ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 12px;
-        }
-
-        .footer-column a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-column h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-gray); margin-bottom: 24px; }
+        .footer-column ul { list-style: none; padding: 0; margin: 0; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column a { color: #fff; text-decoration: none; font-size: 14px; opacity: 0.7; transition: opacity 0.2s; }
         .footer-column a:hover { opacity: 1; }
-
-        .footer-address {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #fff;
-            opacity: 0.7;
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 60px auto 0 auto;
-            padding-top: 24px;
-            border-top: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: var(--text-gray);
-        }
-
-        .dev-tag-small {
-            font-size: 10px;
-            background: var(--glass-border);
-            padding: 2px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-gray);
-        }
+        .footer-address { font-size: 14px; line-height: 1.6; color: #fff; opacity: 0.7; }
+        .footer-bottom { max-width: 1200px; margin: 60px auto 0 auto; padding-top: 24px; border-top: 1px solid var(--glass-border); text-align: center; font-size: 12px; color: var(--text-gray); }
 
         @media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
             .input-group { flex-direction: column; }
         }
     </style>
@@ -144,30 +87,12 @@ layout: default
     </header>
 
     <div class="grid">
-        <a href="/QSG/" class="card">
-            <h3>Quick Start Guides</h3>
-            <p>Access to QSGs for Exymes products.</p>
-        </a>
-        <a href="/handbook/" class="card">
-            <h3>Handbooks</h3>
-            <p>Reference documentation for enzymatic extraction protocols.</p>
-        </a>
-        <a href="/apnote/" class="card">
-            <h3>Application Notes</h3>
-            <p>Specific applications of the Exymes products.</p>
-        </a>
-        <a href="/SDS/" class="card">
-            <h3>Safety Data Sheets</h3>
-            <p>SDS for Exymes products.</p>
-        </a>
-        <a href="/brochures/" class="card">
-            <h3>Brochures</h3>
-            <p>Marketing brochures for products.</p>
-        </a>
-        <a href="/images/products/" class="card">
-            <h3>Product Media</h3>
-            <p>Photography of products.</p>
-        </a>
+        <a href="/QSG/" class="card"><h3>Quick Start Guides</h3><p>Access to QSGs for Exymes products.</p></a>
+        <a href="/handbook/" class="card"><h3>Handbooks</h3><p>Reference documentation for enzymatic extraction protocols.</p></a>
+        <a href="/apnote/" class="card"><h3>Application Notes</h3><p>Specific applications of the Exymes products.</p></a>
+        <a href="/SDS/" class="card"><h3>Safety Data Sheets</h3><p>SDS for Exymes products.</p></a>
+        <a href="/brochures/" class="card"><h3>Brochures</h3><p>Marketing brochures for products.</p></a>
+        <a href="/images/products/" class="card"><h3>Product Media</h3><p>Photography of products.</p></a>
     </div>
 
     <div class="form-card">
@@ -179,9 +104,12 @@ layout: default
                 <button type="submit" id="submitBtn" class="btn-submit">Subscribe</button>
             </div>
         </form>
-        <div id="formMessage" style="margin-top: 15px; display: none; font-weight: 500; color: #4ade80;">
-            ✓ Successfully subscribed.
-        </div>
+        <div id="formMessage" style="margin-top: 15px; display: none; font-weight: 500; color: #4ade80;">✓ Successfully subscribed.</div>
+    </div>
+
+    <div class="dev-section">
+        <span class="dev-tag">For Developers Only</span>
+        <a href="https://github.com/exymesplc/resources" class="link-secondary">View Master Repository →</a>
     </div>
 </div>
 
@@ -189,10 +117,7 @@ layout: default
     <div class="footer-grid">
         <div class="footer-column">
             <h4>Address</h4>
-            <p class="footer-address">
-                Alum House, Alum Chine Road,<br>
-                Westbourne, BH4 8DT, UK
-            </p>
+            <p class="footer-address">Alum House, Alum Chine Road,<br>Westbourne, BH4 8DT, UK</p>
         </div>
         <div class="footer-column">
             <h4>Menu</h4>
@@ -218,17 +143,10 @@ layout: default
             </ul>
         </div>
     </div>
-    
-    <div class="footer-bottom">
-        <div>©2026 Exymes PLC. All Rights Reserved</div>
-        <div>
-            <a href="https://github.com/exymesplc/resources" class="dev-tag-small">Source Code</a>
-        </div>
-    </div>
+    <div class="footer-bottom">©2026 Exymes Ltd. All Rights Reserved</div>
 </footer>
 
 <script>
-/* (Keep the same notifyForm script from our previous step) */
 document.getElementById('notifyForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('userEmail').value;
@@ -268,6 +186,5 @@ document.getElementById('notifyForm').addEventListener('submit', function(e) {
     }, 1000);
 });
 </script>
-
 </body>
 </html>
