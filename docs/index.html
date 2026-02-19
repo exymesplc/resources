@@ -37,13 +37,13 @@ layout: default
         h1 { font-size: 32pt; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; margin: 0; background: linear-gradient(to bottom, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         header p { font-size: 18px; color: var(--text-gray); margin-top: 12px; font-weight: 300; }
 
-        /* FORCED 2-COLUMN GRID */
+        /* THE 2x4 GRID */
         .grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             gap: 16px; 
             width: 100%; 
-            max-width: 800px; /* Narrower to keep 2-columns looking tight */
+            max-width: 800px; 
         }
 
         .card, .form-card { 
@@ -60,10 +60,9 @@ layout: default
             overflow: hidden; 
             display: flex;
             flex-direction: column;
-            justify-content: center;
         }
 
-        /* 4-Corner Dots Logic */
+        /* 4-Corner Dots */
         .card::before, .form-card::before { content: ''; position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; top: 12px; left: 12px; }
         .card::after, .form-card::after { content: ''; position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; top: 12px; right: 12px; }
         .card-dot-bl, .card-dot-br { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; bottom: 12px; }
@@ -74,17 +73,22 @@ layout: default
         .card h3, .form-card h3 { font-size: 19px; margin: 0 0 8px 0; font-weight: 600; letter-spacing: -0.01em; }
         .card p, .form-card p { font-size: 14px; color: var(--text-gray); margin: 0; line-height: 1.5; }
 
-        /* Portal Update (Form Card) - Takes up 2 columns or flows in grid */
-        .form-card { grid-column: span 2; text-align: center; margin-top: 16px; }
-        .input-group { display: flex; gap: 10px; margin-top: 20px; }
-        input[type="email"] { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 8px; color: #fff; outline: none; }
-        .btn-submit { background: #fff; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        /* Portal Update Tile Styles */
+        .form-card { text-align: left; }
+        .input-group { display: flex; gap: 8px; margin-top: 15px; }
+        input[type="email"] { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 10px; border-radius: 6px; color: #fff; outline: none; font-size: 13px; }
+        .btn-submit { background: #fff; color: #000; border: none; padding: 10px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; }
+
+        /* Restored Footer/Download Button */
+        .footer-action { margin-top: 40px; text-align: center; }
+        .btn { display: inline-block; background: #fff; color: #000; padding: 12px 28px; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 14px; transition: all 0.2s; border: 1px solid #fff; }
+        .btn:hover { background: #ccc; border-color: #ccc; }
 
         .dev-section { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--glass-border); text-align: center; width: 100%; max-width: 500px; }
         .dev-tag { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; display: block; }
         .link-secondary { color: #fff; text-decoration: none; font-size: 14px; opacity: 0.6; transition: opacity 0.2s; }
 
-        /* Site Footer */
+        /* Main Site Footer */
         .site-footer { width: 100%; background: #000; padding: 80px 40px 40px 40px; border-top: 1px solid var(--glass-border); box-sizing: border-box; }
         .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
         .footer-column h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-gray); margin-bottom: 24px; }
@@ -94,9 +98,8 @@ layout: default
         .footer-address { font-size: 14px; line-height: 1.6; color: #fff; opacity: 0.7; }
         .footer-bottom { max-width: 1200px; margin: 60px auto 0 auto; padding-top: 24px; border-top: 1px solid var(--glass-border); text-align: center; font-size: 12px; color: var(--text-gray); }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             .grid { grid-template-columns: 1fr; }
-            .form-card { grid-column: span 1; }
             .footer-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -123,20 +126,23 @@ layout: default
         <a href="/brochures/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Brochures</h3><p>Product marketing.</p></a>
         <a href="/images/products/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Product Media</h3><p>Photography assets.</p></a>
         <a href="/images/logo/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Brand Assets</h3><p>Official logos.</p></a>
-        <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Download All</h3><p>Get everything (.zip)</p></a>
-
+        
         <div class="form-card">
             <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Portal Updates</h3>
-            <p>Receive email notifications for new document uploads.</p>
+            <p>Email alerts for new uploads.</p>
             <form id="notifyForm">
                 <div class="input-group">
                     <input type="email" id="userEmail" placeholder="work email" required>
-                    <button type="submit" id="submitBtn" class="btn-submit">Subscribe</button>
+                    <button type="submit" id="submitBtn" class="btn-submit">Join</button>
                 </div>
             </form>
-            <div id="formMessage" style="margin-top: 15px; display: none; font-weight: 500; color: #4ade80;">✓ Successfully subscribed.</div>
+            <div id="formMessage" style="margin-top: 10px; display: none; font-size: 12px; color: #4ade80;">✓ Subscribed.</div>
         </div>
+    </div>
+
+    <div class="footer-action">
+        <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="btn">Download All Documents (.zip)</a>
     </div>
 
     <div class="dev-section">
@@ -189,7 +195,7 @@ document.getElementById('notifyForm').addEventListener('submit', function(e) {
     const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeSz-D2FMDJpUrUJ3U0TOvqVsv4tFQ4OSK7NBFmhd3Vk1GYnA/formResponse";
     const ENTRY_ID = "entry.1344264631"; 
 
-    btn.innerText = "Connecting...";
+    btn.innerText = "...";
     btn.disabled = true;
 
     const iframe = document.createElement('iframe');
