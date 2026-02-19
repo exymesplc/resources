@@ -313,30 +313,41 @@ layout: default
     </div>
 </div>
 
-<form id="notifyForm">
-    <div class="input-group">
-        <input type="email" id="userEmail" placeholder="work email" required>
-        <button type="submit" id="submitBtn">Subscribe</button>
-    </div>
-    <p id="formMessage" style="display:none; color: #00ff88; margin-top: 1rem;">
+<div class="form-card">
+    <h3>Portal Updates</h3>
+    <p>Receive email notifications for new document uploads.</p>
+    
+    <form id="notifyForm">
+        <div class="input-group">
+            <input type="email" id="userEmail" placeholder="work email" required>
+            <button type="submit" id="submitBtn" class="btn-submit">Subscribe</button>
+        </div>
+    </form>
+    
+    <div id="formMessage" style="margin-top: 15px; display: none; font-weight: 500; color: #4ade80;">
         ✓ Successfully subscribed.
-    </p>
-</form>
+    </div>
+</div>
+
+<div class="dev-section">
+    <span class="dev-tag">For Developers Only</span>
+    <a href="https://github.com/exymesplc/resources" class="link-secondary">View Master Repository →</a>
+</div>
 
 <script>
 document.getElementById('notifyForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('userEmail').value;
     const btn = document.getElementById('submitBtn');
+    const inputGroup = document.querySelector('.input-group'); // Target the group inside the card
+    const successMsg = document.getElementById('formMessage');
     
-    // Your specific Google Form ID and Entry ID
     const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeSz-D2FMDJpUrUJ3U0TOvqVsv4tFQ4OSK7NBFmhd3Vk1GYnA/formResponse";
     const ENTRY_ID = "entry.1344264631"; 
 
     btn.innerText = "Connecting...";
     btn.disabled = true;
 
-    // We use a hidden iframe to prevent the "Google Thank You" redirect
     const iframe = document.createElement('iframe');
     iframe.name = "hidden_iframe";
     iframe.style.display = "none";
@@ -355,11 +366,9 @@ document.getElementById('notifyForm').addEventListener('submit', function(e) {
     document.body.appendChild(form);
     form.submit();
 
-    // Show success message immediately
     setTimeout(() => {
-        document.querySelector('.input-group').style.display = 'none';
-        document.getElementById('formMessage').style.display = 'block';
-        // Clean up
+        if(inputGroup) inputGroup.style.display = 'none'; // Hide the input field
+        if(successMsg) successMsg.style.display = 'block'; // Show the green checkmark message
         document.body.removeChild(form);
         document.body.removeChild(iframe);
     }, 1000);
