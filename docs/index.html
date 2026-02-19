@@ -32,37 +32,59 @@ layout: default
         .nav-header { position: absolute; top: 40px; left: 40px; z-index: 100; }
         .logo { height: 32px; width: auto; transition: opacity 0.2s; }
         .wrapper { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px 80px 20px; box-sizing: border-box; }
+        
         header { text-align: center; margin-bottom: 50px; }
         h1 { font-size: 32pt; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; margin: 0; background: linear-gradient(to bottom, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         header p { font-size: 18px; color: var(--text-gray); margin-top: 12px; font-weight: 300; }
+
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; width: 100%; max-width: 1200px; }
-        .card, .form-card { background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); padding: 32px; border-radius: 12px; text-decoration: none; color: #fff; transition: all 0.3s ease; position: relative; overflow: hidden; }
+
+        /* THE TILE/CARD LOGIC */
+        .card, .form-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid var(--glass-border); 
+            padding: 32px; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            color: #fff; 
+            transition: all 0.3s ease; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        /* Top Left and Top Right Dots */
+        .card::before, .form-card::before { content: ''; position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; top: 12px; left: 12px; }
+        .card::after, .form-card::after { content: ''; position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; top: 12px; right: 12px; }
+
+        /* Bottom Left and Bottom Right Dots (via spans) */
+        .card-dot-bl, .card-dot-br { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; bottom: 12px; }
+        .card-dot-bl { left: 12px; }
+        .card-dot-br { right: 12px; }
+
         .card:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-4px); }
-        
+        .card h3, .form-card h3 { font-size: 19px; margin: 0 0 8px 0; font-weight: 600; letter-spacing: -0.01em; }
+        .card p, .form-card p { font-size: 14px; color: var(--text-gray); margin: 0 0 20px 0; line-height: 1.5; }
+
+        /* Form Card Specifics */
         .form-card { margin: 40px 0; width: 100%; max-width: 500px; text-align: center; }
         .input-group { display: flex; gap: 10px; }
         input[type="email"] { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 8px; color: #fff; outline: none; }
         .btn-submit { background: #fff; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
+        /* Dev Section Styling */
         .dev-section { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--glass-border); text-align: center; width: 100%; max-width: 500px; }
         .dev-tag { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; display: block; }
         .link-secondary { color: #fff; text-decoration: none; font-size: 14px; opacity: 0.6; transition: opacity 0.2s; }
-        .link-secondary:hover { opacity: 1; }
 
-        /* SITE FOOTER STYLES */
-        .site-footer {
-            width: 100%;
-            background: #000;
-            padding: 80px 40px 40px 40px;
-            border-top: 1px solid var(--glass-border);
-            box-sizing: border-box;
-        }
+        /* Footer Styling */
+        .site-footer { width: 100%; background: #000; padding: 80px 40px 40px 40px; border-top: 1px solid var(--glass-border); box-sizing: border-box; }
         .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
         .footer-column h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-gray); margin-bottom: 24px; }
         .footer-column ul { list-style: none; padding: 0; margin: 0; }
         .footer-column ul li { margin-bottom: 12px; }
         .footer-column a { color: #fff; text-decoration: none; font-size: 14px; opacity: 0.7; transition: opacity 0.2s; }
-        .footer-column a:hover { opacity: 1; }
         .footer-address { font-size: 14px; line-height: 1.6; color: #fff; opacity: 0.7; }
         .footer-bottom { max-width: 1200px; margin: 60px auto 0 auto; padding-top: 24px; border-top: 1px solid var(--glass-border); text-align: center; font-size: 12px; color: var(--text-gray); }
 
@@ -87,15 +109,16 @@ layout: default
     </header>
 
     <div class="grid">
-        <a href="/QSG/" class="card"><h3>Quick Start Guides</h3><p>Access to QSGs for Exymes products.</p></a>
-        <a href="/handbook/" class="card"><h3>Handbooks</h3><p>Reference documentation for enzymatic extraction protocols.</p></a>
-        <a href="/apnote/" class="card"><h3>Application Notes</h3><p>Specific applications of the Exymes products.</p></a>
-        <a href="/SDS/" class="card"><h3>Safety Data Sheets</h3><p>SDS for Exymes products.</p></a>
-        <a href="/brochures/" class="card"><h3>Brochures</h3><p>Marketing brochures for products.</p></a>
-        <a href="/images/products/" class="card"><h3>Product Media</h3><p>Photography of products.</p></a>
+        <a href="/QSG/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Quick Start Guides</h3><p>Access to QSGs for Exymes products.</p></a>
+        <a href="/handbook/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Handbooks</h3><p>Reference documentation for enzymatic extraction protocols.</p></a>
+        <a href="/apnote/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Application Notes</h3><p>Specific applications of the Exymes products.</p></a>
+        <a href="/SDS/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Safety Data Sheets</h3><p>SDS for Exymes products.</p></a>
+        <a href="/brochures/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Brochures</h3><p>Marketing brochures for products.</p></a>
+        <a href="/images/products/" class="card"><span class="card-dot-bl"></span><span class="card-dot-br"></span><h3>Product Media</h3><p>Photography of products.</p></a>
     </div>
 
     <div class="form-card">
+        <span class="card-dot-bl"></span><span class="card-dot-br"></span>
         <h3>Portal Updates</h3>
         <p>Receive email notifications for new document uploads.</p>
         <form id="notifyForm">
@@ -104,87 +127,4 @@ layout: default
                 <button type="submit" id="submitBtn" class="btn-submit">Subscribe</button>
             </div>
         </form>
-        <div id="formMessage" style="margin-top: 15px; display: none; font-weight: 500; color: #4ade80;">✓ Successfully subscribed.</div>
-    </div>
-
-    <div class="dev-section">
-        <span class="dev-tag">For Developers Only</span>
-        <a href="https://github.com/exymesplc/resources" class="link-secondary">View Master Repository →</a>
-    </div>
-</div>
-
-<footer class="site-footer">
-    <div class="footer-grid">
-        <div class="footer-column">
-            <h4>Address</h4>
-            <p class="footer-address">Alum House, Alum Chine Road,<br>Westbourne, BH4 8DT, UK</p>
-        </div>
-        <div class="footer-column">
-            <h4>Menu</h4>
-            <ul>
-                <li><a href="https://www.exymesplc.com/">Home</a></li>
-                <li><a href="https://www.exymesplc.com/products">Products</a></li>
-                <li><a href="https://www.exymesplc.com/about">About</a></li>
-                <li><a href="https://www.exymesplc.com/insights">Insights</a></li>
-            </ul>
-        </div>
-        <div class="footer-column">
-            <h4>Contact</h4>
-            <ul>
-                <li><a href="mailto:info@exymesplc.com">info@exymesplc.com</a></li>
-                <li><a href="https://www.exymesplc.com/contact">Contact Us</a></li>
-            </ul>
-        </div>
-        <div class="footer-column">
-            <h4>Legal</h4>
-            <ul>
-                <li><a href="https://www.exymesplc.com/privacy-policy">Privacy Policy</a></li>
-                <li><a href="https://www.exymesplc.com/uk-terms-and-conditions-of-sale">UK Terms & Conditions</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer-bottom">©2026 Exymes Ltd. All Rights Reserved</div>
-</footer>
-
-<script>
-document.getElementById('notifyForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = document.getElementById('userEmail').value;
-    const btn = document.getElementById('submitBtn');
-    const inputGroup = document.querySelector('.input-group');
-    const successMsg = document.getElementById('formMessage');
-    
-    const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeSz-D2FMDJpUrUJ3U0TOvqVsv4tFQ4OSK7NBFmhd3Vk1GYnA/formResponse";
-    const ENTRY_ID = "entry.1344264631"; 
-
-    btn.innerText = "Connecting...";
-    btn.disabled = true;
-
-    const iframe = document.createElement('iframe');
-    iframe.name = "hidden_iframe";
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
-    
-    const form = document.createElement('form');
-    form.action = GOOGLE_FORM_ACTION;
-    form.method = "POST";
-    form.target = "hidden_iframe";
-
-    const input = document.createElement('input');
-    input.name = ENTRY_ID;
-    input.value = email;
-    
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
-
-    setTimeout(() => {
-        if(inputGroup) inputGroup.style.display = 'none';
-        if(successMsg) successMsg.style.display = 'block';
-        document.body.removeChild(form);
-        document.body.removeChild(iframe);
-    }, 1000);
-});
-</script>
-</body>
-</html>
+        <div id="formMessage" style="margin-top
