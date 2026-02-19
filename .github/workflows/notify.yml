@@ -6,6 +6,7 @@ on:
       - 'docs/QSG/**'
       - 'docs/brochures/**'
       - 'docs/images/products/**'
+      - 'docs/images/logo/**'
       - 'docs/handbook/**'
       - 'docs/apnote/**'
       - 'docs/SDS/**'
@@ -25,34 +26,43 @@ jobs:
       - name: Process Data
         id: data
         run: |
-          # 1. Detect folders modified inside 'docs/'
+          # 1. Detect modified folders inside 'docs/' looking 2 levels deep
           BEFORE=${{ github.event.before }}
           if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            PATHS=$(git ls-tree -d --name-only HEAD docs/ | cut -d/ -f2 | sort -u)
+            RAW_PATHS=$(git ls-tree -r --name-only HEAD docs/ | grep '^docs/' | cut -d/ -f2,3 | sort -u)
           else
-            PATHS=$(git diff --name-only $BEFORE ${{ github.sha }} | grep '^docs/' | cut -d/ -f2 | sort -u)
+            RAW_PATHS=$(git diff --name-only $BEFORE ${{ github.sha }} | grep '^docs/' | cut -d/ -f2,3 | sort -u)
           fi
           
-          # 2. Build HTML list with direct links
+          # 2. Build HTML list with precise sub-folder links
           BASE_URL="https://resources.exymesplc.com"
-          LIST="<ul style='list-style: none; padding: 0;'>"
+          LIST="<ul style='list-style: none; padding: 0; margin: 0;'>"
           
-          for folder in $PATHS; do
-            case $folder in
-              QSG) NAME="Quick Start Guides" ;;
-              handbook) NAME="Handbooks" ;;
-              apnote) NAME="Application Notes" ;;
-              SDS) NAME="Safety Data Sheets" ;;
-              brochures) NAME="Brochures" ;;
-              images) NAME="Product Media & Assets" ;;
-              *) NAME="$folder" ;;
+          echo "$RAW_PATHS" > paths.tmp
+          PROCESSED_LINKS=""
+
+          while read -r path; do
+            case $path in
+              QSG*) NAME="Quick Start Guides"; URL_EXT="QSG" ;;
+              handbook*) NAME="Handbooks"; URL_EXT="handbook" ;;
+              apnote*) NAME="Application Notes"; URL_EXT="apnote" ;;
+              SDS*) NAME="Safety Data Sheets"; URL_EXT="SDS" ;;
+              brochures*) NAME="Brochures"; URL_EXT="brochures" ;;
+              images/products*) NAME="Product Media"; URL_EXT="images/products" ;;
+              images/logo*) NAME="Brand Assets"; URL_EXT="images/logo" ;;
+              *) continue ;; 
             esac
-            LIST="$LIST<li style='margin-bottom: 12px;'>📂 <a href='$BASE_URL/$folder/' style='color: #004a99; font-weight: bold; text-decoration: underline;'>$NAME</a></li>"
-          done
+
+            if [[ ! "$PROCESSED_LINKS" =~ "$URL_EXT" ]]; then
+              LIST="$LIST<li style='margin-bottom: 12px; font-size: 15px;'>📂 <a href='$BASE_URL/$URL_EXT/' style='color: #1D7492; font-weight: bold; text-decoration: none;'>$NAME</a></li>"
+              PROCESSED_LINKS="$PROCESSED_LINKS $URL_EXT"
+            fi
+          done < paths.tmp
+
           LIST="$LIST</ul>"
           echo "html_list=$LIST" >> $GITHUB_OUTPUT
 
-          # 3. Fetch Subscribers Securely via Secret URL
+          # 3. Fetch Subscribers Securely
           curl -L "${{ secrets.SUBSCRIBER_URL }}" > temp_raw.csv
           EMAILS=$(grep -o '[[:alnum:]+\._-]\+@[[:alnum:]+\._-]\+\.[[:alnum:]+\._-]\+' temp_raw.csv | sort | uniq | tr '\n' ',' | sed 's/,$//')
           
