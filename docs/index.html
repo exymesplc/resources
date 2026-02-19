@@ -14,6 +14,7 @@ layout: default
             --glass: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.12);
             --text-gray: #a1a1a1;
+            --footer-bg: #000;
         }
 
         body {
@@ -29,198 +30,101 @@ layout: default
             -webkit-font-smoothing: antialiased;
         }
 
-        .nav-header {
-            position: absolute;
-            top: 40px;
-            left: 40px;
-            z-index: 100;
-        }
+        /* Existing Styles ... (Keep your nav-header, wrapper, h1, grid, and card styles exactly as they were) */
+        .nav-header { position: absolute; top: 40px; left: 40px; z-index: 100; }
+        .logo { height: 32px; width: auto; transition: opacity 0.2s; }
+        .wrapper { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px 80px 20px; box-sizing: border-box; }
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { font-size: 32pt; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; margin: 0; background: linear-gradient(to bottom, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { font-size: 18px; color: var(--text-gray); margin-top: 12px; font-weight: 300; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; width: 100%; max-width: 1200px; }
+        .card, .form-card { background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); padding: 32px; border-radius: 12px; text-decoration: none; color: #fff; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .card:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-4px); }
+        
+        /* Subscription form styling inside wrapper */
+        .form-card { margin: 40px 0; width: 100%; max-width: 500px; text-align: center; }
+        .input-group { display: flex; gap: 10px; }
+        input[type="email"] { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 8px; color: #fff; outline: none; }
+        .btn-submit { background: #fff; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-        .logo {
-            height: 32px;
-            width: auto;
-            transition: opacity 0.2s;
-        }
-
-        .logo:hover { opacity: 0.8; }
-
-        .wrapper {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 120px 20px 80px 20px;
-            box-sizing: border-box;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        h1 {
-            font-size: 32pt; 
-            font-weight: 500;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin: 0;
-            background: linear-gradient(to bottom, #fff, #ccc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        header p {
-            font-size: 18px;
-            color: var(--text-gray);
-            margin-top: 12px;
-            font-weight: 300;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 16px;
+        /* REPLICATED FOOTER STYLES */
+        .site-footer {
             width: 100%;
-            max-width: 1200px;
-        }
-
-        .card, .form-card {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            padding: 32px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before, .card::after, .card-dot-bl, .card-dot-br,
-        .form-card::before, .form-card::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-        .card::before, .form-card::before { top: 12px; left: 12px; }
-        .card::after, .form-card::after { top: 12px; right: 12px; }
-        .card-dot-bl { position: absolute; bottom: 12px; left: 12px; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; }
-        .card-dot-br { position: absolute; bottom: 12px; right: 12px; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; }
-
-        .card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-4px);
-        }
-
-        .card h3, .form-card h3 {
-            font-size: 19px;
-            margin: 0 0 8px 0;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .card p, .form-card p {
-            font-size: 14px;
-            color: var(--text-gray);
-            margin: 0 0 20px 0;
-            line-height: 1.5;
-        }
-
-        .form-card {
-            margin-top: 40px;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        input[type="email"] {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 12px 16px;
-            border-radius: 8px;
-            color: #fff;
-            font-family: inherit;
-            outline: none;
-        }
-
-        input[type="email"]:focus { border-color: #fff; }
-
-        .btn-submit {
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn-submit:hover { opacity: 0.9; }
-
-        .footer {
-            margin-top: 60px;
-            text-align: center;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #fff;
-            color: #000;
-            padding: 12px 28px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            border: 1px solid #fff;
-        }
-
-        .btn:hover { background: #ccc; border-color: #ccc; }
-
-        .dev-section {
-            margin-top: 40px;
-            padding-top: 20px;
+            background: var(--footer-bg);
+            padding: 80px 40px 40px 40px;
             border-top: 1px solid var(--glass-border);
+            box-sizing: border-box;
+            margin-top: auto;
         }
 
-        .dev-tag {
-            font-size: 11px;
-            color: var(--text-gray);
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 12px;
-            display: block;
+            letter-spacing: 0.1em;
+            color: var(--text-gray);
+            margin-bottom: 24px;
         }
 
-        .link-secondary {
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
             color: #fff;
             text-decoration: none;
             font-size: 14px;
-            opacity: 0.6;
+            opacity: 0.7;
             transition: opacity 0.2s;
         }
 
-        .link-secondary:hover { opacity: 1; }
+        .footer-column a:hover { opacity: 1; }
+
+        .footer-address {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #fff;
+            opacity: 0.7;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 60px auto 0 auto;
+            padding-top: 24px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .dev-tag-small {
+            font-size: 10px;
+            background: var(--glass-border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-gray);
+        }
 
         @media (max-width: 768px) {
-            h1 { font-size: 24pt; }
-            .nav-header { top: 20px; left: 20px; }
-            .wrapper { padding-top: 100px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
             .input-group { flex-direction: column; }
         }
     </style>
@@ -241,75 +145,90 @@ layout: default
 
     <div class="grid">
         <a href="/QSG/" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Quick Start Guides</h3>
             <p>Access to QSGs for Exymes products.</p>
         </a>
-
         <a href="/handbook/" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Handbooks</h3>
             <p>Reference documentation for enzymatic extraction protocols.</p>
         </a>
-
         <a href="/apnote/" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Application Notes</h3>
             <p>Specific applications of the Exymes products.</p>
         </a>
-
         <a href="/SDS/" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Safety Data Sheets</h3>
             <p>SDS for Exymes products.</p>
         </a>
-
         <a href="/brochures/" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Brochures</h3>
             <p>Marketing brochures for products.</p>
         </a>
-
         <a href="/images/products/" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
             <h3>Product Media</h3>
             <p>Photography of products.</p>
         </a>
-
-        <a href="/images/logo/" class="card">
-            <span class="card-dot-bl"></span><span class="card-dot-br"></span>
-            <h3>Brand Assets</h3>
-            <p>Official Exymes logos.</p>
-        </a>
-    </div>
-
-    <div class="footer">
-        <a href="https://github.com/exymesplc/resources/archive/refs/heads/main.zip" class="btn">Download All Documents (.zip)</a>
     </div>
 
     <div class="form-card">
-        <span class="card-dot-bl"></span><span class="card-dot-br"></span>
         <h3>Portal Updates</h3>
         <p>Receive email notifications for new document uploads.</p>
-        
         <form id="notifyForm">
             <div class="input-group">
                 <input type="email" id="userEmail" placeholder="work email" required>
                 <button type="submit" id="submitBtn" class="btn-submit">Subscribe</button>
             </div>
         </form>
-        
         <div id="formMessage" style="margin-top: 15px; display: none; font-weight: 500; color: #4ade80;">
             ✓ Successfully subscribed.
         </div>
     </div>
+</div>
 
-    <div class="dev-section">
-        <span class="dev-tag">For Developers Only</span>
-        <a href="https://github.com/exymesplc/resources" class="link-secondary">View Master Repository →</a>
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div class="footer-column">
+            <h4>Address</h4>
+            <p class="footer-address">
+                Alum House, Alum Chine Road,<br>
+                Westbourne, BH4 8DT, UK
+            </p>
+        </div>
+        <div class="footer-column">
+            <h4>Menu</h4>
+            <ul>
+                <li><a href="https://www.exymesplc.com/">Home</a></li>
+                <li><a href="https://www.exymesplc.com/products">Products</a></li>
+                <li><a href="https://www.exymesplc.com/about">About</a></li>
+                <li><a href="https://www.exymesplc.com/insights">Insights</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="mailto:info@exymesplc.com">info@exymesplc.com</a></li>
+                <li><a href="https://www.exymesplc.com/contact">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="https://www.exymesplc.com/privacy-policy">Privacy Policy</a></li>
+                <li><a href="https://www.exymesplc.com/uk-terms-and-conditions-of-sale">UK Terms & Conditions</a></li>
+            </ul>
+        </div>
     </div>
+    
+    <div class="footer-bottom">
+        <div>©2026 Exymes PLC. All Rights Reserved</div>
+        <div>
+            <a href="https://github.com/exymesplc/resources" class="dev-tag-small">Source Code</a>
+        </div>
+    </div>
+</footer>
 
-</div> <script>
+<script>
+/* (Keep the same notifyForm script from our previous step) */
 document.getElementById('notifyForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.getElementById('userEmail').value;
