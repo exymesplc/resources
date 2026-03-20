@@ -118,6 +118,16 @@ function toggleAll() {
 function downloadSelected() {
     const selected = document.querySelectorAll('.file-checkbox:checked');
     if (selected.length === 0) return alert('Select files first');
+
+    // --- ADD THIS LINE FOR TRACKING ---
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'bulk_download',
+      'file_count': selected.length,
+      'category': 'Quick Start Guides'
+    });
+    // ----------------------------------
+    
     selected.forEach((cb, index) => {
         setTimeout(() => {
             const link = document.createElement('a');
