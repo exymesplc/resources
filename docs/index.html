@@ -223,6 +223,15 @@ document.getElementById('notifyForm').addEventListener('submit', function(e) {
     const btn = document.getElementById('submitBtn');
     const inputGroup = document.querySelector('.input-group');
     const successMsg = document.getElementById('formMessage');
+
+    // --- GA4/GTM TRACKING ADDITION ---
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'form_submission',
+        'form_name': 'distributor_portal_updates',
+        'host': window.location.hostname
+    });
+    // ---------------------------------
     
     const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSeSz-D2FMDJpUrUJ3U0TOvqVsv4tFQ4OSK7NBFmhd3Vk1GYnA/formResponse";
     const ENTRY_ID = "entry.1344264631"; 
