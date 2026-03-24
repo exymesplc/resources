@@ -37,46 +37,44 @@ jobs:
           ADMIN_KEY = os.environ["ALGOLIA_ADMIN_KEY"]
           INDEX_NAME = "www_exymesplc_com_e3wswa1rj6_pages"
 
-          # Scrape PDF URLs from resources page
           print("Scraping resources page...")
           response = requests.get(RESOURCES_URL, timeout=30)
           soup = BeautifulSoup(response.text, "html.parser")
 
+          # Build a map of framerusercontent URLs to their title and view URL
+          # Each resource has a title link (resources.exymesplc.com) followed by a Download link (framerusercontent.com)
           pdf_links = []
-          seen_urls = set()
+          seen_download_urls = set()
 
-          for a in soup.find_all("a", href=True):
+          all_links = soup.find_all("a", href=True)
+          for i, a in enumerate(all_links):
               href = a["href"]
               if "framerusercontent.com" in href and href.endswith(".pdf"):
-                  if href in seen_urls:
+                  if href in seen_download_urls:
                       continue
-                  seen_urls.add(href)
+                  seen_download_urls.add(href)
 
-                  # Get the view URL from the nearest resources.exymesplc.com link
-                  view_url = href
-                  parent = a.find_parent()
-                  if parent:
-                      for sibling in parent.find_all("a", href=True):
-                          if "resources.exymesplc.com" in sibling["href"]:
-                              view_url = sibling["href"]
-                              break
-
-                  # Get title from the nearest heading element
-                  title = href.split("/")[-1]
-                  if parent:
-                      heading = parent.find(["h1","h2","h3","h4","h5","p"])
-                      if heading:
-                          title = heading.get_text(strip=True) or title
+                  # The title link is typically the previous sibling link
+                  title = "Unknown"
+                  view_url = href  # fallback to download URL
+                  
+                  # Look back through previous links for the resources.exymesplc.com URL
+                  for prev_a in reversed(all_links[:i]):
+                      prev_href = prev_a.get("href", "")
+                      if "resources.exymesplc.com" in prev_href and prev_href.endswith(".pdf"):
+                          view_url = prev_href
+                          title = prev_a.get_text(strip=True)
+                          break
 
                   pdf_links.append({
+                      "title": title,
                       "url": view_url,
                       "download_url": href,
-                      "title": title
                   })
 
           print(f"Found {len(pdf_links)} PDFs")
 
-          # Extract text from each PDF
+          # Extract text from each PDF using the download URL
           records = []
           for pdf in pdf_links:
               print(f"Processing: {pdf['title']}")
@@ -113,7 +111,6 @@ jobs:
 
           print(f"Total records built: {len(records)}")
 
-          # Push to Algolia asynchronously
           async def push_to_algolia(records):
               client = SearchClient(APP_ID, ADMIN_KEY)
               try:
