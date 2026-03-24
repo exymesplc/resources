@@ -41,8 +41,6 @@ jobs:
           response = requests.get(RESOURCES_URL, timeout=30)
           soup = BeautifulSoup(response.text, "html.parser")
 
-          # Build a map of framerusercontent URLs to their title and view URL
-          # Each resource has a title link (resources.exymesplc.com) followed by a Download link (framerusercontent.com)
           pdf_links = []
           seen_download_urls = set()
 
@@ -54,11 +52,9 @@ jobs:
                       continue
                   seen_download_urls.add(href)
 
-                  # The title link is typically the previous sibling link
                   title = "Unknown"
-                  view_url = href  # fallback to download URL
-                  
-                  # Look back through previous links for the resources.exymesplc.com URL
+                  view_url = href
+
                   for prev_a in reversed(all_links[:i]):
                       prev_href = prev_a.get("href", "")
                       if "resources.exymesplc.com" in prev_href and prev_href.endswith(".pdf"):
@@ -74,7 +70,6 @@ jobs:
 
           print(f"Found {len(pdf_links)} PDFs")
 
-          # Extract text from each PDF using the download URL
           records = []
           for pdf in pdf_links:
               print(f"Processing: {pdf['title']}")
@@ -95,8 +90,8 @@ jobs:
                       record = {
                           "objectID": pdf["url"],
                           "url": pdf["url"],
-                          "title": pdf["title"],
                           "headers": [pdf["title"]],
+                          "title": pdf["title"],
                           "description": text_content[:200],
                           "content": text_content,
                           "type": "pdf",
