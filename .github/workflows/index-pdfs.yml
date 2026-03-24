@@ -81,7 +81,7 @@ jobs:
           for pdf in pdf_links:
               print(f"Processing: {pdf['title']}")
               try:
-                  pdf_response = requests.get(pdf["url"], timeout=30)
+                  pdf_response = requests.get(pdf["download_url"], timeout=30)
                   pdf_response.raise_for_status()
 
                   text_content = ""
