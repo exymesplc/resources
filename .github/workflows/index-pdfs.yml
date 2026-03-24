@@ -35,7 +35,7 @@ jobs:
           RESOURCES_URL = "https://www.exymesplc.com/resources"
           APP_ID = os.environ["ALGOLIA_APP_ID"]
           ADMIN_KEY = os.environ["ALGOLIA_ADMIN_KEY"]
-          INDEX_NAME = "www_exymesplc_com_e3wswa1rj6_pages"
+          INDEX_NAME = "exymesplc_pdfs"
 
           print("Scraping resources page...")
           response = requests.get(RESOURCES_URL, timeout=30)
