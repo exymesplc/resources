@@ -99,10 +99,14 @@ jobs:
                   continue
 
           # Push to Algolia
+          print(f"Total records built: {len(records)}")
           if records:
-            print(f"Pushing {len(records)} records to Algolia...")
-            client.save_objects(INDEX_NAME, records)
-            print("Done.")
+              print(f"Sample record: {records[0]}")
+              print(f"Pushing {len(records)} records to Algolia...")
+              result = client.save_objects(INDEX_NAME, records)
+              print(f"Algolia response: {result}")
+              print("Done.")
           else:
-            print("No records to push.")
+              print("No records to push - records list is empty")
+              print("Check PDF extraction above for errors")
           EOF
