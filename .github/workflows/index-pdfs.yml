@@ -44,19 +44,35 @@ jobs:
 
           pdf_links = []
           seen_urls = set()
+
           for a in soup.find_all("a", href=True):
               href = a["href"]
               if "framerusercontent.com" in href and href.endswith(".pdf"):
                   if href in seen_urls:
                       continue
                   seen_urls.add(href)
-                  title = a.get_text(strip=True) or href.split("/")[-1]
+
+                  # Get the view URL from the nearest resources.exymesplc.com link
+                  view_url = href
                   parent = a.find_parent()
                   if parent:
-                      sibling_text = parent.find_previous_sibling()
-                      if sibling_text:
-                          title = sibling_text.get_text(strip=True) or title
-                  pdf_links.append({"url": href, "title": title})
+                      for sibling in parent.find_all("a", href=True):
+                          if "resources.exymesplc.com" in sibling["href"]:
+                              view_url = sibling["href"]
+                              break
+
+                  # Get title from the nearest heading element
+                  title = href.split("/")[-1]
+                  if parent:
+                      heading = parent.find(["h1","h2","h3","h4","h5","p"])
+                      if heading:
+                          title = heading.get_text(strip=True) or title
+
+                  pdf_links.append({
+                      "url": view_url,
+                      "download_url": href,
+                      "title": title
+                  })
 
           print(f"Found {len(pdf_links)} PDFs")
 
