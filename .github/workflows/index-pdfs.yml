@@ -29,7 +29,7 @@ jobs:
           import pdfplumber
           import io
           import os
-          from algoliasearch.search_client import SearchClient
+          from algoliasearch.search.client import SearchClient
 
           RESOURCES_URL = "https://www.exymesplc.com/resources"
           APP_ID = os.environ["ALGOLIA_APP_ID"]
@@ -58,7 +58,7 @@ jobs:
           print(f"Found {len(pdf_links)} PDFs")
 
           # Connect to Algolia
-          client = SearchClient.create(APP_ID, ADMIN_KEY)
+          client = SearchClient(APP_ID, ADMIN_KEY)
           index = client.init_index(INDEX_NAME)
 
           records = []
