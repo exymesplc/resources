@@ -96,6 +96,7 @@ jobs:
                           "objectID": pdf["url"],
                           "url": pdf["url"],
                           "title": pdf["title"],
+                          "headers": [pdf["title"]],
                           "description": text_content[:200],
                           "content": text_content,
                           "type": "pdf",
