@@ -58,8 +58,9 @@ jobs:
           print(f"Found {len(pdf_links)} PDFs")
 
           # Connect to Algolia
+          from algoliasearch.search.models.batch_write_params import BatchWriteParams
+          from algoliasearch.search.models.operation_type import OperationType
           client = SearchClient(APP_ID, ADMIN_KEY)
-          index = client.init_index(INDEX_NAME)
 
           records = []
           for pdf in pdf_links:
@@ -99,9 +100,9 @@ jobs:
 
           # Push to Algolia
           if records:
-              print(f"Pushing {len(records)} records to Algolia...")
-              index.save_objects(records)
-              print("Done.")
+            print(f"Pushing {len(records)} records to Algolia...")
+            client.save_objects(INDEX_NAME, records)
+            print("Done.")
           else:
-              print("No records to push.")
+            print("No records to push.")
           EOF
