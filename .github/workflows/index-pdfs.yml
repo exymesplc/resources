@@ -2,8 +2,8 @@ name: Index PDFs to Algolia
 
 on:
   schedule:
-    - cron: '0 2 * * 1'  # Runs every Monday at 2am
-  workflow_dispatch:       # Allows manual trigger
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
 
 jobs:
   index:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -29,6 +29,7 @@ jobs:
           import pdfplumber
           import io
           import os
+          import asyncio
           from algoliasearch.search.client import SearchClient
 
           RESOURCES_URL = "https://www.exymesplc.com/resources"
@@ -42,12 +43,14 @@ jobs:
           soup = BeautifulSoup(response.text, "html.parser")
 
           pdf_links = []
+          seen_urls = set()
           for a in soup.find_all("a", href=True):
               href = a["href"]
               if "framerusercontent.com" in href and href.endswith(".pdf"):
-                  # Get the link text as the title
+                  if href in seen_urls:
+                      continue
+                  seen_urls.add(href)
                   title = a.get_text(strip=True) or href.split("/")[-1]
-                  # Try to get parent element text for better title
                   parent = a.find_parent()
                   if parent:
                       sibling_text = parent.find_previous_sibling()
@@ -57,20 +60,14 @@ jobs:
 
           print(f"Found {len(pdf_links)} PDFs")
 
-          # Connect to Algolia
-          from algoliasearch.search.models.batch_write_params import BatchWriteParams
-          from algoliasearch.search.models.operation_type import OperationType
-          client = SearchClient(APP_ID, ADMIN_KEY)
-
+          # Extract text from each PDF
           records = []
           for pdf in pdf_links:
               print(f"Processing: {pdf['title']}")
               try:
-                  # Fetch PDF
                   pdf_response = requests.get(pdf["url"], timeout=30)
                   pdf_response.raise_for_status()
 
-                  # Extract text
                   text_content = ""
                   with pdfplumber.open(io.BytesIO(pdf_response.content)) as f:
                       for page in f.pages:
@@ -78,7 +75,7 @@ jobs:
                           if text:
                               text_content += text + " "
 
-                  text_content = text_content.strip()[:5000]  # Algolia record limit
+                  text_content = text_content.strip()[:5000]
 
                   if text_content:
                       record = {
@@ -98,15 +95,21 @@ jobs:
                   print(f"Error processing {pdf['title']}: {e}")
                   continue
 
-          # Push to Algolia
           print(f"Total records built: {len(records)}")
+
+          # Push to Algolia asynchronously
+          async def push_to_algolia(records):
+              client = SearchClient(APP_ID, ADMIN_KEY)
+              try:
+                  result = await client.save_objects(INDEX_NAME, records)
+                  print(f"Algolia response: {result}")
+                  print("Done.")
+              finally:
+                  await client.close()
+
           if records:
-              print(f"Sample record: {records[0]}")
               print(f"Pushing {len(records)} records to Algolia...")
-              result = client.save_objects(INDEX_NAME, records)
-              print(f"Algolia response: {result}")
-              print("Done.")
+              asyncio.run(push_to_algolia(records))
           else:
-              print("No records to push - records list is empty")
-              print("Check PDF extraction above for errors")
+              print("No records to push.")
           EOF
