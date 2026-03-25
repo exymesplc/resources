@@ -40,7 +40,7 @@ document.addEventListener("keydown",function esc(e){if(e.key==="Escape"){p.remov
 function inject(){
 if(document.getElementById("mob-search-wrap"))return;
 var cols=document.querySelectorAll('[data-framer-name="Nav Column"]');
-if(!cols.length){setTimeout(inject,300);return;}
+if(!cols.length)return;
 var w=document.createElement("div");w.id="mob-search-wrap";
 w.style.cssText="display:flex;align-items:center;margin-top:16px;width:100%;";
 var style=document.createElement("style");
@@ -54,8 +54,20 @@ document.getElementById("mob-search-bar").classList.add("o");
 setTimeout(function(){var i=document.getElementById("mob-search-input");if(i)i.focus();},260);});
 document.getElementById("mob-search-input").addEventListener("keydown",function(e){
 if(e.key==="Enter"&&this.value.trim())srch(this.value.trim());});}
+
+// Poll every 200ms as well as using MutationObserver
+var poll=setInterval(function(){
+if(document.querySelectorAll('[data-framer-name="Nav Column"]').length){
+inject();
+}
+},200);
+
+// Stop polling after 30 seconds
+setTimeout(function(){clearInterval(poll);},30000);
+
 new MutationObserver(function(){
-if(window.innerWidth>809)return;
-if(document.querySelectorAll('[data-framer-name="Nav Column"]').length)inject();
-}).observe(document.body,{childList:true,subtree:true});
-document.addEventListener("DOMContentLoaded",inject);})();
+inject();
+}).observe(document.body,{childList:true,subtree:true,attributes:true});
+
+document.addEventListener("DOMContentLoaded",inject);
+})();
