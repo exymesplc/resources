@@ -54,7 +54,7 @@ document.getElementById("mob-search-bar").classList.add("o");
 setTimeout(function(){var i=document.getElementById("mob-search-input");if(i)i.focus();},260);});
 var inp=document.getElementById("mob-search-input");
 inp.addEventListener("keydown",function(e){
-if(e.key==="Enter"&&this.value.trim()){
+if(e.key==="Enter"&&this.value.trim())window.srch(this.value.trim());
 window.srch(this.value.trim());
 var poll=setInterval(function(){
 if(document.querySelectorAll('[data-framer-name="Nav Column"]').length)inject();
