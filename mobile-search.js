@@ -1,10 +1,10 @@
 (function(){
-window.srch=function srch(q){
+window.srch=function(q){
 if(!window.algoliasearch){setTimeout(function(){window.srch(q);},300);return;}
 var c=window.algoliasearch("E3WSWA1RJ6","f6fca2acd7672892699e91a42117a01b");
 Promise.all([c.initIndex("www_exymesplc_com_e3wswa1rj6_pages").search(q,{hitsPerPage:6}),c.initIndex("exymesplc_pdfs").search(q,{hitsPerPage:4})]).then(function(r){
 var ph=r[0].hits.filter(function(h){return!h.url||!h.url.includes("/team");});
-show(q,ph.concat(r[1].hits));});}
+show(q,ph.concat(r[1].hits));});};
 function show(q,hits){
 var old=document.getElementById("mr");if(old)old.remove();
 var p=document.createElement("div");p.id="mr";
@@ -33,7 +33,7 @@ p.appendChild(tb);p.appendChild(cb);p.appendChild(list);
 document.body.appendChild(p);
 document.getElementById("mrx").onclick=function(){p.remove();};
 document.getElementById("mri").value=q;
-function ds(){var nq=document.getElementById("mri").value.trim();if(nq){p.remove();srch(nq);}}
+function ds(){var nq=document.getElementById("mri").value.trim();if(nq){p.remove();window.srch(nq);}}
 document.getElementById("mrb").onclick=ds;
 document.getElementById("mri").onkeydown=function(e){if(e.key==="Enter")ds();};
 document.addEventListener("keydown",function esc(e){if(e.key==="Escape"){p.remove();document.removeEventListener("keydown",esc);}});}
@@ -43,25 +43,21 @@ var cols=document.querySelectorAll('[data-framer-name="Nav Column"]');
 if(!cols.length)return;
 var w=document.createElement("div");w.id="mob-search-wrap";
 w.style.cssText="display:flex;align-items:center;margin-top:16px;width:100%;";
-var style=document.createElement("style");
-style.textContent='#mob-search-input::placeholder{color:rgba(255,255,255,0.45);}#mob-search-icon-btn{background:transparent;border:none;cursor:pointer;padding:0;display:flex;}#mob-search-icon-btn.h{opacity:0;pointer-events:none;width:0;overflow:hidden;}#mob-search-bar{display:flex;align-items:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:0;width:0;overflow:hidden;transition:all 0.25s ease;opacity:0;}#mob-search-bar.o{width:100%;padding:8px 12px;opacity:1;gap:10px;}#mob-search-input{border:none;outline:none;background:transparent;font-family:Geist,sans-serif;font-size:14px;color:#fff;width:100%;caret-color:#fff;}';
-document.head.appendChild(style);
+var st=document.createElement("style");
+st.textContent='#mob-search-input::placeholder{color:rgba(255,255,255,0.45);}#mob-search-icon-btn{background:transparent;border:none;cursor:pointer;padding:0;display:flex;}#mob-search-icon-btn.h{opacity:0;pointer-events:none;width:0;overflow:hidden;}#mob-search-bar{display:flex;align-items:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:6px;padding:0;width:0;overflow:hidden;transition:all 0.25s ease;opacity:0;}#mob-search-bar.o{width:100%;padding:8px 12px;opacity:1;gap:10px;}#mob-search-input{border:none;outline:none;background:transparent;font-family:Geist,sans-serif;font-size:14px;color:#fff;width:100%;caret-color:#fff;}';
+document.head.appendChild(st);
 w.innerHTML='<button id="mob-search-icon-btn"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="11" cy="11" r="8" stroke="rgba(255,255,255,0.8)" fill="none" stroke-width="1.4"/><path d="m21 21-4.3-4.3" stroke="rgba(255,255,255,0.8)" fill="none" stroke-linecap="round"/></svg></button><div id="mob-search-bar"><input id="mob-search-input" type="text" placeholder="Search and press Enter..."/></div>';
 cols[0].appendChild(w);
 document.getElementById("mob-search-icon-btn").addEventListener("click",function(){
 this.classList.add("h");
 document.getElementById("mob-search-bar").classList.add("o");
 setTimeout(function(){var i=document.getElementById("mob-search-input");if(i)i.focus();},260);});
-var inp=document.getElementById("mob-search-input");
-inp.addEventListener("keydown",function(e){
-if(e.key==="Enter"&&this.value.trim())window.srch(this.value.trim());
-window.srch(this.value.trim());
+document.getElementById("mob-search-input").addEventListener("keydown",function(e){
+if(e.key==="Enter"&&this.value.trim())window.srch(this.value.trim());});}
 var poll=setInterval(function(){
 if(document.querySelectorAll('[data-framer-name="Nav Column"]').length)inject();
 },200);
 setTimeout(function(){clearInterval(poll);},30000);
-new MutationObserver(function(){
-inject();
-}).observe(document.body,{childList:true,subtree:true,attributes:true});
+new MutationObserver(function(){inject();}).observe(document.body,{childList:true,subtree:true,attributes:true});
 document.addEventListener("DOMContentLoaded",inject);
 })();
