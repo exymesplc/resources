@@ -38,7 +38,7 @@ document.getElementById("mrb").onclick=ds;
 document.getElementById("mri").onkeydown=function(e){if(e.key==="Enter")ds();};
 document.addEventListener("keydown",function esc(e){if(e.key==="Escape"){p.remove();document.removeEventListener("keydown",esc);}});}
 function inject(){
-if(window.innerWidth>809||document.getElementById("mob-search-wrap"))return;
+if(document.getElementById("mob-search-wrap"))return;
 var cols=document.querySelectorAll('[data-framer-name="Nav Column"]');
 if(!cols.length){setTimeout(inject,300);return;}
 var w=document.createElement("div");w.id="mob-search-wrap";
