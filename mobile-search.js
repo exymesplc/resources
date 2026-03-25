@@ -70,4 +70,4 @@ inject();
 }).observe(document.body,{childList:true,subtree:true,attributes:true});
 
 document.addEventListener("DOMContentLoaded",inject);
-})();
+});
