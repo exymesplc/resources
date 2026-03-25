@@ -20,7 +20,8 @@ tb.style.cssText="display:flex;align-items:center;gap:12px;padding:14px 20px;bac
 tb.innerHTML='<input id="mri" type="text" style="border:none;outline:none;background:transparent;font-size:14px;color:#fff;width:100%;caret-color:#fff;" placeholder="Search again..."/><button id="mrb" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:4px;color:#fff;font-size:12px;padding:4px 10px;cursor:pointer;flex-shrink:0;">Search</button><button id="mrx" style="background:transparent;border:none;cursor:pointer;color:rgba(255,255,255,0.6);padding:4px;flex-shrink:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>';
 var cb=document.createElement("div");cb.style.cssText="padding:8px 20px;font-size:12px;color:#5D6376;border-bottom:1px solid rgba(14,55,71,0.06);flex-shrink:0;";
 cb.textContent=hits.length+' result'+(hits.length!==1?'s':'')+' for "'+q+'"';
-var list=document.createElement("div");list.style.cssText="overflow-y:auto;flex:1;";
+var list=document.createElement("div");list.style.cssText="overflow-y:auto;flex:1;overscroll-behavior:contain;";
+list.addEventListener("wheel",function(e){e.stopPropagation();},{passive:true});
 if(!hits.length){list.innerHTML='<div style="padding:40px;text-align:center;color:#5D6376;">No results</div>';}
 else{hits.forEach(function(h){
 var t=(h.headers&&h.headers[0])||h.title||"Untitled";
@@ -36,6 +37,7 @@ el.innerHTML=(u.includes("resources.exymesplc.com")?'<span style="font-size:10px
 '<div style="font-size:11px;color:#1D7492;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+u+'</div>';
 list.appendChild(el);});}
 p.appendChild(tb);p.appendChild(cb);p.appendChild(list);
+p.addEventListener("wheel",function(e){e.stopPropagation();},{passive:true});
 document.body.appendChild(p);
 document.getElementById("mrx").onclick=function(){p.remove();};
 document.getElementById("mri").value=q;
