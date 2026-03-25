@@ -59,6 +59,3 @@ if(window.innerWidth>809)return;
 if(document.querySelectorAll('[data-framer-name="Nav Column"]').length)inject();
 }).observe(document.body,{childList:true,subtree:true});
 document.addEventListener("DOMContentLoaded",inject);})();
-```
-
-
