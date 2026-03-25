@@ -61,4 +61,4 @@ if(document.querySelectorAll('[data-framer-name="Nav Column"]').length)inject();
 document.addEventListener("DOMContentLoaded",inject);})();
 ```
 
-https://cdn.jsdelivr.net/gh/exymesplc/resource@main/mobile-search.js
+
