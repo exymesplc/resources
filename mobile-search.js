@@ -1,5 +1,5 @@
 (function(){
-window.addEventListener("load", function(){
+function srch(q){
 if(!window.algoliasearch){setTimeout(function(){srch(q);},300);return;}
 var c=window.algoliasearch("E3WSWA1RJ6","f6fca2acd7672892699e91a42117a01b");
 Promise.all([c.initIndex("www_exymesplc_com_e3wswa1rj6_pages").search(q,{hitsPerPage:6}),c.initIndex("exymesplc_pdfs").search(q,{hitsPerPage:4})]).then(function(r){
@@ -52,22 +52,16 @@ document.getElementById("mob-search-icon-btn").addEventListener("click",function
 this.classList.add("h");
 document.getElementById("mob-search-bar").classList.add("o");
 setTimeout(function(){var i=document.getElementById("mob-search-input");if(i)i.focus();},260);});
-document.getElementById("mob-search-input").addEventListener("keydown",function(e){
-if(e.key==="Enter"&&this.value.trim())srch(this.value.trim());});}
-
-// Poll every 200ms as well as using MutationObserver
+var inp=document.getElementById("mob-search-input");
+inp.addEventListener("keydown",function(e){
+if(e.key==="Enter"&&this.value.trim()){
+srch(this.value.trim());}});}
 var poll=setInterval(function(){
-if(document.querySelectorAll('[data-framer-name="Nav Column"]').length){
-inject();
-}
+if(document.querySelectorAll('[data-framer-name="Nav Column"]').length)inject();
 },200);
-
-// Stop polling after 30 seconds
 setTimeout(function(){clearInterval(poll);},30000);
-
 new MutationObserver(function(){
 inject();
 }).observe(document.body,{childList:true,subtree:true,attributes:true});
-
 document.addEventListener("DOMContentLoaded",inject);
-});
+})();
