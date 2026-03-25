@@ -1,10 +1,16 @@
 (function(){
+function loadAlgolia(cb){
+if(window.algoliasearch){cb();return;}
+var s=document.createElement("script");
+s.src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js";
+s.onload=cb;
+document.head.appendChild(s);}
 window.srch=function(q){
-if(!window.algoliasearch){setTimeout(function(){window.srch(q);},300);return;}
+loadAlgolia(function(){
 var c=window.algoliasearch("E3WSWA1RJ6","f6fca2acd7672892699e91a42117a01b");
 Promise.all([c.initIndex("www_exymesplc_com_e3wswa1rj6_pages").search(q,{hitsPerPage:6}),c.initIndex("exymesplc_pdfs").search(q,{hitsPerPage:4})]).then(function(r){
 var ph=r[0].hits.filter(function(h){return!h.url||!h.url.includes("/team");});
-show(q,ph.concat(r[1].hits));});};
+show(q,ph.concat(r[1].hits));});});};
 function show(q,hits){
 var old=document.getElementById("mr");if(old)old.remove();
 var p=document.createElement("div");p.id="mr";
