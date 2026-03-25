@@ -1,6 +1,6 @@
 (function(){
-function srch(q){
-if(!window.algoliasearch){setTimeout(function(){srch(q);},300);return;}
+window.srch=function srch(q){
+if(!window.algoliasearch){setTimeout(function(){window.srch(q);},300);return;}
 var c=window.algoliasearch("E3WSWA1RJ6","f6fca2acd7672892699e91a42117a01b");
 Promise.all([c.initIndex("www_exymesplc_com_e3wswa1rj6_pages").search(q,{hitsPerPage:6}),c.initIndex("exymesplc_pdfs").search(q,{hitsPerPage:4})]).then(function(r){
 var ph=r[0].hits.filter(function(h){return!h.url||!h.url.includes("/team");});
@@ -55,7 +55,7 @@ setTimeout(function(){var i=document.getElementById("mob-search-input");if(i)i.f
 var inp=document.getElementById("mob-search-input");
 inp.addEventListener("keydown",function(e){
 if(e.key==="Enter"&&this.value.trim()){
-srch(this.value.trim());}});}
+window.srch(this.value.trim());
 var poll=setInterval(function(){
 if(document.querySelectorAll('[data-framer-name="Nav Column"]').length)inject();
 },200);
