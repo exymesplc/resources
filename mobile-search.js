@@ -14,7 +14,12 @@ function loadAlgolia(cb){
     si.async=true;
     var loaded=0;
     function check(){ if(++loaded === 2) { 
-        window.aa('init', { appId: 'E3WSWA1RJ6', apiKey: 'f6fca2acd7672892699e91a42117a01b', useCookie: true });
+        window.aa('init', { 
+            appId: 'E3WSWA1RJ6', 
+            apiKey: 'f6fca2acd7672892699e91a42117a01b',
+            useCookie: false, // This stops it from failing on dev domains
+            anonymousUserToken: true 
+});
         cb(); 
     }}
     s.onload=check; si.onload=check;
