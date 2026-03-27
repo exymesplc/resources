@@ -12,6 +12,7 @@ function loadAlgolia(cb){
         // Initialize Insights
         window.aa('init', { appId: 'E3WSWA1RJ6', apiKey: 'f6fca2acd7672892699e91a42117a01b' });
         cb(); 
+        window.aa('setUserToken', 'anonymous-user-' + Math.floor(Math.random() * 1000000));
     }}
     s.onload=check; si.onload=check;
     document.head.appendChild(s); document.head.appendChild(si);
