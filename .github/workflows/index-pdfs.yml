@@ -22,6 +22,7 @@ jobs:
         env:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_ADMIN_KEY: ${{ secrets.ALGOLIA_ADMIN_KEY }}
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: |
           python << 'EOF'
           import requests
