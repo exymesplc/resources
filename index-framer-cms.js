@@ -1,5 +1,5 @@
-const { connect } = require("framer-api")
-const algoliasearch = require("algoliasearch")
+import { connect } from "framer-api"
+import algoliasearch from "algoliasearch"
 
 async function main() {
     // Connect to Framer
