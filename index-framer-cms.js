@@ -74,7 +74,7 @@ async function main() {
 
         await client.clearObjects({ indexName: "exymesplc_pdfs" })
         const result = await client.saveObjects({ indexName: "exymesplc_pdfs", objects: records })
-        console.log(`Indexed ${result.objectIDs.length} records to Algolia`)
+        console.log(`Indexing complete`, JSON.stringify(result))
 
     await framer.disconnect()
 }
