@@ -1,125 +1,32 @@
-name: Index PDFs to Algolia
+name: Index Resources from Framer CMS to Algolia
 
 on:
-  schedule:
-    - cron: '0 2 * * 1'
   workflow_dispatch:
+  schedule:
+    - cron: '0 2 15 * *'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   index:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '24'
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4 pdfplumber algoliasearch
+        run: npm install framer-api algoliasearch
 
-      - name: Scrape and index PDFs
+      - name: Run indexer
         env:
-          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          FRAMER_API_KEY: ${{ secrets.FRAMER_API_KEY }}
+          ALGOLIA_APP_ID: E3WSWA1RJ6
           ALGOLIA_ADMIN_KEY: ${{ secrets.ALGOLIA_ADMIN_KEY }}
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        run: |
-          python << 'EOF'
-          import requests
-          from bs4 import BeautifulSoup
-          import pdfplumber
-          import io
-          import os
-          import asyncio
-          from algoliasearch.search.client import SearchClient
-
-          RESOURCES_URL = "https://www.exymesplc.com/resources"
-          APP_ID = os.environ["ALGOLIA_APP_ID"]
-          ADMIN_KEY = os.environ["ALGOLIA_ADMIN_KEY"]
-          INDEX_NAME = "exymesplc_pdfs"
-
-          print("Scraping resources page...")
-          response = requests.get(RESOURCES_URL, timeout=30)
-          soup = BeautifulSoup(response.text, "html.parser")
-
-          pdf_links = []
-          seen_download_urls = set()
-
-          all_links = soup.find_all("a", href=True)
-          for i, a in enumerate(all_links):
-              href = a["href"]
-              if "framerusercontent.com" in href and href.endswith(".pdf"):
-                  if href in seen_download_urls:
-                      continue
-                  seen_download_urls.add(href)
-
-                  title = "Unknown"
-                  view_url = href
-
-                  for prev_a in reversed(all_links[:i]):
-                      prev_href = prev_a.get("href", "")
-                      if "resources.exymesplc.com" in prev_href and prev_href.endswith(".pdf"):
-                          view_url = prev_href
-                          title = prev_a.get_text(strip=True)
-                          break
-
-                  pdf_links.append({
-                      "title": title,
-                      "url": view_url,
-                      "download_url": href,
-                  })
-
-          print(f"Found {len(pdf_links)} PDFs")
-
-          records = []
-          for pdf in pdf_links:
-              print(f"Processing: {pdf['title']}")
-              try:
-                  pdf_response = requests.get(pdf["download_url"], timeout=30)
-                  pdf_response.raise_for_status()
-
-                  text_content = ""
-                  with pdfplumber.open(io.BytesIO(pdf_response.content)) as f:
-                      for page in f.pages:
-                          text = page.extract_text()
-                          if text:
-                              text_content += text + " "
-
-                  text_content = text_content.strip()[:5000]
-
-                  if text_content:
-                      record = {
-                          "objectID": pdf["url"],
-                          "url": pdf["url"],
-                          "headers": [pdf["title"]],
-                          "title": pdf["title"],
-                          "description": text_content[:200],
-                          "content": text_content,
-                          "type": "pdf",
-                      }
-                      records.append(record)
-                      print(f"Extracted {len(text_content)} characters")
-                  else:
-                      print(f"No text extracted from {pdf['title']}")
-
-              except Exception as e:
-                  print(f"Error processing {pdf['title']}: {e}")
-                  continue
-
-          print(f"Total records built: {len(records)}")
-
-          async def push_to_algolia(records):
-              client = SearchClient(APP_ID, ADMIN_KEY)
-              try:
-                  result = await client.save_objects(INDEX_NAME, records)
-                  print(f"Algolia response: {result}")
-                  print("Done.")
-              finally:
-                  await client.close()
-
-          if records:
-              print(f"Pushing {len(records)} records to Algolia...")
-              asyncio.run(push_to_algolia(records))
-          else:
-              print("No records to push.")
-          EOF
+        run: node index-framer-cms.js
