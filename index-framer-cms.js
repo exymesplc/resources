@@ -1,5 +1,5 @@
 import { connect } from "framer-api"
-import algoliasearch from "algoliasearch"
+import { algoliasearch } from "algoliasearch"
 
 async function main() {
     // Connect to Framer
