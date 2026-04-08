@@ -40,9 +40,10 @@ async function main() {
         const fd = item.fieldData
 
         const title = fd[fieldMap["title"]] || ""
-        const link = fd[fieldMap["link"]] || ""
-        const source = fd[fieldMap["source"]] || ""
-        const type = fd[fieldMap["type"]] || ""
+        const linkRaw = fd[fieldMap["link"]] || ""
+        const link = typeof linkRaw === "object" ? (linkRaw.url || linkRaw.href || JSON.stringify(linkRaw)) : linkRaw
+        const source = typeof fd[fieldMap["source"]] === "object" ? (fd[fieldMap["source"]]?.name || "") : (fd[fieldMap["source"]] || "")
+        const type = typeof fd[fieldMap["type"]] === "object" ? (fd[fieldMap["type"]]?.name || "") : (fd[fieldMap["type"]] || "")
 
         // Content field is rich text (HTML) - strip tags for plain text
         let content = fd[fieldMap["content"]] || ""
