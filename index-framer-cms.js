@@ -66,16 +66,14 @@ async function main() {
     console.log(`Built ${records.length} records for Algolia`)
 
     // Push to Algolia
-    const client = algoliasearch(
+        const client = algoliasearch(
         process.env.ALGOLIA_APP_ID,
         process.env.ALGOLIA_ADMIN_KEY
-    )
-    const index = client.initIndex("exymesplc_pdfs")
+        )
 
-    // Clear existing records and replace with fresh data
-    await index.clearObjects()
-    const result = await index.saveObjects(records)
-    console.log(`Indexed ${result.objectIDs.length} records to Algolia`)
+        await client.clearObjects({ indexName: "exymesplc_pdfs" })
+        const result = await client.saveObjects({ indexName: "exymesplc_pdfs", objects: records })
+        console.log(`Indexed ${result.objectIDs.length} records to Algolia`)
 
     await framer.disconnect()
 }
