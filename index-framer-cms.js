@@ -108,6 +108,17 @@ async function main() {
             ? rawReadButton.value === true
             : rawReadButton === true
 
+        // Year and Journal — plain text fields
+        const yearRaw = fd[fieldMap["year"]]
+        const year = typeof yearRaw === "object"
+            ? (yearRaw?.value || "")
+            : (yearRaw || "")
+
+        const journalRaw = fd[fieldMap["journal"]]
+        const journal = typeof journalRaw === "object"
+            ? (journalRaw?.value || "")
+            : (journalRaw || "")
+
         // Research Areas — Framer returns {"type":"multiCollectionReference","value":["slug1","slug2"]}
         const rawRA = fd[fieldMap["researchareas"]]
         const raArray = (typeof rawRA === "object" && rawRA !== null && Array.isArray(rawRA.value))
@@ -116,7 +127,6 @@ async function main() {
 
         const researchAreas = raArray
             .map((entry) => {
-                // entry may be a slug string or an object with id/slug
                 const key = typeof entry === "object" ? (entry.id || entry.slug || "") : entry
                 return researchAreaMap[key] || null
             })
@@ -131,6 +141,8 @@ async function main() {
             type: type,
             source: source,
             readButton: readButton,
+            year: String(year),
+            journal: String(journal),
             researchAreas: researchAreas,
             slug: item.slug,
         })
