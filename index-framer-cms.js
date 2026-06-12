@@ -95,7 +95,7 @@ async function main() {
             readButtonLogCount++
         }
 
-        const readButton = !!rawReadButton
+        const readButton = typeof rawReadButton === "object" ? rawReadButton.value === true : rawReadButton === true
 
         const researchAreasRaw = fd[fieldMap["research areas"]]
         let researchAreas = []
