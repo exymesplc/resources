@@ -9,6 +9,7 @@ async function main() {
 
     const collections = await framer.getCollections()
 
+    // ── Resources collection ──────────────────────────────────────────────
     const resourcesCollection = collections.find(c => c.name === "Resources")
     if (!resourcesCollection) {
         console.error("Could not find Resources collection")
@@ -24,6 +25,8 @@ async function main() {
         fieldMap[field.name.toLowerCase()] = field.id
     }
 
+    // The "Visible Read button" field name contains special quote characters
+    // that may not match a string literal reliably. Look it up by type instead.
     const readButtonField = fields.find(f => f.type === "boolean")
     if (readButtonField) {
         fieldMap["readbutton"] = readButtonField.id
@@ -32,6 +35,7 @@ async function main() {
         console.warn("Could not find boolean field for Read button")
     }
 
+    // ── Research Area collection ──────────────────────────────────────────
     const researchAreaCollection = collections.find(c => c.name === "Research Area")
     const researchAreaMap = {}
 
@@ -52,12 +56,11 @@ async function main() {
         console.warn("Research Area collection not found — researchAreas field will be empty on all records")
     }
 
+    // ── Fetch and build records ───────────────────────────────────────────
     const items = await resourcesCollection.getItems()
     console.log(`Found ${items.length} items in Resources collection`)
 
     const records = []
-    let readButtonLogCount = 0
-
     for (const item of items) {
         if (item.draft) continue
 
@@ -88,15 +91,13 @@ async function main() {
 
         if (!title || !link) continue
 
-        // Log raw readButton value for first 5 external records to diagnose
+        // Framer returns booleans as {"type":"boolean","value":true/false}
         const rawReadButton = fd[fieldMap["readbutton"]]
-        if (readButtonLogCount < 5 && source.toLowerCase().includes("external")) {
-            console.log(`readButton raw value for "${title.substring(0,40)}...": ${JSON.stringify(rawReadButton)} (type: ${typeof rawReadButton})`)
-            readButtonLogCount++
-        }
+        const readButton = typeof rawReadButton === "object"
+            ? rawReadButton.value === true
+            : rawReadButton === true
 
-        const readButton = typeof rawReadButton === "object" ? rawReadButton.value === true : rawReadButton === true
-
+        // Research Areas — multi-collection reference, resolve IDs to names
         const researchAreasRaw = fd[fieldMap["research areas"]]
         let researchAreas = []
         if (Array.isArray(researchAreasRaw)) {
@@ -124,6 +125,7 @@ async function main() {
 
     console.log(`Built ${records.length} records for Algolia`)
 
+    // ── Push to Algolia ───────────────────────────────────────────────────
     const client = algoliasearch(
         process.env.ALGOLIA_APP_ID,
         process.env.ALGOLIA_ADMIN_KEY
