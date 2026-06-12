@@ -35,6 +35,15 @@ async function main() {
         console.warn("Could not find boolean field for Read button")
     }
 
+    // Look up Research Areas field by type to avoid name matching issues
+    const researchAreasField = fields.find(f => f.type === "multiCollectionReference" && f.name.toLowerCase().includes("research"))
+    if (researchAreasField) {
+        fieldMap["researchareas"] = researchAreasField.id
+        console.log(`Research Areas field resolved: "${researchAreasField.name}" (${researchAreasField.id})`)
+    } else {
+        console.warn("Could not find Research Areas field")
+    }
+
     // ── Research Area collection ──────────────────────────────────────────
     const researchAreaCollection = collections.find(c => c.name === "Research Area")
     const researchAreaMap = {}
@@ -61,6 +70,8 @@ async function main() {
     console.log(`Found ${items.length} items in Resources collection`)
 
     const records = []
+    let raLogCount = 0
+
     for (const item of items) {
         if (item.draft) continue
 
@@ -97,11 +108,28 @@ async function main() {
             ? rawReadButton.value === true
             : rawReadButton === true
 
-        // Research Areas — multi-collection reference, resolve IDs to names
-        // Temporary diagnostic — remove after
-        const researchAreasRaw = fd[fieldMap["research areas"]]
-        console.log(`Research Areas raw for "${title.substring(0,40)}": ${JSON.stringify(researchAreasRaw)}`)
+        // Research Areas — use safe key resolved by field type above
+        const researchAreasRaw = fd[fieldMap["researchareas"]]
+
+        // Diagnostic: log raw value for first 5 external records
+        if (raLogCount < 5 && source.toLowerCase().includes("external")) {
+            console.log(`RA raw for "${title.substring(0, 40)}": ${JSON.stringify(researchAreasRaw)}`)
+            raLogCount++
+        }
+
         let researchAreas = []
+        if (Array.isArray(researchAreasRaw)) {
+            researchAreas = researchAreasRaw
+                .map(r => {
+                    const id = typeof r === "object" ? (r.id || r) : r
+                    return researchAreaMap[id] || null
+                })
+                .filter(name => name && name.toLowerCase() !== "unclassified")
+        } else if (researchAreasRaw && typeof researchAreasRaw === "object") {
+            // May be a single reference rather than array
+            const id = researchAreasRaw.id || researchAreasRaw
+            const name = researchAreaMap[id]
+            if (name && name.toLowerCase() !== "unclassified") researchAreas = [name]
         }
 
         records.push({
