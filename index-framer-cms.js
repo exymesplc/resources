@@ -8,10 +8,11 @@ async function main() {
         process.env.FRAMER_API_KEY
     )
 
-    // Get all collections and find Resources
+    // Get all collections
     const collections = await framer.getCollections()
-    const resourcesCollection = collections.find(c => c.name === "Resources")
 
+    // ── Resources collection ──────────────────────────────────────────────
+    const resourcesCollection = collections.find(c => c.name === "Resources")
     if (!resourcesCollection) {
         console.error("Could not find Resources collection")
         await framer.disconnect()
@@ -28,22 +29,55 @@ async function main() {
         fieldMap[field.name.toLowerCase()] = field.id
     }
 
-    // Get all items
+    // ── Research Area collection ──────────────────────────────────────────
+    // Fetch the taxonomy collection so we can resolve reference IDs to names
+    const researchAreaCollection = collections.find(c => c.name === "Research Area")
+    const researchAreaMap = {}  // id -> display name
+
+    if (researchAreaCollection) {
+        const raFields = await researchAreaCollection.getFields()
+        const raTitleFieldId = raFields.find(f => f.name.toLowerCase() === "title")?.id
+        const raItems = await researchAreaCollection.getItems()
+        for (const item of raItems) {
+            const name = raTitleFieldId
+                ? (typeof item.fieldData[raTitleFieldId] === "object"
+                    ? (item.fieldData[raTitleFieldId]?.value || item.slug)
+                    : (item.fieldData[raTitleFieldId] || item.slug))
+                : item.slug
+            researchAreaMap[item.id] = name
+        }
+        console.log("Research Area terms loaded:", Object.values(researchAreaMap))
+    } else {
+        console.warn("Research Area collection not found — researchAreas field will be empty on all records")
+    }
+
+    // ── Fetch and build records ───────────────────────────────────────────
     const items = await resourcesCollection.getItems()
     console.log(`Found ${items.length} items in Resources collection`)
 
-    // Build Algolia records
     const records = []
     for (const item of items) {
         if (item.draft) continue
 
         const fd = item.fieldData
 
-        const title = typeof fd[fieldMap["title"]] === "object" ? (fd[fieldMap["title"]]?.value || "") : (fd[fieldMap["title"]] || "")
+        // Existing field extractions — unchanged from live version
+        const title = typeof fd[fieldMap["title"]] === "object"
+            ? (fd[fieldMap["title"]]?.value || "")
+            : (fd[fieldMap["title"]] || "")
+
         const linkRaw = fd[fieldMap["link"]] || ""
-        const link = typeof linkRaw === "object" ? (linkRaw.value || linkRaw.url || linkRaw.href || "") : linkRaw
-        const source = typeof fd[fieldMap["source"]] === "object" ? (fd[fieldMap["source"]]?.name || fd[fieldMap["source"]]?.value || "") : (fd[fieldMap["source"]] || "")
-        const type = typeof fd[fieldMap["type"]] === "object" ? (fd[fieldMap["type"]]?.name || fd[fieldMap["type"]]?.value || "") : (fd[fieldMap["type"]] || "")
+        const link = typeof linkRaw === "object"
+            ? (linkRaw.value || linkRaw.url || linkRaw.href || "")
+            : linkRaw
+
+        const source = typeof fd[fieldMap["source"]] === "object"
+            ? (fd[fieldMap["source"]]?.name || fd[fieldMap["source"]]?.value || "")
+            : (fd[fieldMap["source"]] || "")
+
+        const type = typeof fd[fieldMap["type"]] === "object"
+            ? (fd[fieldMap["type"]]?.name || fd[fieldMap["type"]]?.value || "")
+            : (fd[fieldMap["type"]] || "")
 
         // Content field is rich text (HTML) - strip tags for plain text
         let content = fd[fieldMap["content"]] || ""
@@ -51,6 +85,23 @@ async function main() {
         content = content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
 
         if (!title || !link) continue
+
+        // ── New fields ────────────────────────────────────────────────────
+
+        // Visible "Read button" boolean
+        const readButton = fd[fieldMap['visible "read button"']] === true
+
+        // Research Areas — multi-collection reference, resolve IDs to names
+        const researchAreasRaw = fd[fieldMap["research areas"]]
+        let researchAreas = []
+        if (Array.isArray(researchAreasRaw)) {
+            researchAreas = researchAreasRaw
+                .map(r => {
+                    const id = typeof r === "object" ? (r.id || r) : r
+                    return researchAreaMap[id] || null
+                })
+                .filter(name => name && name.toLowerCase() !== "unclassified")
+        }
 
         records.push({
             objectID: link,
@@ -60,6 +111,8 @@ async function main() {
             content: content,
             type: type,
             source: source,
+            readButton: readButton,
+            researchAreas: researchAreas,
             slug: item.slug,
         })
     }
@@ -67,14 +120,13 @@ async function main() {
     console.log(`Built ${records.length} records for Algolia`)
 
     // Push to Algolia
-        const client = algoliasearch(
+    const client = algoliasearch(
         process.env.ALGOLIA_APP_ID,
         process.env.ALGOLIA_ADMIN_KEY
-        )
-
-        await client.clearObjects({ indexName: "exymesplc_pdfs" })
-        const result = await client.saveObjects({ indexName: "exymesplc_pdfs", objects: records })
-        console.log(`Indexing complete`, JSON.stringify(result))
+    )
+    await client.clearObjects({ indexName: "exymesplc_pdfs" })
+    const result = await client.saveObjects({ indexName: "exymesplc_pdfs", objects: records })
+    console.log(`Indexing complete`, JSON.stringify(result))
 
     await framer.disconnect()
 }
