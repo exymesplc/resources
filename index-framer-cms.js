@@ -2,16 +2,13 @@ import { connect } from "framer-api"
 import { algoliasearch } from "algoliasearch"
 
 async function main() {
-    // Connect to Framer
     const framer = await connect(
         "https://framer.com/projects/Exymes--czdyj1xGi8duWDmv3kS7-82ESk",
         process.env.FRAMER_API_KEY
     )
 
-    // Get all collections
     const collections = await framer.getCollections()
 
-    // ── Resources collection ──────────────────────────────────────────────
     const resourcesCollection = collections.find(c => c.name === "Resources")
     if (!resourcesCollection) {
         console.error("Could not find Resources collection")
@@ -19,19 +16,14 @@ async function main() {
         process.exit(1)
     }
 
-    // Get fields so we can map field IDs to names
     const fields = await resourcesCollection.getFields()
     console.log("Fields found:", fields.map(f => ({ id: f.id, name: f.name, type: f.type })))
 
-    // Build a field name to ID map (lowercase keys)
     const fieldMap = {}
     for (const field of fields) {
         fieldMap[field.name.toLowerCase()] = field.id
     }
 
-    // The "Visible Read button" field name contains special quote characters
-    // that may not match a string literal reliably. Look it up by type and
-    // known ID instead, and store under a safe key.
     const readButtonField = fields.find(f => f.type === "boolean")
     if (readButtonField) {
         fieldMap["readbutton"] = readButtonField.id
@@ -40,7 +32,6 @@ async function main() {
         console.warn("Could not find boolean field for Read button")
     }
 
-    // ── Research Area collection ──────────────────────────────────────────
     const researchAreaCollection = collections.find(c => c.name === "Research Area")
     const researchAreaMap = {}
 
@@ -61,11 +52,12 @@ async function main() {
         console.warn("Research Area collection not found — researchAreas field will be empty on all records")
     }
 
-    // ── Fetch and build records ───────────────────────────────────────────
     const items = await resourcesCollection.getItems()
     console.log(`Found ${items.length} items in Resources collection`)
 
     const records = []
+    let readButtonLogCount = 0
+
     for (const item of items) {
         if (item.draft) continue
 
@@ -88,7 +80,6 @@ async function main() {
             ? (fd[fieldMap["type"]]?.name || fd[fieldMap["type"]]?.value || "")
             : (fd[fieldMap["type"]] || "")
 
-        // Content field is rich text (formattedText) - extract string then strip HTML tags
         let content = fd[fieldMap["content"]] || ""
         if (typeof content === "object") {
             content = content.html || content.value || content.markdown || ""
@@ -97,10 +88,15 @@ async function main() {
 
         if (!title || !link) continue
 
-        // Read button — use safe key resolved by field type above
-        const readButton = fd[fieldMap["readbutton"]] === true
+        // Log raw readButton value for first 5 external records to diagnose
+        const rawReadButton = fd[fieldMap["readbutton"]]
+        if (readButtonLogCount < 5 && source.toLowerCase().includes("external")) {
+            console.log(`readButton raw value for "${title.substring(0,40)}...": ${JSON.stringify(rawReadButton)} (type: ${typeof rawReadButton})`)
+            readButtonLogCount++
+        }
 
-        // Research Areas — multi-collection reference, resolve IDs to names
+        const readButton = !!rawReadButton
+
         const researchAreasRaw = fd[fieldMap["research areas"]]
         let researchAreas = []
         if (Array.isArray(researchAreasRaw)) {
@@ -128,7 +124,6 @@ async function main() {
 
     console.log(`Built ${records.length} records for Algolia`)
 
-    // Push to Algolia
     const client = algoliasearch(
         process.env.ALGOLIA_APP_ID,
         process.env.ALGOLIA_ADMIN_KEY
