@@ -25,8 +25,7 @@ async function main() {
         fieldMap[field.name.toLowerCase()] = field.id
     }
 
-    // The "Visible Read button" field name contains special quote characters
-    // that may not match a string literal reliably. Look it up by type instead.
+    // Resolve boolean field by type to avoid special character matching issues
     const readButtonField = fields.find(f => f.type === "boolean")
     if (readButtonField) {
         fieldMap["readbutton"] = readButtonField.id
@@ -35,7 +34,7 @@ async function main() {
         console.warn("Could not find boolean field for Read button")
     }
 
-    // Look up Research Areas field by type to avoid name matching issues
+    // Resolve Research Areas field by type to avoid name matching issues
     const researchAreasField = fields.find(f => f.type === "multiCollectionReference" && f.name.toLowerCase().includes("research"))
     if (researchAreasField) {
         fieldMap["researchareas"] = researchAreasField.id
@@ -58,7 +57,9 @@ async function main() {
                     ? (item.fieldData[raTitleFieldId]?.value || item.slug)
                     : (item.fieldData[raTitleFieldId] || item.slug))
                 : item.slug
+            // Store by both item.id and slug for flexible lookup
             researchAreaMap[item.id] = name
+            researchAreaMap[item.slug] = name
         }
         console.log("Research Area terms loaded:", Object.values(researchAreaMap))
     } else {
@@ -70,7 +71,6 @@ async function main() {
     console.log(`Found ${items.length} items in Resources collection`)
 
     const records = []
-    let raLogCount = 0
 
     for (const item of items) {
         if (item.draft) continue
@@ -102,35 +102,25 @@ async function main() {
 
         if (!title || !link) continue
 
-        // Framer returns booleans as {"type":"boolean","value":true/false}
+        // Framer wraps all field values in {type, value} objects
         const rawReadButton = fd[fieldMap["readbutton"]]
         const readButton = typeof rawReadButton === "object"
             ? rawReadButton.value === true
             : rawReadButton === true
 
-        // Research Areas — use safe key resolved by field type above
-        const researchAreasRaw = fd[fieldMap["researchareas"]]
+        // Research Areas — Framer returns {"type":"multiCollectionReference","value":["slug1","slug2"]}
+        const rawRA = fd[fieldMap["researchareas"]]
+        const raArray = (typeof rawRA === "object" && rawRA !== null && Array.isArray(rawRA.value))
+            ? rawRA.value
+            : []
 
-        // Diagnostic: log raw value for first 5 external records
-        if (raLogCount < 5 && source.toLowerCase().includes("external")) {
-            console.log(`RA raw for "${title.substring(0, 40)}": ${JSON.stringify(researchAreasRaw)}`)
-            raLogCount++
-        }
-
-        let researchAreas = []
-        if (Array.isArray(researchAreasRaw)) {
-            researchAreas = researchAreasRaw
-                .map(r => {
-                    const id = typeof r === "object" ? (r.id || r) : r
-                    return researchAreaMap[id] || null
-                })
-                .filter(name => name && name.toLowerCase() !== "unclassified")
-        } else if (researchAreasRaw && typeof researchAreasRaw === "object") {
-            // May be a single reference rather than array
-            const id = researchAreasRaw.id || researchAreasRaw
-            const name = researchAreaMap[id]
-            if (name && name.toLowerCase() !== "unclassified") researchAreas = [name]
-        }
+        const researchAreas = raArray
+            .map((entry: any) => {
+                // entry may be a slug string or an object with id/slug
+                const key = typeof entry === "object" ? (entry.id || entry.slug || "") : entry
+                return researchAreaMap[key] || null
+            })
+            .filter((name: any) => name && name.toLowerCase() !== "unclassified")
 
         records.push({
             objectID: link,
