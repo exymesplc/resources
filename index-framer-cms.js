@@ -115,12 +115,12 @@ async function main() {
             : []
 
         const researchAreas = raArray
-            .map((entry: any) => {
+            .map((entry) => {
                 // entry may be a slug string or an object with id/slug
                 const key = typeof entry === "object" ? (entry.id || entry.slug || "") : entry
                 return researchAreaMap[key] || null
             })
-            .filter((name: any) => name && name.toLowerCase() !== "unclassified")
+            .filter((name) => name && name.toLowerCase() !== "unclassified")
 
         records.push({
             objectID: link,
