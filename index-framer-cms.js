@@ -23,16 +23,26 @@ async function main() {
     const fields = await resourcesCollection.getFields()
     console.log("Fields found:", fields.map(f => ({ id: f.id, name: f.name, type: f.type })))
 
-    // Build a field name to ID map
+    // Build a field name to ID map (lowercase keys)
     const fieldMap = {}
     for (const field of fields) {
         fieldMap[field.name.toLowerCase()] = field.id
     }
 
+    // The "Visible Read button" field name contains special quote characters
+    // that may not match a string literal reliably. Look it up by type and
+    // known ID instead, and store under a safe key.
+    const readButtonField = fields.find(f => f.type === "boolean")
+    if (readButtonField) {
+        fieldMap["readbutton"] = readButtonField.id
+        console.log(`Read button field resolved: "${readButtonField.name}" (${readButtonField.id})`)
+    } else {
+        console.warn("Could not find boolean field for Read button")
+    }
+
     // ── Research Area collection ──────────────────────────────────────────
-    // Fetch the taxonomy collection so we can resolve reference IDs to names
     const researchAreaCollection = collections.find(c => c.name === "Research Area")
-    const researchAreaMap = {}  // id -> display name
+    const researchAreaMap = {}
 
     if (researchAreaCollection) {
         const raFields = await researchAreaCollection.getFields()
@@ -61,7 +71,6 @@ async function main() {
 
         const fd = item.fieldData
 
-        // Existing field extractions — unchanged from live version
         const title = typeof fd[fieldMap["title"]] === "object"
             ? (fd[fieldMap["title"]]?.value || "")
             : (fd[fieldMap["title"]] || "")
@@ -82,17 +91,14 @@ async function main() {
         // Content field is rich text (formattedText) - extract string then strip HTML tags
         let content = fd[fieldMap["content"]] || ""
         if (typeof content === "object") {
-            // formattedText can return { html: "...", ... } or { value: "..." }
             content = content.html || content.value || content.markdown || ""
         }
         content = String(content).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
 
         if (!title || !link) continue
 
-        // ── New fields ────────────────────────────────────────────────────
-
-        // Visible "Read button" boolean
-        const readButton = fd[fieldMap['visible "read button"']] === true
+        // Read button — use safe key resolved by field type above
+        const readButton = fd[fieldMap["readbutton"]] === true
 
         // Research Areas — multi-collection reference, resolve IDs to names
         const researchAreasRaw = fd[fieldMap["research areas"]]
