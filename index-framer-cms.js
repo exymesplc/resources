@@ -98,15 +98,10 @@ async function main() {
             : rawReadButton === true
 
         // Research Areas — multi-collection reference, resolve IDs to names
+        // Temporary diagnostic — remove after
         const researchAreasRaw = fd[fieldMap["research areas"]]
+        console.log(`Research Areas raw for "${title.substring(0,40)}": ${JSON.stringify(researchAreasRaw)}`)
         let researchAreas = []
-        if (Array.isArray(researchAreasRaw)) {
-            researchAreas = researchAreasRaw
-                .map(r => {
-                    const id = typeof r === "object" ? (r.id || r) : r
-                    return researchAreaMap[id] || null
-                })
-                .filter(name => name && name.toLowerCase() !== "unclassified")
         }
 
         records.push({
