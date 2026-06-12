@@ -79,10 +79,13 @@ async function main() {
             ? (fd[fieldMap["type"]]?.name || fd[fieldMap["type"]]?.value || "")
             : (fd[fieldMap["type"]] || "")
 
-        // Content field is rich text (HTML) - strip tags for plain text
+        // Content field is rich text (formattedText) - extract string then strip HTML tags
         let content = fd[fieldMap["content"]] || ""
-        if (typeof content === "object" && content.value) content = content.value
-        content = content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+        if (typeof content === "object") {
+            // formattedText can return { html: "...", ... } or { value: "..." }
+            content = content.html || content.value || content.markdown || ""
+        }
+        content = String(content).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
 
         if (!title || !link) continue
 
