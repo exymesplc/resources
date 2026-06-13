@@ -133,7 +133,7 @@ async function main() {
         }
         content = String(content).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
         // Truncate content to keep Algolia records under 10KB limit
-        if (content.length > 1500) content = content.substring(0, 1500).trim() + "..."
+        if (content.length > 3000) content = content.substring(0, 3000).trim() + "..."
 
         if (!title || !link) continue
 
@@ -187,7 +187,7 @@ async function main() {
             .filter((name) => name && name.toLowerCase() !== "unclassified")
 
         // Keep description short for Algolia snippet display
-        const description = content.length > 300 ? content.substring(0, 300).trim() + "..." : content
+        const description = content.length > 1500 ? content.substring(0, 1500).trim() + "..." : content
 
         records.push({
             objectID: link,
