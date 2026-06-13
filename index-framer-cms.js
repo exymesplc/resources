@@ -61,7 +61,8 @@ async function main() {
             researchAreaMap[item.id] = name
             researchAreaMap[item.slug] = name
         }
-        console.log("Research Area terms loaded:", Object.values(researchAreaMap))
+        const uniqueTerms = [...new Set(Object.values(researchAreaMap))]
+        console.log("Research Area terms loaded:", uniqueTerms)
     } else {
         console.warn("Research Area collection not found — researchAreas field will be empty on all records")
     }
@@ -99,6 +100,8 @@ async function main() {
             content = content.html || content.value || content.markdown || ""
         }
         content = String(content).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+        // Truncate content to keep Algolia records under 10KB limit
+        if (content.length > 1500) content = content.substring(0, 1500).trim() + "..."
 
         if (!title || !link) continue
 
