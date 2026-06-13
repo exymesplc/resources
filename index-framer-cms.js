@@ -143,11 +143,14 @@ async function main() {
             })
             .filter((name) => name && name.toLowerCase() !== "unclassified")
 
+        // Keep description short for Algolia snippet display
+        const description = content.length > 300 ? content.substring(0, 300).trim() + "..." : content
+
         records.push({
             objectID: link,
             title: title,
             url: link,
-            description: content,
+            description: description,
             content: content,
             type: type,
             source: source,
@@ -162,13 +165,45 @@ async function main() {
 
     console.log(`Built ${records.length} records for Algolia`)
 
+    // Check record sizes before pushing — Algolia limit is 10,000 bytes per record
+    const encoder = new TextEncoder()
+    const oversized = []
+    const safeRecords = []
+    for (const record of records) {
+        const size = encoder.encode(JSON.stringify(record)).length
+        if (size > 9500) {
+            // Truncate content further until it fits
+            let truncated = { ...record }
+            while (encoder.encode(JSON.stringify(truncated)).length > 9500 && truncated.content.length > 100) {
+                truncated.content = truncated.content.substring(0, truncated.content.length - 200).trim() + "..."
+                truncated.description = truncated.content.substring(0, 300)
+            }
+            const finalSize = encoder.encode(JSON.stringify(truncated)).length
+            if (finalSize <= 9500) {
+                safeRecords.push(truncated)
+                console.log(`Truncated large record (${size} -> ${finalSize} bytes): ${record.title.substring(0, 60)}`)
+            } else {
+                oversized.push(record.title)
+                console.warn(`Skipping record too large to truncate: ${record.title.substring(0, 60)}`)
+            }
+        } else {
+            safeRecords.push(record)
+        }
+    }
+
+    if (oversized.length > 0) {
+        console.warn(`Skipped ${oversized.length} oversized records:`, oversized)
+    }
+
+    console.log(`Pushing ${safeRecords.length} records to Algolia`)
+
     // ── Push to Algolia ───────────────────────────────────────────────────
     const client = algoliasearch(
         process.env.ALGOLIA_APP_ID,
         process.env.ALGOLIA_ADMIN_KEY
     )
     await client.clearObjects({ indexName: "exymesplc_pdfs" })
-    const result = await client.saveObjects({ indexName: "exymesplc_pdfs", objects: records })
+    const result = await client.saveObjects({ indexName: "exymesplc_pdfs", objects: safeRecords })
     console.log(`Indexing complete`, JSON.stringify(result))
 
     await framer.disconnect()
