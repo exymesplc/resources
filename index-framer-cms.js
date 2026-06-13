@@ -79,9 +79,20 @@ async function main() {
             const nameRaw  = item.fieldData[pNameFieldId]
             const colorRaw = item.fieldData[pColorFieldId]
             const name  = typeof nameRaw  === "object" ? (nameRaw?.value  || item.slug) : (nameRaw  || item.slug)
-            const color = typeof colorRaw === "object" ? (colorRaw?.value || "")        : (colorRaw || "")
-            productsMap[item.id]   = { name: String(name).trim(), color: color ? `#${String(color).replace(/^#/, "").trim()}` : "" }
-            productsMap[item.slug] = { name: String(name).trim(), color: color ? `#${String(color).replace(/^#/, "").trim()}` : "" }
+            const color = typeof colorRaw === "object" ? (colorRaw?.value || "") : (colorRaw || "")
+            // Framer may return color as "rgb(...)", plain hex "RRGGBB", or "#RRGGBB"
+            // Normalise to a valid CSS color string
+            const colorStr = String(color).trim()
+            let cssColor = ""
+            if (colorStr.startsWith("rgb")) {
+                cssColor = colorStr  // already valid CSS
+            } else if (colorStr.match(/^[0-9A-Fa-f]{6}$/)) {
+                cssColor = `#${colorStr}`  // bare hex, add #
+            } else if (colorStr.startsWith("#")) {
+                cssColor = colorStr  // already has #
+            }
+            productsMap[item.id]   = { name: String(name).trim(), color: cssColor }
+            productsMap[item.slug] = { name: String(name).trim(), color: cssColor }
         }
         console.log("Products loaded:", Object.values(productsMap).filter((v, i, a) => a.findIndex(x => x.name === v.name) === i).map(p => `${p.name} (${p.color})`))
     } else {
