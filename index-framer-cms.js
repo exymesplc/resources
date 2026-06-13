@@ -57,7 +57,6 @@ async function main() {
                     ? (item.fieldData[raTitleFieldId]?.value || item.slug)
                     : (item.fieldData[raTitleFieldId] || item.slug))
                 : item.slug
-            // Store by both item.id and slug for flexible lookup
             researchAreaMap[item.id] = name
             researchAreaMap[item.slug] = name
         }
@@ -65,6 +64,28 @@ async function main() {
         console.log("Research Area terms loaded:", uniqueTerms)
     } else {
         console.warn("Research Area collection not found — researchAreas field will be empty on all records")
+    }
+
+    // ── Products collection ───────────────────────────────────────────────
+    const productsCollection = collections.find(c => c.name === "Products")
+    const productsMap = {}  // id -> { name, color }
+
+    if (productsCollection) {
+        const pFields = await productsCollection.getFields()
+        const pNameFieldId    = pFields.find(f => f.name === "Product Name")?.id
+        const pColorFieldId   = pFields.find(f => f.name === "Label Color")?.id
+        const pItems = await productsCollection.getItems()
+        for (const item of pItems) {
+            const nameRaw  = item.fieldData[pNameFieldId]
+            const colorRaw = item.fieldData[pColorFieldId]
+            const name  = typeof nameRaw  === "object" ? (nameRaw?.value  || item.slug) : (nameRaw  || item.slug)
+            const color = typeof colorRaw === "object" ? (colorRaw?.value || "")        : (colorRaw || "")
+            productsMap[item.id]   = { name: String(name).trim(), color: color ? `#${String(color).replace(/^#/, "").trim()}` : "" }
+            productsMap[item.slug] = { name: String(name).trim(), color: color ? `#${String(color).replace(/^#/, "").trim()}` : "" }
+        }
+        console.log("Products loaded:", Object.values(productsMap).filter((v, i, a) => a.findIndex(x => x.name === v.name) === i).map(p => `${p.name} (${p.color})`))
+    } else {
+        console.warn("Products collection not found — product tags will be empty")
     }
 
     // ── Fetch and build records ───────────────────────────────────────────
@@ -130,6 +151,17 @@ async function main() {
             ? (authorRaw?.value || "")
             : (authorRaw || "")
 
+        // Products — multi-collection reference, resolve to name + color
+        const rawProducts = fd[fieldMap["products"]]
+        const productsArray = (typeof rawProducts === "object" && rawProducts !== null && Array.isArray(rawProducts.value))
+            ? rawProducts.value : []
+        const products = productsArray
+            .map(entry => {
+                const key = typeof entry === "object" ? (entry.id || entry.slug || "") : entry
+                return productsMap[key] || null
+            })
+            .filter(p => p && p.name)
+
         // Research Areas — Framer returns {"type":"multiCollectionReference","value":["slug1","slug2"]}
         const rawRA = fd[fieldMap["researchareas"]]
         const raArray = (typeof rawRA === "object" && rawRA !== null && Array.isArray(rawRA.value))
@@ -158,6 +190,7 @@ async function main() {
             year: String(year),
             author: String(author),
             journal: String(journal),
+            products: products,
             researchAreas: researchAreas,
             slug: item.slug,
         })
