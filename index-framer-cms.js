@@ -163,6 +163,22 @@ async function main() {
         })
     }
 
+    // Check for duplicate objectIDs — Algolia merges records with the same objectID
+    const objectIDCounts = {}
+    for (const record of records) {
+        objectIDCounts[record.objectID] = (objectIDCounts[record.objectID] || 0) + 1
+    }
+    const duplicateIDs = Object.entries(objectIDCounts).filter(([id, count]) => count > 1)
+    if (duplicateIDs.length > 0) {
+        console.warn(`Found ${duplicateIDs.length} duplicate objectIDs (will be merged by Algolia):`)
+        for (const [id, count] of duplicateIDs) {
+            const dupeRecords = records.filter(r => r.objectID === id)
+            console.warn(`  ${id} (${count}x): ${dupeRecords.map(r => r.title.substring(0, 50)).join(' | ')}`)
+        }
+    } else {
+        console.log("No duplicate objectIDs found")
+    }
+
     console.log(`Built ${records.length} records for Algolia`)
 
     // Check record sizes before pushing — Algolia limit is 10,000 bytes per record
