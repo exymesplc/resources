@@ -113,14 +113,22 @@ async function main() {
 
         // Year and Journal — plain text fields
         const yearRaw = fd[fieldMap["year"]]
-        const year = typeof yearRaw === "object"
+        let year = typeof yearRaw === "object"
             ? (yearRaw?.value || "")
             : (yearRaw || "")
+        // Strip trailing .0 that appears when year was imported as a number
+        year = String(year).replace(/\.0$/, "").trim()
+        if (year === "nan" || year === "undefined") year = 
 
         const journalRaw = fd[fieldMap["journal"]]
         const journal = typeof journalRaw === "object"
             ? (journalRaw?.value || "")
             : (journalRaw || "")
+
+        const authorRaw = fd[fieldMap["lead author"]]
+        const author = typeof authorRaw === "object"
+            ? (authorRaw?.value || "")
+            : (authorRaw || "")
 
         // Research Areas — Framer returns {"type":"multiCollectionReference","value":["slug1","slug2"]}
         const rawRA = fd[fieldMap["researchareas"]]
@@ -145,6 +153,7 @@ async function main() {
             source: source,
             readButton: readButton,
             year: String(year),
+            author: String(author),
             journal: String(journal),
             researchAreas: researchAreas,
             slug: item.slug,
