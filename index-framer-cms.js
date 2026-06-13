@@ -118,7 +118,7 @@ async function main() {
             : (yearRaw || "")
         // Strip trailing .0 that appears when year was imported as a number
         year = String(year).replace(/\.0$/, "").trim()
-        if (year === "nan" || year === "undefined") year = 
+        if (year === "nan" || year === "undefined") year = ""
 
         const journalRaw = fd[fieldMap["journal"]]
         const journal = typeof journalRaw === "object"
