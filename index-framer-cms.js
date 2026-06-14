@@ -127,6 +127,15 @@ async function main() {
             ? (fd[fieldMap["type"]]?.name || fd[fieldMap["type"]]?.value || "")
             : (fd[fieldMap["type"]] || "")
 
+        // File field — Framer CDN URL for direct download
+        const fileRaw = fd[fieldMap["file"]]
+        let fileUrl = ""
+        if (fileRaw && typeof fileRaw === "object") {
+            fileUrl = fileRaw.url || fileRaw.value || ""
+        } else if (fileRaw && typeof fileRaw === "string") {
+            fileUrl = fileRaw
+        }
+
         let content = fd[fieldMap["content"]] || ""
         if (typeof content === "object") {
             content = content.html || content.value || content.markdown || ""
@@ -198,6 +207,7 @@ async function main() {
             type: type,
             source: source,
             readButton: readButton,
+            fileUrl: fileUrl,
             year: String(year),
             author: String(author),
             journal: String(journal),
