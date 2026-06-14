@@ -128,10 +128,17 @@ async function main() {
             : (fd[fieldMap["type"]] || "")
 
         // File field — Framer CDN URL for direct download
+        // Framer returns file fields as {"type":"file","value":{"id":"...","url":"https://..."}}
         const fileRaw = fd[fieldMap["file"]]
         let fileUrl = ""
         if (fileRaw && typeof fileRaw === "object") {
-            fileUrl = fileRaw.url || fileRaw.value || ""
+            // Handle {type, value} wrapper
+            const fileInner = fileRaw.value || fileRaw
+            if (typeof fileInner === "object") {
+                fileUrl = fileInner.url || fileInner.href || ""
+            } else {
+                fileUrl = String(fileInner)
+            }
         } else if (fileRaw && typeof fileRaw === "string") {
             fileUrl = fileRaw
         }
