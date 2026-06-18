@@ -242,6 +242,128 @@ async function main() {
 
     console.log(`Built ${records.length} records for Algolia`)
 
+    // ── Index Insights collection ─────────────────────────────────────────
+    const insightsCollection = collections.find(c => c.name === "Insights")
+    const insightsRecords = []
+
+    if (insightsCollection) {
+        const iFields = await insightsCollection.getFields()
+        console.log("Insights fields:", iFields.map(f => ({ id: f.id, name: f.name, type: f.type })))
+
+        const iFieldMap = {}
+        for (const field of iFields) {
+            iFieldMap[field.name.toLowerCase()] = field.id
+        }
+
+        const iItems = await insightsCollection.getItems()
+        console.log(`Found ${iItems.length} items in Insights collection`)
+
+        for (const item of iItems) {
+            if (item.draft) continue
+
+            const fd = item.fieldData
+
+            // Helper to safely extract a field value
+            function extractField(fieldId) {
+                if (!fieldId) return ""
+                const raw = fd[fieldId]
+                if (!raw) return ""
+                if (typeof raw === "object") {
+                    return raw.value || raw.url || raw.src || raw.href || ""
+                }
+                return String(raw)
+            }
+
+            const title = extractField(iFieldMap["name"]) || item.slug
+            const excerpt = extractField(iFieldMap["excerpt"])
+            const contentType = extractField(iFieldMap["content type"])
+            const slug = item.slug
+            const externalLink = extractField(iFieldMap["external link"])
+
+            // Date — may be a date object or ISO string
+            const dateRaw = fd[iFieldMap["date 2"]]
+            let date = ""
+            if (dateRaw) {
+                if (typeof dateRaw === "object") {
+                    date = dateRaw.value || dateRaw.iso || dateRaw.date || ""
+                } else {
+                    date = String(dateRaw)
+                }
+            }
+
+            // Thumbnail — image field returns object with url
+            const thumbRaw = fd[iFieldMap["thumbnail"]]
+            let thumbnail = ""
+            if (thumbRaw && typeof thumbRaw === "object") {
+                thumbnail = thumbRaw.url || thumbRaw.src || thumbRaw.value || ""
+            } else if (thumbRaw) {
+                thumbnail = String(thumbRaw)
+            }
+
+            // URL — external link takes priority, otherwise internal /insights/slug
+            const url = externalLink || `/insights/${slug}`
+
+            // Content — excerpt is plain text, use as-is for search
+            let searchContent = excerpt
+            // Also extract from rich content field if present
+            const richContentRaw = fd[iFieldMap["content"]]
+            if (richContentRaw) {
+                let richText = typeof richContentRaw === "object"
+                    ? (richContentRaw.html || richContentRaw.value || "")
+                    : String(richContentRaw)
+                richText = String(richText).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+                if (richText) searchContent = `${excerpt} ${richText}`.trim()
+            }
+
+            if (!title) continue
+
+            insightsRecords.push({
+                objectID: `/insights/${slug}`,
+                title,
+                slug,
+                excerpt,
+                contentType,
+                thumbnail,
+                date,
+                url,
+                content: searchContent.substring(0, 3000),
+                description: excerpt.substring(0, 500),
+                source: "Insights",
+            })
+        }
+
+        console.log(`Built ${insightsRecords.length} Insights records for Algolia`)
+
+        // Push to separate Insights index
+        await client.clearObjects({ indexName: "exymesplc_insights" })
+        const insightsResult = await client.saveObjects({
+            indexName: "exymesplc_insights",
+            objects: insightsRecords,
+        })
+        console.log("Insights indexing complete", JSON.stringify(insightsResult))
+
+        // Also push to the pages index so Insights appear in site search
+        // We push with source="Insights" so the SiteSearch component can badge them correctly
+        const insightsForPages = insightsRecords.map(r => ({
+            ...r,
+            objectID: `insights-${r.slug}`,
+        }))
+        const pagesResult = await client.saveObjects({
+            indexName: "www_exymesplc_com_e3wswa1rj6_pages",
+            objects: insightsForPages,
+        })
+        console.log(`Pushed ${insightsForPages.length} Insights records to pages index`)
+
+    } else {
+        console.warn("Insights collection not found — skipping Insights indexing")
+    }
+
+    // ── Initialise Algolia client ────────────────────────────────────────────
+    const client = algoliasearch(
+        process.env.ALGOLIA_APP_ID,
+        process.env.ALGOLIA_ADMIN_KEY
+    )
+
     // Check record sizes before pushing — Algolia limit is 10,000 bytes per record
     const encoder = new TextEncoder()
     const oversized = []
@@ -275,10 +397,6 @@ async function main() {
     console.log(`Pushing ${safeRecords.length} records to Algolia`)
 
     // ── Push to Algolia ───────────────────────────────────────────────────
-    const client = algoliasearch(
-        process.env.ALGOLIA_APP_ID,
-        process.env.ALGOLIA_ADMIN_KEY
-    )
     await client.clearObjects({ indexName: "exymesplc_pdfs" })
     const result = await client.saveObjects({ indexName: "exymesplc_pdfs", objects: safeRecords })
     console.log(`Indexing complete`, JSON.stringify(result))
