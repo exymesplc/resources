@@ -297,11 +297,17 @@ async function main() {
                 }
             }
 
-            // Thumbnail — image field returns object with url
+            // Thumbnail — Framer image fields return {"type":"image","value":{"src":"..."}}
+            // InsightsCardV2 accesses thumbnail?.src, so we resolve to the src property
             const thumbRaw = fd[iFieldMap["thumbnail"]]
             let thumbnail = ""
             if (thumbRaw && typeof thumbRaw === "object") {
-                thumbnail = thumbRaw.url || thumbRaw.src || thumbRaw.value || ""
+                const thumbInner = thumbRaw.value || thumbRaw
+                if (typeof thumbInner === "object") {
+                    thumbnail = thumbInner.src || thumbInner.url || thumbInner.originalImageUrl || ""
+                } else {
+                    thumbnail = String(thumbInner)
+                }
             } else if (thumbRaw) {
                 thumbnail = String(thumbRaw)
             }
