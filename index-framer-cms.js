@@ -312,6 +312,9 @@ async function main() {
                 thumbnail = String(thumbRaw)
             }
 
+            // Video Link — plain string field
+            const videoLink = extractField(iFieldMap["video link"])
+
             // URL — external link takes priority, otherwise internal /insights/slug
             const url = externalLink || `/insights/${slug}`
 
@@ -338,6 +341,7 @@ async function main() {
                 thumbnail,
                 date,
                 url,
+                videoLink,
                 content: searchContent.substring(0, 3000),
                 description: excerpt.substring(0, 500),
                 source: "Insights",
