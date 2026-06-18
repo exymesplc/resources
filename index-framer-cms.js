@@ -242,6 +242,12 @@ async function main() {
 
     console.log(`Built ${records.length} records for Algolia`)
 
+    // ── Initialise Algolia client ────────────────────────────────────────────
+    const client = algoliasearch(
+        process.env.ALGOLIA_APP_ID,
+        process.env.ALGOLIA_ADMIN_KEY
+    )
+
     // ── Index Insights collection ─────────────────────────────────────────
     const insightsCollection = collections.find(c => c.name === "Insights")
     const insightsRecords = []
@@ -281,7 +287,7 @@ async function main() {
             const externalLink = extractField(iFieldMap["external link"])
 
             // Date — may be a date object or ISO string
-            const dateRaw = fd[iFieldMap["date 2"]]
+            const dateRaw = fd[iFieldMap["date"]]
             let date = ""
             if (dateRaw) {
                 if (typeof dateRaw === "object") {
@@ -357,12 +363,6 @@ async function main() {
     } else {
         console.warn("Insights collection not found — skipping Insights indexing")
     }
-
-    // ── Initialise Algolia client ────────────────────────────────────────────
-    const client = algoliasearch(
-        process.env.ALGOLIA_APP_ID,
-        process.env.ALGOLIA_ADMIN_KEY
-    )
 
     // Check record sizes before pushing — Algolia limit is 10,000 bytes per record
     const encoder = new TextEncoder()
