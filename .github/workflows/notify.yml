@@ -117,5 +117,6 @@ jobs:
                 </footer>
               </body>
             </html>
-          to: ${{ steps.data.outputs.recipients }}
+          to: Exymes Portal <notifications@exymesplc.com>
+          bcc: ${{ steps.data.outputs.recipients }}
           from: Exymes Portal <notifications@exymesplc.com>
