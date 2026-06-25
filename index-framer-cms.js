@@ -149,21 +149,12 @@ async function main() {
             ? (fd[fieldMap["type"]]?.name || fd[fieldMap["type"]]?.value || "")
             : (fd[fieldMap["type"]] || "")
 
-        // File field — Framer CDN URL for direct download
-        // Framer returns file fields as {"type":"file","value":{"id":"...","url":"https://..."}}
-        const fileRaw = fd[fieldMap["file"]]
-        let fileUrl = ""
-        if (fileRaw && typeof fileRaw === "object") {
-            // Handle {type, value} wrapper
-            const fileInner = fileRaw.value || fileRaw
-            if (typeof fileInner === "object") {
-                fileUrl = fileInner.url || fileInner.href || ""
-            } else {
-                fileUrl = String(fileInner)
-            }
-        } else if (fileRaw && typeof fileRaw === "string") {
-            fileUrl = fileRaw
-        }
+        // fileUrl is sourced directly from `link` (the GitHub-hosted file URL).
+        // The CMS previously had a separate File field for this, but that has
+        // been removed; `link` is now the single source of truth for both the
+        // display URL (`url`) and the direct file link (`fileUrl`).
+        const fileUrl = link
+
 
         let content = fd[fieldMap["content"]] || ""
         if (typeof content === "object") {
