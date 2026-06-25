@@ -103,11 +103,22 @@ async function main() {
     // Inline tags (e.g. <em>prep</em>GEM) have zero whitespace either side
     // in the source markup. Replacing the tag with " " instead of "" inserts
     // a space that was never there, breaking words like "prepGEM" into
-    // "prep GEM". Stripping to "" preserves the original word boundaries;
-    // the subsequent whitespace-collapse still normalises any genuine
-    // multi-space or newline runs from block-level tags.
+    // "prep GEM".
+    // Block-level tags (e.g. </p><p>) are the opposite case: there is
+    // genuinely no whitespace between adjacent paragraphs in the source,
+    // but stripping them to "" runs separate paragraphs together with no
+    // separator at all. So block-level boundaries get a deliberate space
+    // inserted; everything else (including inline tags) strips to nothing.
+    // <br> is self-closing (no separate </br> closing tag) so it needs its
+    // own pattern rather than relying on the closing-tag match.
+    // The subsequent whitespace-collapse normalises any resulting runs.
     function stripHtml(input) {
-        return String(input).replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim()
+        return String(input)
+            .replace(/<\/(p|div|h[1-6]|li|blockquote)>/gi, " ")
+            .replace(/<br\s*\/?>/gi, " ")
+            .replace(/<[^>]*>/g, "")
+            .replace(/\s+/g, " ")
+            .trim()
     }
 
     // ── Fetch and build records ───────────────────────────────────────────
