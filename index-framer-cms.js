@@ -99,6 +99,17 @@ async function main() {
         console.warn("Products collection not found — product tags will be empty")
     }
 
+    // ── Helper: strip HTML tags without introducing word-boundary spaces ───
+    // Inline tags (e.g. <em>prep</em>GEM) have zero whitespace either side
+    // in the source markup. Replacing the tag with " " instead of "" inserts
+    // a space that was never there, breaking words like "prepGEM" into
+    // "prep GEM". Stripping to "" preserves the original word boundaries;
+    // the subsequent whitespace-collapse still normalises any genuine
+    // multi-space or newline runs from block-level tags.
+    function stripHtml(input) {
+        return String(input).replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim()
+    }
+
     // ── Fetch and build records ───────────────────────────────────────────
     const items = await resourcesCollection.getItems()
     console.log(`Found ${items.length} items in Resources collection`)
@@ -147,7 +158,7 @@ async function main() {
         if (typeof content === "object") {
             content = content.html || content.value || content.markdown || ""
         }
-        content = String(content).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+        content = stripHtml(content)
         // Truncate content to keep Algolia records under 10KB limit
         if (content.length > 3000) content = content.substring(0, 3000).trim() + "..."
 
@@ -326,7 +337,7 @@ async function main() {
                 let richText = typeof richContentRaw === "object"
                     ? (richContentRaw.html || richContentRaw.value || "")
                     : String(richContentRaw)
-                richText = String(richText).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+                richText = stripHtml(richText)
                 if (richText) searchContent = `${excerpt} ${richText}`.trim()
             }
 
