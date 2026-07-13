@@ -10,6 +10,7 @@ Welcome to the official asset repository for Exymes distributors.
 * **/Images/Products**: High-res product photography (JPEG/PNG).
 * **/Images/Logos**: Official Exymes branding in png format
 * **/ApNote**: Case studies and technical application data.
+* **/Distributor**: Sales Guide, technical enquiry guidance and competitor analysis
 
 ### 📥 How to Download
 * **Individual Files:** Navigate to the file and click the **Download Raw File** icon.
