@@ -10,6 +10,7 @@ on:
       - 'docs/handbook/**'
       - 'docs/apnote/**'
       - 'docs/SDS/**'
+      - 'docs/distributor/**'
   workflow_dispatch:
 
 jobs:
@@ -50,6 +51,7 @@ jobs:
               brochures*) NAME="Brochures"; URL_EXT="brochures" ;;
               images/products*) NAME="Product Media"; URL_EXT="images/products" ;;
               images/logo*) NAME="Brand Assets"; URL_EXT="images/logo" ;;
+              distributor*) NAME="Distributor Support"; URL_EXT="distributor" ;;
               *) continue ;; 
             esac
 
