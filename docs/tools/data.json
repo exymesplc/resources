@@ -1,0 +1,934 @@
+{
+  "meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-06-09",
+    "contactEmail": "info@exymesplc.com",
+    "contactUrl": "https://www.exymesplc.com/contact"
+  },
+  "products": {
+    "prepGEM Universal": {
+      "url": "https://www.exymesplc.com/products/prepgem-universal",
+      "displayName": "prepGEM Universal"
+    },
+    "prepGEM Bacteria": {
+      "url": "https://www.exymesplc.com/products/prepgem",
+      "displayName": "prepGEM Bacteria"
+    },
+    "forensicGEM Universal": {
+      "url": "https://www.exymesplc.com/products/forensicgem-universal",
+      "displayName": "forensicGEM Universal"
+    },
+    "forensicGEM Sperm": {
+      "url": "https://www.exymesplc.com/products/forensicgem",
+      "displayName": "forensicGEM Sperm"
+    },
+    "phytoGEM": {
+      "url": "https://www.exymesplc.com/products/phytogem",
+      "displayName": "phytoGEM"
+    },
+    "boneGEM": {
+      "url": "https://www.exymesplc.com/products/bonegem",
+      "displayName": "boneGEM"
+    },
+    "RNAGEM": {
+      "url": "https://www.exymesplc.com/products/rnagem",
+      "displayName": "RNAGEM"
+    },
+    "PDQeX": {
+      "url": "https://www.exymesplc.com/products/pdqex",
+      "displayName": "PDQeX instrument"
+    },
+    "prepGEM Universal + PDQeX": {
+      "url": "https://www.exymesplc.com/products/pdqex",
+      "displayName": "prepGEM Universal + PDQeX"
+    },
+    "prepGEM Universal / RNAGEM": {
+      "url": "https://www.exymesplc.com/products",
+      "displayName": "prepGEM Universal / RNAGEM"
+    },
+    "Not required": {
+      "url": null,
+      "displayName": "Not required"
+    }
+  },
+  "categories": [
+    {
+      "category": "Genomic DNA — blood and tissue",
+      "subcategories": [
+        {
+          "subcategory": "Blood",
+          "exymesProduct": "prepGEM Universal",
+          "notes": "prepGEM Universal extracts genomic DNA from whole blood using a single closed-tube enzymatic protocol. No chaotropic reagents, spin columns, or hazardous chemicals required. Yields PCR-ready DNA in approximately 15 minutes.",
+          "advantages": "No chaotropic salts or detergents introduced; lower inhibitor risk for downstream PCR and qPCR. Single closed-tube process. No hazardous waste. Safer reagent profile."
+        },
+        {
+          "subcategory": "Tissue and cells",
+          "exymesProduct": "prepGEM Universal",
+          "notes": "Single enzymatic closed-tube lysis from tissue and cultured cells. No chaotropic buffers, spin columns, or wash steps required.",
+          "advantages": "Fewer consumables and steps than silica-column methods. No specialist lab infrastructure required. Inhibitor-free eluate reduces risk of downstream PCR failure."
+        },
+        {
+          "subcategory": "FFPE tissue",
+          "exymesProduct": "prepGEM Universal",
+          "notes": "prepGEM Universal with Histosolv can be used for formalin-fixed paraffin-embedded tissue. There is no dedicated FFPE-specific Exymes product at present; validated scope should be confirmed with the technical team before use.",
+          "advantages": "Contact the Exymes technical team for FFPE application guidance."
+        },
+        {
+          "subcategory": "High molecular weight / bulk",
+          "exymesProduct": null,
+          "notes": "Bulk high-molecular-weight DNA preparation is outside the current Exymes portfolio scope. Exymes products are optimised for speed and small-volume inputs.",
+          "advantages": null
+        },
+        {
+          "subcategory": "Cell-free DNA / liquid biopsy",
+          "exymesProduct": null,
+          "notes": "Circulating cell-free DNA extraction from plasma or serum is not within the current Exymes portfolio.",
+          "advantages": null
+        }
+      ]
+    },
+    {
+      "category": "Microbial DNA",
+      "subcategories": [
+        {
+          "subcategory": "Bacterial cultures and samples",
+          "exymesProduct": "prepGEM Bacteria",
+          "notes": "prepGEM Bacteria uses a thermostable proteinase to lyse bacterial cells without chaotropic buffers, spin columns, or organic solvents. Compatible with a wide range of gram-positive and gram-negative species.",
+          "advantages": "No chaotropic reagents or spin columns. Faster single-tube protocol. Lower cost per sample. No specialist instrument required. Ambient-temperature shipping stability."
+        },
+        {
+          "subcategory": "Stool (human gDNA)",
+          "exymesProduct": "prepGEM Bacteria",
+          "notes": "prepGEM Bacteria extracts DNA from faecal samples and is validated for this application with an extended lysozyme protocol. It is suited to human gDNA extraction from stool for applications such as gut health research and host genomics. For environmental metagenomics requiring unbiased microbial community profiling, bead-beating based kits have an advantage.",
+          "advantages": "Faster and simpler than column-based stool kits for human gDNA extraction from faecal samples. No instrument required. Lower cost per sample. For environmental metagenomics requiring unbiased microbial community profiling, contact the Exymes technical team for guidance."
+        },
+        {
+          "subcategory": "Host-free / microbiome",
+          "exymesProduct": null,
+          "notes": "Host-depletion prior to microbial DNA enrichment is a specialised step not currently addressed in the Exymes portfolio.",
+          "advantages": null
+        },
+        {
+          "subcategory": "Soil / environmental metagenomics",
+          "exymesProduct": null,
+          "notes": "Environmental soil metagenomics is not a validated application area for current Exymes products.",
+          "advantages": null
+        }
+      ]
+    },
+    {
+      "category": "Plant DNA",
+      "subcategories": [
+        {
+          "subcategory": "Plant tissues, seeds and fungi",
+          "exymesProduct": "phytoGEM",
+          "notes": "phytoGEM is specifically formulated for plant tissue extraction without CTAB or organic solvents. Single closed-tube protocol. Validated for a wide range of plant species and tissue types.",
+          "advantages": "Avoids CTAB, organic solvents, and bead-beating. No specialist fume hood or hazardous waste handling. Simpler protocol suitable for routine plant genotyping without heavy infrastructure."
+        },
+        {
+          "subcategory": "High-throughput plant (96-well / automated)",
+          "exymesProduct": "phytoGEM",
+          "notes": "phytoGEM is a manual, small-batch format. High-throughput 96-well plant DNA extraction is not currently available in the Exymes portfolio.",
+          "advantages": "phytoGEM is well-suited to low-to-medium throughput plant genotyping. Contact the Exymes technical team for high-throughput workflow guidance."
+        }
+      ]
+    },
+    {
+      "category": "Forensic / HID DNA",
+      "subcategories": [
+        {
+          "subcategory": "General casework (swabs, blood, saliva, touch DNA)",
+          "exymesProduct": "forensicGEM Universal",
+          "notes": "forensicGEM Universal is purpose-built for forensic casework samples including buccal swabs, blood, saliva, and touch DNA. Yields PCR-ready DNA without introducing inhibitors. No instrument required.",
+          "advantages": "Purpose-built for forensic casework. No inhibitors introduced; PCR-ready DNA produced directly. No instrument capital cost. Suitable for decentralised or field forensic settings."
+        },
+        {
+          "subcategory": "Differential lysis / sexual assault samples",
+          "exymesProduct": "forensicGEM Sperm",
+          "notes": "forensicGEM Sperm uses Acrosolv to target the sperm acrosomal membrane, enabling differential extraction of sperm and epithelial cell fractions. No instrument required.",
+          "advantages": "Validated differential extraction mechanism. No instrument required. Lower infrastructure cost than automated differential lysis workflows."
+        }
+      ]
+    },
+    {
+      "category": "Bone and degraded samples",
+      "subcategories": [
+        {
+          "subcategory": "Bone, teeth and degraded biological material",
+          "exymesProduct": "boneGEM",
+          "notes": "boneGEM is specifically formulated for decalcified and powdered bone, teeth, and other degraded hard-tissue forensic and archaeological samples.",
+          "advantages": "Purpose-formulated for hard tissue. No specialist instrument required. Single closed-tube process following decalcification and powdering."
+        }
+      ]
+    },
+    {
+      "category": "RNA",
+      "subcategories": [
+        {
+          "subcategory": "Total RNA from mammalian cells and tissues",
+          "exymesProduct": "RNAGEM",
+          "notes": "RNAGEM extracts total RNA across the full size range from large ribosomal and messenger RNA down to miRNA and small RNAs from approximately 18 nt upwards. Single closed-tube enzymatic process; no chaotropic salts, no phenol, no spin columns. Validated for cells and soft tissue. Not currently validated for blood or faecal RNA.",
+          "advantages": "Captures total RNA including small RNA classes that silica-column methods (which typically exclude RNA below 200 nt) miss entirely. Single tube, no column, faster workflow. No phenol, guanidinium, or SDS; safer for users with no hazardous waste. Compatible with 96-well plate formats on a standard thermal cycler."
+        },
+        {
+          "subcategory": "miRNA and small RNA (total RNA capture)",
+          "exymesProduct": "RNAGEM",
+          "notes": "RNAGEM captures total RNA across the full size range including miRNA and small RNAs from approximately 18 nt upwards, using enzymatic lysis without QIAzol, chloroform, or a fume hood. Validated for cells and soft tissue. Not currently validated for blood, serum, or plasma.",
+          "advantages": "Delivers equivalent small RNA and miRNA capture to phenol-based methods such as miRNeasy without QIAzol, chloroform, or hazardous waste handling. A compelling safety and simplicity message for any customer currently using phenol-based small RNA extraction from cells or soft tissue."
+        },
+        {
+          "subcategory": "Total RNA from FFPE",
+          "exymesProduct": null,
+          "notes": "FFPE RNA extraction is not a validated Exymes application at present.",
+          "advantages": null
+        },
+        {
+          "subcategory": "Total RNA from plants",
+          "exymesProduct": null,
+          "notes": "phytoGEM targets DNA extraction from plant material. Plant RNA is not a validated Exymes application.",
+          "advantages": null
+        },
+        {
+          "subcategory": "mRNA purification (poly-A selection)",
+          "exymesProduct": null,
+          "notes": "Selective mRNA purification via poly-A capture is not a current Exymes application.",
+          "advantages": null
+        },
+        {
+          "subcategory": "Cell-free RNA / exosomal RNA",
+          "exymesProduct": null,
+          "notes": "Cell-free and exosomal RNA from liquid biopsy is outside the current Exymes portfolio.",
+          "advantages": null
+        }
+      ]
+    },
+    {
+      "category": "Simultaneous DNA and RNA",
+      "subcategories": [
+        {
+          "subcategory": "Co-extraction of DNA and RNA from same sample",
+          "exymesProduct": "prepGEM Universal / RNAGEM",
+          "notes": "Exymes enzymatic extraction yields total nucleic acid (DNA and RNA) in a single eluate by default, covering most co-extraction use cases without additional kits or steps. Exymes does not deliver separately purified DNA and RNA fractions from the same input. Where distinct fractions are required for parallel downstream workflows, a downstream separation step would be needed.",
+          "advantages": "Co-extraction of DNA and RNA in one tube by default; no separate kit, step, or instrument required. No phenol or chaotropic reagents. Simpler and cheaper for labs that do not require separate fractions."
+        }
+      ]
+    },
+    {
+      "category": "PCR and DNA cleanup",
+      "subcategories": [
+        {
+          "subcategory": "Post-extraction or post-amplification cleanup",
+          "exymesProduct": "Not required",
+          "notes": "Post-extraction PCR cleanup is not required when using Exymes products because the extraction chemistry introduces no chaotropic agents, detergents, or other inhibitors. This is the primary reason cleanup is needed after silica-column extraction methods. Post-amplification cleanup for sequencing or cloning remains a separate downstream requirement unrelated to extraction chemistry.",
+          "advantages": "Exymes extraction eliminates the need for inhibitor-removal cleanup, reducing workflow steps and cost. Position as: with Exymes extraction you remove a workflow step that competing chemistries make necessary."
+        }
+      ]
+    },
+    {
+      "category": "Instruments",
+      "subcategories": [
+        {
+          "subcategory": "Portable and point-of-need extraction",
+          "exymesProduct": "PDQeX",
+          "notes": "PDQeX is a portable, battery-operable nucleic acid extraction instrument designed for field, point-of-need, and low-resource settings. It uses Exymes extraction kits and requires no benchtop infrastructure.",
+          "advantages": "Portable and field-deployable. No capital infrastructure required. Reagent chemistry is non-hazardous. No proprietary chemical waste streams."
+        },
+        {
+          "subcategory": "High-throughput benchtop automated extraction",
+          "exymesProduct": "prepGEM Universal + PDQeX",
+          "notes": "PDQeX is suited to low-throughput and point-of-need settings. For high-throughput automated extraction (48 or more samples per run), Exymes does not currently offer a comparable platform.",
+          "advantages": "PDQeX has substantially lower capital cost than high-throughput benchtop instruments. No reagent cartridges containing hazardous chemistry."
+        }
+      ]
+    },
+    {
+      "category": "Plasmid DNA",
+      "subcategories": [
+        {
+          "subcategory": "Plasmid miniprep / midiprep / maxiprep",
+          "exymesProduct": null,
+          "notes": "Plasmid DNA purification is not within the Exymes product portfolio.",
+          "advantages": null
+        }
+      ]
+    }
+  ],
+  "competitors": {
+    "QIAGEN": [
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Blood (manual)",
+        "competitorProduct": "QIAamp DNA Blood Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/qiaamp-dna-blood-kits",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Both extract genomic DNA from blood. QIAGEN uses silica-column chemistry with chaotropic lysis buffers. prepGEM Universal uses a single closed-tube enzymatic method.",
+        "advantages": "No chaotropic salts or detergents introduced; lower inhibitor risk for downstream PCR and qPCR. Single closed-tube process in approximately 15 minutes. No hazardous waste. Safer reagent profile."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Tissue and cells",
+        "competitorProduct": "DNeasy Blood & Tissue Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/dneasy-blood-and-tissue-kit",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Direct equivalent for tissue and cell DNA extraction. prepGEM Universal uses a single closed-tube enzymatic method with no chaotropic reagents.",
+        "advantages": "Single enzymatic lysis avoids chaotropic buffers and wash steps. Fewer consumables and steps. No specialist lab infrastructure required. Inhibitor-free eluate."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Automated (benchtop)",
+        "competitorProduct": "EZ1 & EZ2 DNA Blood / Tissue Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/ez1and2-dna-blood-kits",
+        "exymesProduct": "prepGEM Universal + PDQeX",
+        "notes": "EZ1/EZ2 instruments are benchtop automated platforms using prefilled reagent cartridges containing guanidinium-based buffers. PDQeX is a portable automated instrument suited to low-throughput and point-of-need settings.",
+        "advantages": "PDQeX has substantially lower capital cost than EZ1/EZ2 instruments. QIAGEN cartridges are prefilled with guanidinium-based buffers and constitute chemically contaminated plastic waste on use, which may require specialist disposal depending on institutional policy, adding consumable cost and waste management overhead. Exymes reagents are non-toxic and non-hazardous; no specialist waste stream is required. Portable and field-deployable; EZ1/EZ2 instruments are benchtop-bound."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "FFPE tissue",
+        "competitorProduct": "EZ1 & EZ2 DNA FFPE Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/enzymes-for-molecular-biology/ez1and2-dna-ffpe-kits",
+        "exymesProduct": "prepGEM Universal (with Histosolv)",
+        "notes": "prepGEM Universal with Histosolv handles fixed tissue. No FFPE-specific Exymes product currently. Validated scope should be confirmed with the technical team.",
+        "advantages": "Contact the Exymes technical team for FFPE application guidance."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "High molecular weight / bulk",
+        "competitorProduct": "QIAGEN Genomic-tips; Blood & Cell Culture DNA Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/qiagen-genomic-tips",
+        "exymesProduct": null,
+        "notes": "Bulk high-molecular-weight DNA preparation is outside the current Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Cell-free DNA / liquid biopsy",
+        "competitorProduct": "QIAamp Circulating Nucleic Acid Kit; EZ1 & EZ2 ccfDNA Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/cell-free-dna/qiaamp-circulating-nucleic-acid-kit",
+        "exymesProduct": null,
+        "notes": "Circulating cell-free DNA from liquid biopsy is not within the current Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Bacterial cultures and samples",
+        "competitorProduct": "DNeasy UltraClean / NoviPure Microbial Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/microbial-dna/dneasy-ultraclean-novipure-microbial-kits",
+        "exymesProduct": "prepGEM Bacteria",
+        "notes": "Direct equivalent for bacterial DNA extraction. prepGEM Bacteria uses thermostable proteinase without lysis buffers, spin columns, or organic solvents.",
+        "advantages": "No chaotropic reagents or spin columns. Faster single-tube protocol. Lower cost per sample. No specialist instrument required. Ambient-temperature shipping stability."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Stool (human gDNA)",
+        "competitorProduct": "QIAamp Fast DNA Stool Mini Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/qiaamp-fast-dna-stool-mini-kit",
+        "exymesProduct": "prepGEM Bacteria",
+        "notes": "prepGEM Bacteria extracts DNA from faecal samples and is validated for this application with an extended lysozyme protocol. Suited to human gDNA extraction from stool for gut health research and host genomics. For environmental metagenomics requiring unbiased microbial community profiling, QIAGEN stool kits with bead-beating have an advantage.",
+        "advantages": "Faster and simpler than column-based stool kits for human gDNA extraction from faecal samples. No instrument required. Lower cost per sample. For environmental metagenomics applications, contact the Exymes technical team for guidance."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Host-free / microbiome",
+        "competitorProduct": "QIAamp DNA Host-Free Microbiome Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/microbial-dna/qiaamp-dna-host-free-microbiome",
+        "exymesProduct": null,
+        "notes": "Host-depletion is a specialised step not currently addressed in the Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Soil / environmental",
+        "competitorProduct": "DNeasy PowerSoil Pro Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/microbial-dna/dneasy-powersoil-pro-kit",
+        "exymesProduct": null,
+        "notes": "Environmental soil metagenomics is not a validated application area for current Exymes products.",
+        "advantages": null
+      },
+      {
+        "category": "Plant DNA",
+        "subcategory": "Plant tissues, seeds and fungi",
+        "competitorProduct": "DNeasy Plant Kits; DNeasy Plant Pro Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/dneasy-plant-kits",
+        "exymesProduct": "phytoGEM",
+        "notes": "phytoGEM is specifically formulated for plant tissue extraction without CTAB or organic solvents, with a simplified single-tube protocol.",
+        "advantages": "Avoids CTAB and organic solvents entirely. No solvent disposal required. Simpler single-tube process. Better safety profile for routine genotyping labs."
+      },
+      {
+        "category": "Plant DNA",
+        "subcategory": "High-throughput / automated plant",
+        "competitorProduct": "MagAttract 96 DNA Plant Core Kit; BioSprint DNA Plant Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/magattract-96-dna-plant-core-kit",
+        "exymesProduct": "phytoGEM",
+        "notes": "phytoGEM is manual and small-batch. High-throughput 96-well plant formats are not currently available from Exymes.",
+        "advantages": "No clear Exymes advantage for 96-well plant genomics. Acknowledge format limitation for high-throughput customers."
+      },
+      {
+        "category": "Forensic / HID DNA",
+        "subcategory": "General casework",
+        "competitorProduct": "EZ1 & EZ2 DNA Investigator Kit; QIAamp DNA Investigator Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/qiaamp-dna-kits",
+        "exymesProduct": "forensicGEM Universal",
+        "notes": "forensicGEM Universal is purpose-built for forensic casework including buccal swabs, blood, saliva, and touch DNA. Yields PCR-ready DNA without introducing inhibitors.",
+        "advantages": "Purpose-built for forensic casework. No inhibitors introduced; PCR-ready DNA produced directly. No instrument capital cost. Suitable for decentralised or field forensic settings."
+      },
+      {
+        "category": "Forensic / HID DNA",
+        "subcategory": "Differential lysis / sexual assault",
+        "competitorProduct": "QIAamp DNA Investigator Kit (differential lysis protocols)",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/qiaamp-dna-kits",
+        "exymesProduct": "forensicGEM Sperm",
+        "notes": "forensicGEM Sperm uses Acrosolv to target the sperm acrosomal membrane, enabling differential extraction of sperm and epithelial cell fractions.",
+        "advantages": "Validated differential extraction mechanism using Acrosolv. No instrument required. Lower infrastructure cost than QIAGEN automated differential lysis workflows."
+      },
+      {
+        "category": "Bone and degraded samples",
+        "subcategory": "Bone, teeth and degraded material",
+        "competitorProduct": "QIAamp DNA Investigator Kit (bone/hair protocols)",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/genomic-dna/qiaamp-dna-kits",
+        "exymesProduct": "boneGEM",
+        "notes": "boneGEM is specifically formulated for decalcified and powdered bone, teeth, and other degraded hard-tissue forensic samples.",
+        "advantages": "Purpose-formulated for hard tissue. No specialist instrument required. Single closed-tube process following decalcification and powdering."
+      },
+      {
+        "category": "Plasmid DNA",
+        "subcategory": "Miniprep / midiprep / maxiprep",
+        "competitorProduct": "QIAprep Spin Miniprep; QIAGEN Plasmid Plus Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/plasmid-dna/qiaprep-spin-miniprep-kit",
+        "exymesProduct": null,
+        "notes": "Plasmid purification is not within the Exymes product portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "PCR and DNA cleanup",
+        "subcategory": "Post-amplification cleanup",
+        "competitorProduct": "QIAquick PCR Purification Kit; DyeEx Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/dna-purification/dna-clean-up/dyeex-kits",
+        "exymesProduct": "Not required",
+        "notes": "Post-extraction PCR cleanup is not required when using Exymes products because no inhibitors are introduced. Post-amplification cleanup for sequencing remains a separate downstream requirement.",
+        "advantages": "Exymes extraction eliminates the need for inhibitor-removal cleanup, reducing workflow steps and cost."
+      },
+      {
+        "category": "Instruments",
+        "subcategory": "Automated benchtop extraction",
+        "competitorProduct": "EZ2 Connect; QIAsymphony SP",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/instruments-equipment/ez2-connect",
+        "exymesProduct": "PDQeX",
+        "notes": "EZ2 Connect and QIAsymphony SP are benchtop automated extraction platforms. PDQeX is portable and suited to low-throughput point-of-need settings.",
+        "advantages": "PDQeX has substantially lower capital cost. No guanidinium-contaminated cartridge waste requiring specialist disposal. Reagents are non-hazardous. Portable and field-deployable."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA from cells and tissue (RNeasy Mini / Plus Mini)",
+        "competitorProduct": "RNeasy Mini Kit; RNeasy Plus Mini Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "RNeasy Mini uses guanidine-isothiocyanate lysis with silica-column capture of RNA >200 nt only; small RNAs are excluded. RNeasy Plus Mini adds a gDNA eliminator column as an additional step and cost. Both capture RNA from cells and soft tissue. RNAGEM uses a single closed-tube enzymatic process, captures total RNA across the full size range from large ribosomal and messenger RNA down to miRNA and small RNAs from approximately 18 nt upwards, with no chaotropic salts, no phenol, and no spin columns.",
+        "advantages": "RNAGEM captures total RNA including the small RNA fraction that RNeasy Mini and Plus Mini exclude. Single tube, no column, faster workflow. The gDNA eliminator column in RNeasy Plus Mini is unnecessary; RNAGEM lysis at 75°C produces an RNA-enriched extract with minimal gDNA interference for RT-qPCR. Any customer on cells or soft tissue where column-grade RNA purity for RNA-seq is not specifically required is a direct conversion target."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA from tough or fibrous tissue (RNeasy Plus Universal)",
+        "competitorProduct": "RNeasy Plus Universal Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "RNeasy Plus Universal uses QIAzol (phenol-guanidine) lysis with silica-column capture of RNA >200 nt. QIAzol provides mechanical lysis assistance for tough or fibrous tissue types. RNAGEM handles soft tissue well using enzymatic lysis without phenol or chaotropic reagents. For fibrous, fatty, or particularly tough tissue types, Exymes does not currently have validated data to claim equivalence.",
+        "advantages": "RNAGEM is a conversion opportunity for soft tissue users currently on RNeasy Plus Universal: no QIAzol, no phenol, no chloroform, no fume hood required, faster workflow. For customers working with fibrous or particularly tough tissue types, offer an evaluation kit and position as a trial to generate validation data rather than making a direct replacement claim."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "High-throughput total RNA from cells (RNeasy 96 Kit)",
+        "competitorProduct": "RNeasy 96 Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "RNeasy 96 uses guanidine-isothiocyanate lysis with a 96-well silica plate for automation-compatible RNA capture >200 nt. RNAGEM is compatible with 96-well plate formats on a standard thermal cycler, using the same single-tube no-wash enzymatic process scaled to plate format.",
+        "advantages": "RNAGEM eliminates column washing steps in high-throughput workflows, reducing hands-on time. The small RNA capture advantage applies at scale; customers processing cells in 96-well format are missing the small RNA fraction with RNeasy 96. Single-tube no-wash workflow is simpler to automate and reduces consumable cost."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA from cells (QIAwave RNA Mini Kit)",
+        "competitorProduct": "QIAwave RNA Mini Kit (eco rebranding of RNeasy Mini)",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "QIAwave RNA Mini Kit is a packaging and sustainability rebrand of RNeasy Mini. The chemistry is identical: guanidine-isothiocyanate lysis with silica-column capture of RNA >200 nt. Small RNAs excluded. Concentrated buffer format reduces plastic packaging. RNAGEM applies the same conversion rationale as RNeasy Mini.",
+        "advantages": "Same direct replacement rationale as RNeasy Mini: total RNA capture including small RNA fraction, single tube, no column, faster workflow. Importantly, if the customer has moved to QIAwave specifically for sustainability reasons, the Exymes no-chaotrope, no-phenol, minimal-plastic argument is directly relevant and stronger than QIAwave's packaging-only sustainability claim."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Small RNA and miRNA from cells and soft tissue (miRNeasy Mini)",
+        "competitorProduct": "miRNeasy Mini Kit; miRNeasy Tissue/Cells Advanced Kits",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/mirna/mirneasy-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "miRNeasy Mini uses QIAzol (phenol-guanidine) lysis with silica-column capture of total RNA from approximately 18 nt upwards, including miRNA. RNAGEM captures the same full-size RNA spectrum including miRNA from approximately 18 nt upwards, using enzymatic lysis without QIAzol, without chloroform, and without a fume hood. Validated for cells and soft tissue. Not currently validated for blood.",
+        "advantages": "RNAGEM delivers equivalent small RNA and miRNA capture to miRNeasy Mini without QIAzol, which requires chloroform, fume hood access, and careful hazardous waste handling. This is a compelling safety and workflow simplicity message for any miRNeasy user working on cells or soft tissue. Do not position against miRNeasy Serum/Plasma Kit; blood RNA is not currently a validated RNAGEM application."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Cell-free miRNA from blood / plasma (miRNeasy Serum/Plasma)",
+        "competitorProduct": "miRNeasy Serum/Plasma Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/mirna/mirneasy-kits",
+        "exymesProduct": null,
+        "notes": "miRNeasy Serum/Plasma is designed for cell-free RNA including miRNA from blood, plasma, or serum. RNAGEM is not currently validated for blood, serum, or plasma RNA extraction. This is an active gap in the Exymes validated range. Do not position RNAGEM against this product until blood RNA validation data is available.",
+        "advantages": null
+      },
+      {
+        "category": "RNA",
+        "subcategory": "RNA from whole blood (QIAamp RNA Blood Mini)",
+        "competitorProduct": "QIAamp RNA Blood Mini Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-kits",
+        "exymesProduct": null,
+        "notes": "QIAamp RNA Blood Mini Kit is specifically designed for RNA extraction from up to 1.5 ml whole blood, addressing the haemoglobin inhibition and RNase challenges of this sample type. RNAGEM is not currently validated for blood RNA extraction. Do not target customers in this segment at this time.",
+        "advantages": null
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Very low input RNA from cells or tissue (RNeasy Micro)",
+        "competitorProduct": "RNeasy Micro Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "RNeasy Micro is designed for very low input material: up to 5 x 10^5 cells or 5 mg tissue, capturing RNA >200 nt. Customers using RNeasy Micro are typically working at the extreme low end of input material and often feeding RNA-seq workflows requiring high RIN values. RNAGEM performs well at low cell numbers but specific low-input validation data with RIN comparisons is not yet available.",
+        "advantages": "RNAGEM performs well at low cell numbers and is suited to small and precious inputs such as LCM-captured material and FACS-sorted cell populations. For customers requiring RIN-validated data for RNA-seq from very low inputs, offer an evaluation kit and position as a trial rather than making a direct replacement claim until validation data is available."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Blood RNA with stabilisation (PAXgene Blood RNA)",
+        "competitorProduct": "PAXgene Blood RNA Kit / Tubes",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-kits",
+        "exymesProduct": null,
+        "notes": "PAXgene is a closed system where the collection tube, stabilisation reagent, and extraction kit are co-dependent. Customers using PAXgene are typically in clinical or longitudinal studies with validated, locked workflows. RNAGEM is not validated for blood RNA and PAXgene users are not a realistic conversion target at this time.",
+        "advantages": null
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA from FFPE",
+        "competitorProduct": "RNeasy FFPE Kit",
+        "competitorUrl": "https://www.qiagen.com/us/products/discovery-and-translational-research/dna-rna-purification/rna-purification/total-rna/rneasy-ffpe-kit",
+        "exymesProduct": null,
+        "notes": "FFPE RNA extraction is not a validated Exymes application at present.",
+        "advantages": null
+      }
+    ],
+    "Promega": [
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Blood (manual / automated)",
+        "competitorProduct": "Wizard Genomic DNA Purification Kit; Maxwell RSC Blood DNA Kit",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/genomic-dna/maxwell-rsc-blood-dna-kit/",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Both extract genomic DNA from blood. Maxwell RSC is cartridge-based benchtop automation. Wizard uses salt-precipitation chemistry.",
+        "advantages": "No chaotropic salts or detergents. Single closed-tube process. No hazardous waste. No Maxwell instrument capital expenditure required for low-throughput labs."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Tissue and cells",
+        "competitorProduct": "ReliaPrep gDNA Miniprep System; Maxwell RSC Tissue DNA Kit",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/genomic-dna/reliaprep-tissue-dna-miniprep-system/",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Both target gDNA from tissue and cells. ReliaPrep uses silica-membrane spin columns. Maxwell RSC automates via prefilled cartridges.",
+        "advantages": "Single-tube enzymatic lysis avoids spin columns and vacuum steps. Inhibitor-free eluate. No benchtop instrument required. Simpler SOP with fewer consumables."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "FFPE tissue",
+        "competitorProduct": "ReliaPrep FFPE gDNA Miniprep System",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/genomic-dna/reliaprep-ffpe-gdna-miniprep-system/",
+        "exymesProduct": "prepGEM Universal (with Histosolv)",
+        "notes": "Partial overlap via prepGEM Universal with Histosolv. No dedicated FFPE product from Exymes at present.",
+        "advantages": "Contact the Exymes technical team for FFPE application guidance."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Automated (Maxwell platform)",
+        "competitorProduct": "Maxwell RSC 48 Instrument and Kits",
+        "competitorUrl": "https://www.promega.com/products/lab-automation/automated-dna-rna-extraction-purification-maxwell/maxwell-rsc-48-instrument/",
+        "exymesProduct": "prepGEM Universal + PDQeX",
+        "notes": "Maxwell RSC handles 1 to 48 samples per run via prefilled cartridges. PDQeX is portable and suited to low-throughput point-of-need settings.",
+        "advantages": "PDQeX requires no comparable capital investment. Reagent chemistry is safer; no Maxwell cartridge waste streams. Better suited to field deployment, remote labs, or point-of-need settings."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Bacterial cultures",
+        "competitorProduct": "Wizard Genomic DNA Purification (bacteria protocol); Maxwell RSC Cultured Cells DNA Kit",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/genomic-dna/",
+        "exymesProduct": "prepGEM Bacteria",
+        "notes": "Both isolate bacterial gDNA. prepGEM Bacteria uses thermostable proteinase without chaotropic buffers or spin columns.",
+        "advantages": "No inhibitors introduced. Faster single-tube protocol. No specialist instrument required. Simpler cold-chain logistics."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Stool (human gDNA)",
+        "competitorProduct": "Maxwell RSC Bead Cell DNA Kit (stool protocols)",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/genomic-dna/maxwell-rsc-bead-cell-dna-kit/",
+        "exymesProduct": "prepGEM Bacteria",
+        "notes": "prepGEM Bacteria extracts DNA from faecal samples using an extended lysozyme protocol and is suited to human gDNA extraction from stool. For environmental metagenomics requiring unbiased microbial community profiling, bead-beating instruments such as Maxwell RSC have an advantage.",
+        "advantages": "Faster and simpler for human gDNA extraction from faecal samples. No instrument required. For environmental metagenomics applications, contact the Exymes technical team for guidance."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Viral RNA/DNA",
+        "competitorProduct": "Maxwell RSC Viral Total Nucleic Acid Purification Kit",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/viral-rna-extraction-viral-dna-extraction/",
+        "exymesProduct": null,
+        "notes": "Viral nucleic acid extraction is outside the current Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "Plasmid DNA",
+        "subcategory": "Miniprep / midiprep",
+        "competitorProduct": "PureYield Plasmid Miniprep; Wizard Plus SV Minipreps",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/plasmid-purification/pureyield-plasmid-miniprep-system/",
+        "exymesProduct": null,
+        "notes": "Plasmid purification is not within the Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "PCR and DNA cleanup",
+        "subcategory": "Post-amplification cleanup",
+        "competitorProduct": "Wizard SV Gel and PCR Clean-Up System",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/clean-up-and-concentration/",
+        "exymesProduct": "Not required",
+        "notes": "Post-extraction PCR cleanup is not required when using Exymes products as no inhibitors are introduced. Post-amplification cleanup for sequencing remains a separate downstream requirement.",
+        "advantages": "Exymes products eliminate the need for inhibitor-removal cleanup, reducing cost and workflow steps."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA from cells and tissues",
+        "competitorProduct": "Maxwell RSC simplyRNA Tissue Kit; SV Total RNA Isolation System",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/rna/maxwell-rsc-simplyrna-tissue-kit/",
+        "exymesProduct": "RNAGEM",
+        "notes": "Both extract total RNA. RNAGEM is phenol-free and column-free; single-tube enzymatic process.",
+        "advantages": "No phenol, guanidinium, or SDS; safer for users. Faster single-tube process. No inhibitor carryover. Compatible with small inputs such as LCM and FACS-sorted cells."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "miRNA",
+        "competitorProduct": "Maxwell RSC miRNA Tissue Kit",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/rna/maxwell-rsc-mirna-tissue-kit/",
+        "exymesProduct": "RNAGEM",
+        "notes": "RNAGEM captures total RNA including miRNA but does not specifically enrich small RNA. Maxwell RSC miRNA Kit is purpose-built for miRNA enrichment.",
+        "advantages": "RNAGEM captures all RNA classes including miRNA in a single phenol-free step. RNAGEM is the recommended starting point for total RNA capture including miRNA."
+      },
+      {
+        "category": "Simultaneous DNA and RNA",
+        "subcategory": "Co-extraction from same sample",
+        "competitorProduct": "Maxwell RSC DNA/RNA Co-Purification Kit",
+        "competitorUrl": "https://www.promega.com/products/nucleic-acid-extraction/",
+        "exymesProduct": "prepGEM Universal / RNAGEM",
+        "notes": "Exymes co-extracts DNA and RNA in a single eluate by default. Maxwell RSC delivers separately purified fractions. Where separate fractions are required, a downstream separation step would be needed.",
+        "advantages": "Co-extraction in one tube by default; no separate kit required. Simpler, cheaper, and faster. Where separately purified fractions are required, contact the Exymes technical team for workflow guidance."
+      },
+      {
+        "category": "Instruments",
+        "subcategory": "Automated benchtop extraction",
+        "competitorProduct": "Maxwell RSC 48; Maxprep Liquid Handler",
+        "competitorUrl": "https://www.promega.com/products/lab-automation/automated-dna-rna-extraction-purification-maxwell/",
+        "exymesProduct": "PDQeX",
+        "notes": "Maxwell RSC suits mid-to-high throughput labs via prefilled cartridges. PDQeX is portable and targets point-of-need, field, and low-throughput settings.",
+        "advantages": "No capital instrument cost comparable to Maxwell RSC 48. No cartridge dependency. Deployable in field settings. Chemistry is reagent-safe with no hazardous cartridge waste."
+      }
+    ],
+    "Zymo Research": [
+      {
+        "category": "Genomic DNA — cells and tissue",
+        "subcategory": "Cells and biological fluids",
+        "competitorProduct": "Quick-DNA Miniprep Kit; Quick-DNA Plus Kit",
+        "competitorUrl": "https://zymoresearch.eu/collections/quick-dna-extraction-kits",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Both extract gDNA from cells and biological fluids. Quick-DNA uses silica-column spin format. Quick-DNA Plus adds Proteinase K digestion.",
+        "advantages": "No chaotropic reagents or Proteinase K required. Single enzymatic lysis step. No spin column steps. Faster protocol. Inhibitor-free eluate. Safer handling."
+      },
+      {
+        "category": "Genomic DNA — cells and tissue",
+        "subcategory": "Tissue and insect",
+        "competitorProduct": "Quick-DNA Tissue/Insect Kit",
+        "competitorUrl": "https://zymoresearch.eu/collections/quick-dna-tissue-insect-kits",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Both extract gDNA from tissue. Zymo requires bead-beating for homogenisation. prepGEM Universal uses enzymatic lysis without mechanical disruption for most soft tissue types.",
+        "advantages": "No bead-beating equipment needed for standard soft tissue. Single closed-tube process. Avoids bead-beating consumable cost. For very hard or chitinous tissues, bead-beating may have a disruption advantage."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Bacterial and fungal cultures",
+        "competitorProduct": "Quick-DNA Fungal/Bacterial Kit",
+        "competitorUrl": "https://zymoresearch.eu/collections/quick-dna-fungal-bacterial-kits",
+        "exymesProduct": "prepGEM Bacteria",
+        "notes": "Both target microbial DNA. Zymo uses bead-beating for complete lysis. prepGEM Bacteria uses enzymatic lysis without bead-beating for most bacterial species.",
+        "advantages": "Simpler equipment requirements; no bead-beating needed for most bacterial species. No chaotropic salts. Faster, lower-cost workflow for standard bacterial cultures."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Stool (human gDNA)",
+        "competitorProduct": "Quick-DNA Fecal/Soil Kit",
+        "competitorUrl": "https://zymoresearch.eu/collections/quick-dna-fecal-soil-microbe-kits",
+        "exymesProduct": "prepGEM Bacteria",
+        "notes": "prepGEM Bacteria extracts DNA from faecal samples using an extended lysozyme protocol and is suited to human gDNA extraction from stool. Zymo Quick-DNA Fecal/Soil Kit with bead-beating is better suited to environmental metagenomics requiring unbiased microbial community profiling.",
+        "advantages": "Faster and simpler for human gDNA extraction from faecal samples. No instrument required. For environmental metagenomics applications, contact the Exymes technical team for guidance."
+      },
+      {
+        "category": "Microbial DNA",
+        "subcategory": "Soil / environmental metagenomics",
+        "competitorProduct": "ZymoBIOMICS DNA Kit",
+        "competitorUrl": "https://zymoresearch.eu/collections/quick-dna-fecal-soil-microbe-kits",
+        "exymesProduct": null,
+        "notes": "Environmental metagenomics requiring unbiased microbial community profiling is not a validated application area for current Exymes products.",
+        "advantages": null
+      },
+      {
+        "category": "Plant DNA",
+        "subcategory": "Plant and seed",
+        "competitorProduct": "Quick-DNA Plant/Seed Kit",
+        "competitorUrl": "https://zymoresearch.eu/collections/quick-dna-plant-seed-kits",
+        "exymesProduct": "phytoGEM",
+        "notes": "Both extract plant DNA. Zymo uses bead-beating plus an inhibitor-removal column. phytoGEM uses enzymatic lysis without CTAB, organic solvents, or bead-beating.",
+        "advantages": "phytoGEM avoids CTAB, organic solvents, and bead-beating. Single-tube process without specialist homogenisation equipment. No inhibitor-removal column step."
+      },
+      {
+        "category": "Genomic DNA — FFPE",
+        "subcategory": "FFPE tissue",
+        "competitorProduct": "Quick-DNA FFPE Kit",
+        "competitorUrl": "https://zymoresearch.eu/products/quick-dna-ffpe-miniprep",
+        "exymesProduct": "prepGEM Universal (with Histosolv)",
+        "notes": "Zymo includes xylene-free deparaffinisation solution optimised for FFPE. Exymes has partial coverage via Histosolv but no dedicated FFPE product.",
+        "advantages": "Contact the Exymes technical team for FFPE application guidance."
+      },
+      {
+        "category": "Genomic DNA — cell-free DNA",
+        "subcategory": "cfDNA from plasma/serum",
+        "competitorProduct": "Quick-cfDNA Serum/Plasma Kit",
+        "competitorUrl": "https://zymoresearch.eu/products/quick-cfdna-serum-plasma-kit",
+        "exymesProduct": null,
+        "notes": "cfDNA extraction from liquid biopsy is outside the Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "Genomic DNA — HMW",
+        "subcategory": "High molecular weight DNA",
+        "competitorProduct": "Quick-DNA HMW MagBead Kit",
+        "competitorUrl": "https://zymoresearch.eu/products/quick-dna-hmw-magbead-kit",
+        "exymesProduct": null,
+        "notes": "HMW DNA for long-read sequencing is outside the Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "PCR and DNA cleanup",
+        "subcategory": "Post-amplification cleanup",
+        "competitorProduct": "Zymo DNA Clean & Concentrator Kits",
+        "competitorUrl": "https://zymoresearch.eu/collections/dna-clean-concentrator-kits",
+        "exymesProduct": "Not required",
+        "notes": "Post-extraction PCR cleanup is not required when using Exymes products as no inhibitors are introduced. Post-amplification cleanup for sequencing remains a separate downstream requirement.",
+        "advantages": "Exymes eliminates one workflow step; no inhibitor-removal cleanup required post-extraction."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA from cells and tissues",
+        "competitorProduct": "Quick-RNA Miniprep Kit; Direct-zol RNA Miniprep",
+        "competitorUrl": "https://zymoresearch.eu/pages/rna-extraction-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "Both extract total RNA. Direct-zol uses TRI Reagent (phenol-based). RNAGEM is phenol-free, guanidinium-free, single closed-tube process.",
+        "advantages": "RNAGEM is phenol-free and guanidinium-free; safer handling, no phase separation, no phenol waste. Faster single-tube process. Particularly advantageous for small precious inputs."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "miRNA and small RNA",
+        "competitorProduct": "Quick-RNA MicroPrep; Direct-zol RNA Miniprep (small RNA protocol)",
+        "competitorUrl": "https://zymoresearch.eu/pages/rna-extraction-kits",
+        "exymesProduct": "RNAGEM",
+        "notes": "Both capture total RNA including small RNA. RNAGEM does not specifically enrich for miRNA. Zymo Direct-zol requires TRI Reagent; RNAGEM does not.",
+        "advantages": "RNAGEM is phenol-free and faster. Both capture miRNA as part of total RNA."
+      },
+      {
+        "category": "Simultaneous DNA and RNA",
+        "subcategory": "Co-extraction from same sample",
+        "competitorProduct": "Quick-DNA/RNA Miniprep Kit; Direct-zol DNA/RNA Miniprep",
+        "competitorUrl": "https://zymoresearch.eu/pages/dna-rna-co-extraction-kits",
+        "exymesProduct": "prepGEM Universal / RNAGEM",
+        "notes": "Zymo Direct-zol uses TRI Reagent to co-extract DNA and RNA as separate outputs. Exymes co-extracts both in a single eluate by default but does not separate fractions.",
+        "advantages": "Exymes is simpler: one tube, no TRI Reagent, no phase separation, no hazardous waste, lower cost per sample. Where separate fractions are not required, Exymes is the cleaner workflow."
+      }
+    ],
+    "Thermo Fisher": [
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Blood (manual)",
+        "competitorProduct": "PureLink Genomic DNA Mini Kit",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/genomic-dna-extraction.html",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "PureLink uses silica spin columns with chaotropic lysis buffers. prepGEM Universal uses a single closed-tube enzymatic protocol with no chaotropic reagents.",
+        "advantages": "No chaotropic reagents or spin columns. Single closed-tube protocol. Lower inhibitor risk for downstream qPCR and STR analysis. Safer reagent profile."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Tissue and cells",
+        "competitorProduct": "PureLink Genomic DNA Mini Kit; GeneJET Genomic DNA Purification Kit",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/genomic-dna-extraction.html",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Both extract gDNA from tissue and cells using silica-column chemistry with chaotropic lysis.",
+        "advantages": "Single enzymatic lysis step avoids chaotropic buffers and wash steps. Fewer consumables. Simpler protocol reduces handling errors."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Automated (MagMAX / KingFisher)",
+        "competitorProduct": "MagMAX DNA Multi-Sample Ultra Kit; KingFisher systems",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/automated-purification-extraction/automated-magmax-kits-nucleic-acid-extraction.html",
+        "exymesProduct": "prepGEM Universal + PDQeX",
+        "notes": "MagMAX with KingFisher handles high-throughput automated extraction. PDQeX is portable and suited to low-throughput point-of-need settings.",
+        "advantages": "PDQeX does not require capital investment in a KingFisher system. No bead-based chemistry or plate consumables. Suited to field deployment or low-resource labs."
+      },
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "FFPE tissue",
+        "competitorProduct": "RecoverAll Total Nucleic Acid Isolation for FFPE; GeneJET FFPE DNA Purification Kit",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/genomic-dna-extraction.html",
+        "exymesProduct": "prepGEM Universal (with Histosolv)",
+        "notes": "Partial overlap via prepGEM Universal with Histosolv. No dedicated FFPE product from Exymes.",
+        "advantages": "Contact the Exymes technical team for FFPE application guidance."
+      },
+      {
+        "category": "Plant DNA",
+        "subcategory": "Plant tissue",
+        "competitorProduct": "PureLink Plant Total DNA Purification Kit",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/genomic-dna-extraction.html",
+        "exymesProduct": "phytoGEM",
+        "notes": "PureLink Plant uses CTAB-based or silica-membrane chemistry. phytoGEM avoids CTAB and organic solvents entirely using enzymatic lysis.",
+        "advantages": "phytoGEM avoids CTAB and organic solvents entirely. No solvent disposal required. Simpler single-tube protocol. Better safety profile for routine genotyping labs."
+      },
+      {
+        "category": "PCR and DNA cleanup",
+        "subcategory": "Post-amplification cleanup",
+        "competitorProduct": "PureLink Quick PCR Purification Kit; GeneJET PCR Purification Kit",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis.html",
+        "exymesProduct": "Not required",
+        "notes": "Post-extraction PCR cleanup is not required when using Exymes products as no inhibitors are introduced. Post-amplification cleanup for sequencing remains a separate downstream requirement.",
+        "advantages": "Exymes extraction removes the step that Thermo Fisher chemistry makes necessary post-extraction."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA (TRIzol)",
+        "competitorProduct": "TRIzol Reagent; TRIzol LS Reagent",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/brands/product-brand/trizol.html",
+        "exymesProduct": "RNAGEM",
+        "notes": "TRIzol is phenol/guanidinium-based with phase separation. RNAGEM is enzymatic and phenol-free; single closed-tube process.",
+        "advantages": "Strong safety advantage: no phenol, no guanidinium, no organic phase separation, no hazardous waste disposal. RNAGEM is safer for users and reduces lab infrastructure requirements."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA (column-based)",
+        "competitorProduct": "PureLink RNA Mini Kit; Ambion RNAqueous Kit",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/rna-extraction.html",
+        "exymesProduct": "RNAGEM",
+        "notes": "Both extract total RNA from cells and tissues. PureLink/RNAqueous use silica-column or glass-fibre formats with chaotropic lysis.",
+        "advantages": "RNAGEM is phenol-free and inhibitor-free. Simpler single-tube protocol. Particularly suited to small or precious samples."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "miRNA",
+        "competitorProduct": "mirVana miRNA Isolation Kit (Ambion)",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/rna-extraction/rna-types.html",
+        "exymesProduct": "RNAGEM",
+        "notes": "mirVana is optimised for small RNA enrichment. RNAGEM captures total RNA including miRNA but does not enrich for small RNA.",
+        "advantages": "RNAGEM is faster and safer for total RNA work. RNAGEM is the recommended starting point for total RNA capture including miRNA."
+      },
+      {
+        "category": "Simultaneous DNA and RNA",
+        "subcategory": "Co-extraction from same sample",
+        "competitorProduct": "RecoverAll Total Nucleic Acid Kit; PureLink RNA/DNA Mini Kit",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/rna-extraction.html",
+        "exymesProduct": "prepGEM Universal / RNAGEM",
+        "notes": "Thermo Fisher products deliver DNA and RNA as separate fractions. Exymes co-extracts both in a single eluate by default.",
+        "advantages": "Co-extraction in one tube by default; no additional kit or TRIzol required. Simpler and safer. Where separately purified fractions are required, contact the Exymes technical team for workflow guidance."
+      },
+      {
+        "category": "Instruments",
+        "subcategory": "Automated (KingFisher)",
+        "competitorProduct": "KingFisher Apex; KingFisher Flex",
+        "competitorUrl": "https://www.thermofisher.com/us/en/home/life-science/dna-rna-purification-analysis/automated-purification-extraction/kingfisher-systems.html",
+        "exymesProduct": "PDQeX",
+        "notes": "KingFisher is a high-throughput paramagnetic-bead instrument platform. PDQeX is portable and suited to low-throughput point-of-need settings.",
+        "advantages": "PDQeX is substantially lower cost. No bead-based consumables. No software or instrument service dependency. Portable and field-deployable."
+      }
+    ],
+    "NEB": [
+      {
+        "category": "Genomic DNA — blood and tissue",
+        "subcategory": "Blood and tissue (column)",
+        "competitorProduct": "Monarch Genomic DNA Purification Kit; Monarch Spin gDNA Extraction Kit",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification/genomic-dna-extraction-and-purification",
+        "exymesProduct": "prepGEM Universal",
+        "notes": "Both extract gDNA from blood and tissue. Monarch uses silica spin-column technology with chaotropic buffers. NEB Monarch is a well-regarded, eco-conscious product.",
+        "advantages": "No chaotropic buffers or spin columns. Single closed-tube enzymatic process. Lower inhibitor risk. Fewer consumables. Primary Exymes advantages are inhibitor-free chemistry and protocol simplicity."
+      },
+      {
+        "category": "Genomic DNA — HMW",
+        "subcategory": "High molecular weight DNA",
+        "competitorProduct": "Monarch HMW DNA Extraction Kit; Monarch Mag HMW DNA Kit",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification/genomic-dna-extraction-and-purification",
+        "exymesProduct": null,
+        "notes": "HMW DNA for long-read sequencing is outside the current Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "Genomic DNA — cell-free DNA",
+        "subcategory": "Cell-free DNA",
+        "competitorProduct": "Monarch Mag Cell-Free DNA Extraction Kit",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification",
+        "exymesProduct": null,
+        "notes": "cfDNA extraction is outside the current Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "Plasmid DNA",
+        "subcategory": "Miniprep / midiprep",
+        "competitorProduct": "Monarch Plasmid Miniprep Kit",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification/dna-cleanup-and-concentration",
+        "exymesProduct": null,
+        "notes": "Plasmid purification is not within the Exymes portfolio.",
+        "advantages": null
+      },
+      {
+        "category": "PCR and DNA cleanup",
+        "subcategory": "Post-amplification / gel cleanup",
+        "competitorProduct": "Monarch PCR & DNA Cleanup Kit; Monarch DNA Gel Extraction Kit",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification/dna-cleanup-and-concentration",
+        "exymesProduct": "Not required",
+        "notes": "Post-extraction PCR cleanup is not required when using Exymes products as no inhibitors are introduced. NEB Monarch PCR cleanup for downstream sequencing prep is a separate downstream requirement.",
+        "advantages": "Exymes eliminates the need for inhibitor-removal cleanup post-extraction. NEB Monarch PCR cleanup addresses a separate downstream need."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "Total RNA from cells and tissues",
+        "competitorProduct": "Monarch Total RNA Miniprep Kit",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification/rna-purification",
+        "exymesProduct": "RNAGEM",
+        "notes": "Both extract total RNA from cells and tissue. Monarch Total RNA uses silica-column format with optional DNase I treatment. RNAGEM is phenol-free and column-free.",
+        "advantages": "RNAGEM is phenol-free and column-free. Faster single-tube process. No DNase treatment step required for most RT-PCR applications. Particularly well-suited to small or precious inputs."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "RNA cleanup and concentration",
+        "competitorProduct": "Monarch RNA Cleanup Kit",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification/rna-purification",
+        "exymesProduct": "Not required",
+        "notes": "RNAGEM eluate is ready for RT-PCR without post-extraction cleanup. A separate RNA cleanup step is not required as part of the Exymes extraction workflow.",
+        "advantages": "RNAGEM eluate is directly usable for RT-PCR, eliminating a workflow step compared to methods that require post-extraction cleanup or concentration."
+      },
+      {
+        "category": "RNA",
+        "subcategory": "miRNA",
+        "competitorProduct": "Monarch Total RNA Miniprep (small RNA protocol)",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification/rna-purification",
+        "exymesProduct": "RNAGEM",
+        "notes": "Both capture total RNA including miRNA. RNAGEM does not restrict by size. NEB Monarch requires a spin-column wash protocol.",
+        "advantages": "RNAGEM is faster and phenol-free. Both capture miRNA as part of total RNA."
+      },
+      {
+        "category": "Instruments",
+        "subcategory": "Automated extraction instrument",
+        "competitorProduct": "NEB does not offer a dedicated extraction instrument",
+        "competitorUrl": "https://www.neb.com/en-gb/products/nucleic-acid-purification",
+        "exymesProduct": "PDQeX",
+        "notes": "NEB's Monarch range is entirely manual and spin-column based. NEB does not offer an automated extraction instrument platform.",
+        "advantages": "Exymes offers PDQeX as a portable automated extraction option. NEB has no comparable instrument for customers requiring automation."
+      }
+    ]
+  }
+}

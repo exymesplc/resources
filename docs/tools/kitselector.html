@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exymes | Extraction Kit Selector</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css">
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-dark: rgba(0, 0, 0, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-gray: #a1a1a1;
+            /* Brand colours */
+            --steel: #0E3747;
+            --teal: #1D7492;
+            --burg: #6B0E30;
+            --acc-grey: #5D6376;
+            --acc-pink: #BC9191;
+            /* Product colours */
+            --col-prepgem-universal: #1D7492;
+            --col-prepgem-bacteria: #0E3747;
+            --col-forensicgem-universal: #6B0E30;
+            --col-forensicgem-sperm: #BC9191;
+            --col-bonegem: #00001A;
+            --col-phytogem: #5EA59D;
+            --col-rnagem: #5D6376;
+            --col-pdqex: #1D7492;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('https://framerusercontent.com/images/uJTefDArMqPUIknP8T8GXjATTg8.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Geist Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .nav-header { position: absolute; top: 40px; left: 40px; z-index: 100; }
+        .logo { height: 32px; width: auto; }
+
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 120px 20px 80px 20px;
+        }
+
+        header { text-align: center; margin-bottom: 40px; }
+        h1 {
+            font-size: 32pt;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin: 0 0 12px 0;
+            background: linear-gradient(to bottom, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header p { font-size: 16px; color: var(--text-gray); font-weight: 300; max-width: 560px; line-height: 1.5; }
+
+        /* MAIN CARD */
+        .tool-card {
+            background: var(--glass-dark);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 820px;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-card::before { content: ''; position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; top: 12px; left: 12px; }
+        .tool-card::after  { content: ''; position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; top: 12px; right: 12px; }
+        .card-dot-bl { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; bottom: 12px; left: 12px; }
+        .card-dot-br { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.4; bottom: 12px; right: 12px; }
+
+        .tool-inner { padding: 32px; }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 28px;
+        }
+        .tab-btn {
+            padding: 10px 22px;
+            font-family: 'Geist Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 500;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .tab-btn:hover { color: #fff; }
+        .tab-btn.active { color: #fff; border-bottom-color: #fff; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* SELECTORS */
+        .selector-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .comp-selector-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .selector-row, .comp-selector-row { grid-template-columns: 1fr; }
+        }
+        .field-group { display: flex; flex-direction: column; gap: 7px; }
+        label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-gray);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+        select {
+            font-family: 'Geist Sans', sans-serif;
+            font-size: 13.5px;
+            padding: 10px 36px 10px 14px;
+            background: rgba(0,0,0,0.4) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: #fff;
+            appearance: none;
+            cursor: pointer;
+            width: 100%;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        select:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.4);
+            background-color: rgba(0,0,0,0.55);
+        }
+        select:disabled { opacity: 0.4; cursor: not-allowed; }
+        select option { background: #1a2530; color: #fff; }
+
+        /* RESULT PANELS */
+        .result-panel {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 4px;
+            animation: fadeUp 0.18s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(5px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--glass-border);
+            background: #FFFFFF;
+        }
+        .product-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .product-name em { font-style: italic; }
+        .product-link {
+            color: rgba(0,0,0,0.45);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 400;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.15s;
+            margin-left: 10px;
+        }
+        .product-link:hover { color: rgba(0,0,0,0.8); }
+        .product-link svg { width: 11px; height: 11px; }
+
+        .match-pill {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            flex-shrink: 0;
+        }
+        .match-Direct  { background: rgba(45,122,58,0.7);  color: #fff; border: 1px solid rgba(45,122,58,0.9); }
+        .match-Partial { background: rgba(138,96,0,0.7);   color: #fff; border: 1px solid rgba(138,96,0,0.9); }
+        .match-None    { background: rgba(139,30,30,0.7);  color: #fff; border: 1px solid rgba(139,30,30,0.9); }
+        .match-NA      { background: rgba(93,99,118,0.7);  color: #fff; border: 1px solid rgba(93,99,118,0.9); }
+
+        .result-section {
+            padding: 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .result-section:last-child { border-bottom: none; }
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.08);
+            border-bottom: 1px solid var(--glass-border);
+            display: block;
+        }
+        .result-section p {
+            font-size: 13.5px;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.65;
+            padding: 12px 20px;
+            margin: 0;
+        }
+        /* Maroon (forensicGEM Universal brand colour) for competitor product label */
+        .lbl-comp    { color: #C4607A; }
+        /* Notes label - teal */
+        .lbl-notes   { color: rgba(29,116,146,0.9); }
+        /* Advantages label - phytoGEM green */
+        .lbl-adv     { color: #5EA59D; }
+
+        .result-section a { color: rgba(255,255,255,0.6); }
+        .result-section a:hover { color: #fff; }
+
+        /* NOT NEEDED */
+        .not-needed-panel {
+            background: rgba(29,116,146,0.15);
+            border: 1px solid rgba(29,116,146,0.35);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 4px;
+            animation: fadeUp 0.18s ease;
+        }
+        .not-needed-panel .nn-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(29,116,146,1);
+            margin-bottom: 8px;
+        }
+        .not-needed-panel p { font-size: 13.5px; color: rgba(255,255,255,0.78); line-height: 1.65; }
+
+        /* NO EQUIVALENT */
+        .no-equiv-panel {
+            background: rgba(107,14,48,0.2);
+            border: 1px solid rgba(107,14,48,0.45);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 4px;
+            animation: fadeUp 0.18s ease;
+        }
+        .no-equiv-panel .ne-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(220,100,120,0.95);
+            margin-bottom: 8px;
+        }
+        .no-equiv-panel p { font-size: 13.5px; color: rgba(255,255,255,0.78); line-height: 1.65; }
+        .no-equiv-panel a { color: rgba(255,255,255,0.6); }
+        .no-equiv-panel a:hover { color: #fff; }
+
+        /* LOADING / ERROR */
+        #loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+            font-size: 13.5px;
+        }
+        .spinner {
+            width: 26px; height: 26px;
+            border: 2px solid rgba(255,255,255,0.15);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #error-msg {
+            background: rgba(107,14,48,0.2);
+            border: 1px solid rgba(107,14,48,0.4);
+            border-radius: 8px;
+            padding: 20px;
+            color: rgba(220,100,120,0.95);
+            font-size: 13.5px;
+            display: none;
+        }
+        #error-msg a { color: rgba(255,255,255,0.65); }
+
+        /* FOOTER */
+        .site-footer {
+            width: 100%;
+            background: #000;
+            padding: 60px 40px 40px 40px;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 60px;
+        }
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer-column h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-gray);
+            margin-bottom: 24px;
+        }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column a { color: #fff; text-decoration: none; font-size: 14px; opacity: 0.7; transition: opacity 0.2s; }
+        .footer-column a:hover { opacity: 1; }
+        .footer-address { font-size: 14px; line-height: 1.6; color: #fff; opacity: 0.7; }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+        @media (max-width: 650px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .comp-selector-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav-header">
+    <a href="https://www.exymesplc.com">
+        <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo_dark%20bkgd.png" alt="Exymes" class="logo">
+    </a>
+</div>
+
+<div class="wrapper">
+    <header>
+        <h1>Exymes Extraction Kit Selector</h1>
+        <p>Use this tool to find the correct Exymes product by application, or look up the Exymes equivalent to a competitor product.</p>
+    </header>
+
+    <div class="tool-card">
+        <span class="card-dot-bl"></span>
+        <span class="card-dot-br"></span>
+        <div class="tool-inner">
+
+            <div id="loading">
+                <div class="spinner"></div>
+                Loading product data...
+            </div>
+            <div id="error-msg">
+                Unable to load product data. Please check your connection or contact
+                <a href="mailto:info@exymesplc.com">info@exymesplc.com</a>.
+            </div>
+
+            <div id="app" style="display:none;">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="by-application">By application</button>
+                    <button class="tab-btn" data-tab="by-competitor">By competitor product</button>
+                </div>
+
+                <!-- TAB 1 -->
+                <div class="tab-panel active" id="tab-by-application">
+                    <div class="selector-row">
+                        <div class="field-group">
+                            <label for="sel-cat">Application category</label>
+                            <select id="sel-cat"><option value="">Select a category...</option></select>
+                        </div>
+                        <div class="field-group">
+                            <label for="sel-sub">Sub-category</label>
+                            <select id="sel-sub" disabled><option value="">Select a category first...</option></select>
+                        </div>
+                    </div>
+                    <div id="result-app"></div>
+                </div>
+
+                <!-- TAB 2 -->
+                <div class="tab-panel" id="tab-by-competitor">
+                    <div class="comp-selector-row">
+                        <div class="field-group">
+                            <label for="sel-comp">Competitor</label>
+                            <select id="sel-comp"><option value="">Select a competitor...</option></select>
+                        </div>
+                        <div class="field-group">
+                            <label for="sel-comp-cat">Category</label>
+                            <select id="sel-comp-cat" disabled><option value="">Select competitor first...</option></select>
+                        </div>
+                        <div class="field-group">
+                            <label for="sel-comp-prod">Competitor product</label>
+                            <select id="sel-comp-prod" disabled><option value="">Select category first...</option></select>
+                        </div>
+                    </div>
+                    <div id="result-comp"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div class="footer-column">
+            <h4>Address</h4>
+            <p class="footer-address">Alum House, Alum Chine Road,<br>Westbourne, BH4 8DT, UK</p>
+        </div>
+        <div class="footer-column">
+            <h4>Menu</h4>
+            <ul>
+                <li><a href="https://www.exymesplc.com/">Home</a></li>
+                <li><a href="https://www.exymesplc.com/products">Products</a></li>
+                <li><a href="https://www.exymesplc.com/about">About</a></li>
+                <li><a href="https://www.exymesplc.com/insights">Insights</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="mailto:info@exymesplc.com">info@exymesplc.com</a></li>
+                <li><a href="https://www.exymesplc.com/contact">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="https://www.exymesplc.com/privacy-policy">Privacy Policy</a></li>
+                <li><a href="https://www.exymesplc.com/uk-terms-and-conditions-of-sale">UK Terms &amp; Conditions</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>©2026 Exymes Ltd. All Rights Reserved</span>
+        <span style="display:flex;gap:24px;align-items:center;">
+            <span id="ver"></span>
+            <a href="https://resources.exymesplc.com" style="opacity:0.5; font-size:12px;">Back to Resources Portal</a>
+        </span>
+    </div>
+</footer>
+
+<script>
+// True brand colours — legible on white header background
+const PRODUCT_COLOURS = {
+    "prepGEM Universal":         "#1D7492",
+    "prepGEM Bacteria":          "#0E3747",
+    "forensicGEM Universal":     "#6B0E30",
+    "forensicGEM Sperm":         "#BC9191",
+    "boneGEM":                   "#00001A",
+    "phytoGEM":                  "#5EA59D",
+    "RNAGEM":                    "#5D6376",
+    "PDQeX":                     "#1D7492",
+    "prepGEM Universal + PDQeX": "#1D7492"
+};
+
+let DATA = null;
+
+async function loadData() {
+    try {
+        const res = await fetch('./data.json');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        DATA = await res.json();
+        init();
+    } catch(e) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error-msg').style.display = 'block';
+        console.error(e);
+    }
+}
+
+function init() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    if (DATA.meta) {
+        document.getElementById('ver').textContent =
+            'v' + DATA.meta.version + '  |  Last updated ' + DATA.meta.lastUpdated;
+    }
+    buildAppTab();
+    buildCompTab();
+    setupTabs();
+}
+
+function setupTabs() {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+    });
+}
+
+function buildAppTab() {
+    const catEl = document.getElementById('sel-cat');
+    const subEl = document.getElementById('sel-sub');
+    const resEl = document.getElementById('result-app');
+
+    DATA.categories.forEach(c => catEl.appendChild(makeOpt(c.category, c.category)));
+
+    catEl.addEventListener('change', () => {
+        subEl.innerHTML = '<option value="">Select a sub-category...</option>';
+        resEl.innerHTML = '';
+        const cat = DATA.categories.find(c => c.category === catEl.value);
+        if (!cat) { subEl.disabled = true; return; }
+        subEl.disabled = false;
+        cat.subcategories.forEach(s => subEl.appendChild(makeOpt(s.subcategory, s.subcategory)));
+    });
+
+    subEl.addEventListener('change', () => {
+        resEl.innerHTML = '';
+        const cat = DATA.categories.find(c => c.category === catEl.value);
+        if (!cat) return;
+        const sub = cat.subcategories.find(s => s.subcategory === subEl.value);
+        if (!sub) return;
+        resEl.innerHTML = renderResult(sub.exymesProduct, sub.notes, sub.advantages, null, null);
+    });
+}
+
+function buildCompTab() {
+    const compEl = document.getElementById('sel-comp');
+    const catEl  = document.getElementById('sel-comp-cat');
+    const prodEl = document.getElementById('sel-comp-prod');
+    const resEl  = document.getElementById('result-comp');
+
+    Object.keys(DATA.competitors).forEach(name => compEl.appendChild(makeOpt(name, name)));
+
+    compEl.addEventListener('change', () => {
+        catEl.innerHTML  = '<option value="">Select a category...</option>';
+        prodEl.innerHTML = '<option value="">Select category first...</option>';
+        catEl.disabled = true; prodEl.disabled = true;
+        resEl.innerHTML = '';
+        if (!compEl.value) return;
+        const cats = [...new Set(DATA.competitors[compEl.value].map(r => r.category))];
+        cats.forEach(c => catEl.appendChild(makeOpt(c, c)));
+        catEl.disabled = false;
+    });
+
+    catEl.addEventListener('change', () => {
+        prodEl.innerHTML = '<option value="">Select a product...</option>';
+        prodEl.disabled = true;
+        resEl.innerHTML = '';
+        if (!catEl.value || !compEl.value) return;
+        const rows = DATA.competitors[compEl.value].filter(r => r.category === catEl.value);
+        rows.forEach((row) => {
+            const label = row.competitorProduct.length > 62
+                ? row.competitorProduct.substring(0, 60) + '...'
+                : row.competitorProduct;
+            const opt = makeOpt(String(DATA.competitors[compEl.value].indexOf(row)), label);
+            opt.dataset.origIdx = DATA.competitors[compEl.value].indexOf(row);
+            prodEl.appendChild(opt);
+        });
+        prodEl.disabled = false;
+    });
+
+    prodEl.addEventListener('change', () => {
+        resEl.innerHTML = '';
+        const sel = prodEl.options[prodEl.selectedIndex];
+        if (!sel || sel.dataset.origIdx === undefined) return;
+        const row = DATA.competitors[compEl.value][parseInt(sel.dataset.origIdx)];
+        if (!row) return;
+        resEl.innerHTML = renderResult(
+            row.exymesProduct, row.notes, row.advantages,
+            row.competitorProduct, row.competitorUrl
+        );
+    });
+}
+
+function renderResult(exymesProduct, notes, advantages, compProduct, compUrl) {
+
+    // Not required (e.g. PCR cleanup, RNA cleanup)
+    if (exymesProduct === 'Not required') {
+        return `<div class="not-needed-panel">
+            <div class="nn-title">No Exymes product required for this application</div>
+            ${advantages ? `<p style="color:#5EA59D;font-weight:500;margin-top:6px;font-size:13px;">${esc(advantages)}</p>` : ''}
+            <p style="margin-top:10px;opacity:0.75;">${esc(notes)}</p>
+        </div>`;
+    }
+
+    // No equivalent
+    if (!exymesProduct) {
+        const cu = (DATA.meta && DATA.meta.contactUrl) || 'https://www.exymesplc.com/contact';
+        const ce = (DATA.meta && DATA.meta.contactEmail) || 'info@exymesplc.com';
+        return `<div class="no-equiv-panel">
+            <div class="ne-title">No current Exymes equivalent</div>
+            <p>${esc(notes)}</p>
+            <p style="margin-top:10px;">For further guidance please contact Exymes customer support:
+                <a href="${cu}" target="_blank">www.exymesplc.com/contact</a> or
+                <a href="mailto:${ce}">${ce}</a>.
+            </p>
+        </div>`;
+    }
+
+    // Look up product — handle entries like "prepGEM Universal (with Histosolv)"
+    const baseKey = exymesProduct.replace(/\s*\(.*\)/, '').trim();
+    const prod = DATA.products[exymesProduct] || DATA.products[baseKey] || {};
+    const url  = prod.url || 'https://www.exymesplc.com/products';
+    const displayName = prod.displayName || baseKey;
+    const name = fmtProduct(displayName);
+    const prodColour = PRODUCT_COLOURS[exymesProduct] || PRODUCT_COLOURS[baseKey] || '#1D7492';
+
+    const compSection = compProduct ? `
+        <div class="result-section">
+            <div class="section-label lbl-comp">Competitor product</div>
+            <p><a href="${esc(compUrl)}" target="_blank">${esc(compProduct)}</a></p>
+        </div>` : '';
+
+    const viewLink = url ? `<a class="product-link" href="${esc(url)}" target="_blank">
+                    View product
+                    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>` : '';
+
+    return `<div class="result-panel">
+        <div class="result-header">
+            <div>
+                <span class="product-name" style="color:${prodColour};">${name}</span>
+                ${viewLink}
+            </div>
+        </div>
+        ${compSection}
+        ${advantages ? `<div class="result-section">
+            <div class="section-label lbl-adv">Exymes advantages</div>
+            <p>${esc(advantages)}</p>
+        </div>` : ''}
+        <div class="result-section">
+            <div class="section-label lbl-notes">Application notes</div>
+            <p>${esc(notes)}</p>
+        </div>
+    </div>`;
+}
+
+function makeOpt(val, text) {
+    const o = document.createElement('option');
+    o.value = val; o.textContent = text; return o;
+}
+
+function esc(s) {
+    if (!s) return '';
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmtProduct(name) {
+    return esc(name)
+        .replace(/prepGEM/g,     '<em>prep</em>GEM')
+        .replace(/forensicGEM/g, '<em>forensic</em>GEM')
+        .replace(/phytoGEM/g,    '<em>phyto</em>GEM')
+        .replace(/boneGEM/g,     '<em>bone</em>GEM')
+        .replace(/RNAGEM/g,      '<em>RNA</em>GEM');
+}
+
+loadData();
+</script>
+</body>
+</html>
