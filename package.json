@@ -1,3 +1,7 @@
 {
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "framer-api": "0.1.18",
+    "algoliasearch": "5.55.2"
+  }
 }
