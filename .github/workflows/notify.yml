@@ -11,6 +11,7 @@ on:
       - 'docs/apnote/**'
       - 'docs/SDS/**'
       - 'docs/distributor/**'
+      - '!docs/**/index.html'
   workflow_dispatch:
 
 jobs:
