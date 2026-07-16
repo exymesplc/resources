@@ -100,19 +100,19 @@ jobs:
                   <img src="https://resources.exymesplc.com/images/logo/Exymes_Logo.png" alt="Exymes Logo" style="height: 32px; width: auto;">
                 </div>
                 
-                <h2 style="color: #1D7492; border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: 600; font-size: 22px; letter-spacing: -0.02em;">New Portal Updates</h2>
-                <p style="font-size: 16px; color: #444;">Hello,</p>
-                <p style="font-size: 16px; color: #444;">New resources have been uploaded to the <strong>Exymes Resources Portal</strong>. You can view the new files in the following sections:</p>
+                <h2 style="color: #1D7492; border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: 600; font-size: 20px; letter-spacing: -0.02em;">New Portal Updates</h2>
+                <p style="font-size: 12px; color: #444;">Hello,</p>
+                <p style="font-size: 12px; color: #444;">New resources have been uploaded to the <strong>Exymes Resources Portal</strong>. You can view the new files in the following sections:</p>
                 
                 <div style="background: #f4f7f9; padding: 20px; border-radius: 10px; margin: 24px 0; border-left: 4px solid #1D7492;">
                   ${{ steps.data.outputs.html_list }}
                 </div>
                 
-                <p style="font-size: 16px; color: #444;">To view the complete library, please visit <a href="https://resources.exymesplc.com" style="color: #1D7492; text-decoration: none; font-weight: 600;">resources.exymesplc.com</a>.</p>
+                <p style="font-size: 12px; color: #444;">To view the complete library, please visit <a href="https://resources.exymesplc.com" style="color: #1D7492; text-decoration: none; font-weight: 600;">resources.exymesplc.com</a>.</p>
                 
                 <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 40px 0 20px 0;">
                 
-                <footer style="font-size: 11px; color: #a1a1a1; text-align: left;">
+                <footer style="font-size: 10px; color: #a1a1a1; text-align: left;">
                   <p>© 2026 EXYMES LTD. This is an automated notification based on your portal subscription.</p>
                   <p>
                     <a href="{{ unsubscribe }}" style="color: #a1a1a1; text-decoration: underline;">Unsubscribe from these alerts</a>
