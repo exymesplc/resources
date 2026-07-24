@@ -2,7 +2,7 @@ name: Index Resources from Framer CMS to Algolia
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 15 * *'
+    - cron: '0 3 * * 2,5'
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 jobs:
