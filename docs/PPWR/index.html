@@ -23,7 +23,7 @@ title: EU PPWR
 
 <div class="file-list" id="fileList">
   {% for file in site.static_files %}
-  {% if file.path contains '/distributor/' %}
+  {% if file.path contains '/PPWR/' %}
   {% unless file.path contains 'index.html' %}
 
     {% assign custom_entry = site.data.dates | where: "name", file.name | first %}
