@@ -36,7 +36,7 @@ jobs:
           if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
             RAW_PATHS=$(git ls-tree -r --name-only HEAD docs/ | grep '^docs/' | cut -d/ -f2,3 | sort -u)
           else
-            RAW_PATHS=$(git diff --name-only $BEFORE ${{ github.sha }} | grep '^docs/' | cut -d/ -f2,3 | sort -u)
+            RAW_PATHS=$(git diff --name-only --diff-filter=A $BEFORE ${{ github.sha }} | grep '^docs/' | cut -d/ -f2,3 | sort -u)
           fi
           
           # 2. Build HTML list with precise sub-folder links
@@ -56,7 +56,8 @@ jobs:
               images/products*) NAME="Product Media"; URL_EXT="images/products" ;;
               images/logo*) NAME="Brand Assets"; URL_EXT="images/logo" ;;
               distributor*) NAME="Distributor Support"; URL_EXT="distributor" ;;
-              *) continue ;; 
+              PPWR*) NAME="EU PPWR"; URL_EXT="PPWR" ;;
+              *) continue ;;
             esac
 
             if [[ ! "$PROCESSED_LINKS" =~ "$URL_EXT" ]]; then
